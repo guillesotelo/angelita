@@ -1,19 +1,25 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom'
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import 'react-toastify/dist/ReactToastify.css';
+import { Toaster } from 'react-hot-toast';
+import { HelmetProvider } from 'react-helmet-async';
+const isMobile = window.screen.width <= 768
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const toastOptions = {
+  style: {
+    marginTop: isMobile ? '20vw' : '4vw',
+  }
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+ReactDOM.render(
+  <BrowserRouter>
+    <Toaster toastOptions={toastOptions} />
+    <HelmetProvider>
+      <App />
+    </HelmetProvider>
+  </BrowserRouter>,
+  document.getElementById('root')
+);
