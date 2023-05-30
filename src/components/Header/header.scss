@@ -3,14 +3,15 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        height: 4.8vw;
+        height: 7vh;
         box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
         position: relative;
         bottom: 0;
         left: 0;
         z-index: 4;
         width: 100%;
-        background-color: #EBCE98;
+        // background-color: #EBCE98;
+        background-color: #fff;
         animation: move-y-up .7s ease-in;
     }
 
@@ -133,24 +134,25 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        height: 4vw;
+        height: 7vh;
     }
 
     &__item {
         display: flex;
         flex-direction: row;
         align-items: center;
-        height: 4vw;
+        height: 7vh;
         padding: 0 1.5vw;
         cursor: pointer;
         transition: 0.3s;
+        position: relative;
 
         &:hover {
-            background-color: #ece7e6;
+            background-color: #EBCE98;
         }
 
         &-text {
-            font-size: 0.7vw;
+            font-size: 1vw;
             font-weight: normal;
         }
 
@@ -159,24 +161,28 @@
         }
 
         &-dropdown {
-            transform: translateY(-100%);
             display: flex;
             position: absolute;
-            margin: 4vw -1.5vw;
+            margin: 7vh -1.5vw;
             flex-direction: column;
             align-items: center;
-            background-color: #ece7e6;
+            justify-content: center;
+            background-color: #EBCE98;
             opacity: 0;
-            padding: 1.5vw;
+            padding: 1vw;
             gap: 1vw;
-            min-width: 10vw;
+            min-width: 15vw;
+            min-height: 15vh;
             box-shadow: 7px 11px 16px -3px #9999995e;
+            border-bottom-left-radius: 1vw;
+            border-bottom-right-radius: 1vw;
 
             &-text {
                 margin: .3vw 0;
-                font-size: .7vw;
+                font-size: 1vw;
                 font-weight: normal;
                 position: relative;
+                text-align: center;
 
                 &::after {
                     content: '';
@@ -199,9 +205,8 @@
         }
 
         &:hover .header__item-dropdown {
-            transform: translateY(0%);
             top: 0;
-            transition: .4s;
+            transition: .5s;
             opacity: 1;
         }
     }

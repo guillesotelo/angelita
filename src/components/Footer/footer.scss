@@ -8,7 +8,9 @@
         bottom: 0;
         width: 100%;
         height: 6vw;
-        background-color: #EBCE98;
+        // background-color: #EBCE98;
+        background-color: #fff;
+        border-top: 1px solid lightgray;
         z-index: 2;
         animation: move-y-up .7s ease-in;
     }

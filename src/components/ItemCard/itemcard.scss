@@ -12,6 +12,8 @@
         cursor: pointer;
         transition: .3s;
         padding-bottom: 1vw;
+        opacity: 0;
+        animation: move-y-down 1s forwards;
 
         &:hover {
             box-shadow: 4px 6px 35px rgb(156, 156, 156);
@@ -30,8 +32,12 @@
         }
     }
 
-    &__details {
+    &__info {
         text-align: center;
+    }
+
+    &__details {
+        margin: .3vw 0
     }
 
     &__title {

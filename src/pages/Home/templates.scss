@@ -1,0 +1,50 @@
+.service-template {
+    &__container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__section {
+        display: flex;
+        flex-direction: row;
+        gap: 1.5vw;
+    }
+
+    &__col1 {
+        height: 100%;
+        width: 50%;
+    }
+
+    &__col2 {
+        height: 100%;
+        width: 50%;
+
+        &>p {
+            margin: 0;
+        }
+    }
+
+    &__title {
+        margin: 0 0 1vw 0;
+    }
+
+    &__image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 1vw;
+    }
+
+    &__body {
+        text-align: justify;
+    }
+
+    &__open-hours {
+        font-weight: normal;
+        margin: 1vw 0 0 0;
+    }
+
+    &__prices {
+        font-weight: normal;
+    }
+}

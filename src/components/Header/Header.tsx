@@ -16,9 +16,10 @@ import { AppContext } from '../../AppContext'
 import { TEXT } from '../../constants/lang'
 
 type Props = {
+    style?: React.CSSProperties
 }
 
-export default function Header({ }: Props) {
+export default function Header({ style }: Props) {
     const [postId, setPostId] = useState('')
     const [prompt, setPrompt] = useState('')
     const [isAdmin, setIsAdmin] = useState(false)
@@ -116,10 +117,59 @@ export default function Header({ }: Props) {
         localStorage.setItem('preferedLang', language)
     }
 
+    const goHome = () => {
+        if (window.location.pathname === '/') {
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+        } else {
+            window.location.href = '/'
+        }
+    }
+
     return (
-        <div className='header__container' id='header__container'>
+        <div className='header__container header--fixed' id='header__container' style={style}>
             <div className="header__logo" onClick={() => history.push('/')}>
                 <h4 className="header__logo-text">ANGELITA</h4>
+            </div>
+            <div className="header__items">
+                <div className="header__item" onClick={goHome}>
+                    <h4 className="header__item-text">Inicio</h4>
+                </div>
+                <div className="header__item">
+                    <div className="header__item-text">Terapias</div>
+                    <div className="header__item-dropdown">
+                        <div className="header__item-dropdown-row">
+                            <h4 className="header__item-dropdown-text">Psicoterapia Peronal</h4>
+                        </div>
+                        <div className="header__item-dropdown-row">
+                            <h4 className="header__item-dropdown-text">Psicoterapia Grupal</h4>
+                        </div>
+                        <div className="header__item-dropdown-row">
+                            <h4 className="header__item-dropdown-text">Consejería</h4>
+                        </div>
+                    </div>
+                </div>
+                <div className="header__item">
+                    <div className="header__item-text">Talleres</div>
+                    <div className="header__item-dropdown">
+                        <div className="header__item-dropdown-row">
+                            <h4 className="header__item-dropdown-text">Taller del Mes</h4>
+                        </div>
+                        <div className="header__item-dropdown-row">
+                            <h4 className="header__item-dropdown-text">Encuentros Personales y Virtuales</h4>
+                        </div>
+                    </div>
+                </div>
+                <div className="header__item">
+                    <div className="header__item-text">Cursos</div>
+                    <div className="header__item-dropdown">
+                        <div className="header__item-dropdown-row">
+                            <h4 className="header__item-dropdown-text">Psicología Práctica y Profunda</h4>
+                        </div>
+                        <div className="header__item-dropdown-row">
+                            <h4 className="header__item-dropdown-text">Ver más</h4>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )

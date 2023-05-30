@@ -50,7 +50,7 @@ export const TEXT: { [key: string]: { [key: string]: string } } = {
         //SUBSCRIBE
         'full_name': `Tu nombre completo`,
         'subscribe_info': `  <h2>Subscríbete</h2>
-        <h3>Suscríbase a by DANY GARCIA y manténgase actualizado con los últimos contenidos, noticias y ofertas especiales de BESPOKEN.
+        <h3>Suscríbase a Angelita y manténgase actualizado con los últimos contenidos, noticias y ofertas especiales de BESPOKEN.
         </h3>
         <h4>Como suscriptor, recibirás:</h4>
         <ul>
@@ -69,9 +69,9 @@ export const TEXT: { [key: string]: { [key: string]: string } } = {
         <br /> <br /> <br /> <br />
         <p>Para suscribirse, simplemente ingrese su dirección de correo electrónico en el formulario y haga clic en "Suscribirse". Le enviaremos un correo electrónico de confirmación para verificar su dirección de correo electrónico y confirmar su suscripción.
 
-            <br />By subscribing, you agree to receive emails and newsletters from by DANY GARCIA. We will never share or sell your email address to third-party organizations. You can unsubscribe at any time by clicking the "unsubscribe" link at the bottom of our emails.
+            <br />By subscribing, you agree to receive emails and newsletters from Angelita. We will never share or sell your email address to third-party organizations. You can unsubscribe at any time by clicking the "unsubscribe" link at the bottom of our emails.
 
-            <br /> <br />Thank you for subscribing to by DANY GARCIA! I look forward to sharing my latest content and news with you.
+            <br /> <br />Thank you for subscribing to Angelita! I look forward to sharing my latest content and news with you.
         </p>`,
 
 
@@ -88,7 +88,7 @@ export const TEXT: { [key: string]: { [key: string]: string } } = {
         //PRIVACY POLICY
         'privacy_policies': `<h1 className="privacy__title">Política de privacidad</h1>
         <h2 className="policy__subtitle">Introducción</h2>
-        <p className="policy__text">En By Daniela Garcia, nos tomamos la privacidad en serio. Esta política de privacidad explica cómo recopilamos, usamos y protegemos tu información personal cuando visitas nuestro sitio de blog (el "Sitio").</p>
+        <p className="policy__text">En Angelita, nos tomamos la privacidad en serio. Esta política de privacidad explica cómo recopilamos, usamos y protegemos tu información personal cuando visitas nuestro sitio de blog (el "Sitio").</p>
     
         <h2 className="policy__subtitle">¿Qué información personal recopilamos?</h2>
         <p className="policy__text">Cuando visitas el Sitio, recopilamos automáticamente cierta información sobre tu dispositivo, incluida información sobre tu navegador web, dirección IP, zona horaria y algunas de las cookies que se instalan en tu dispositivo. Además, mientras navegas por el Sitio, recopilamos información sobre las páginas web o productos individuales que ves, qué sitios web o términos de búsqueda te llevaron al Sitio, e información sobre cómo interactúas con el Sitio.</p>
@@ -106,11 +106,11 @@ export const TEXT: { [key: string]: { [key: string]: string } } = {
         <p className="policy__text">Es posible que actualicemos esta política de privacidad de vez en cuando para reflejar, por ejemplo, cambios en nuestras prácticas u otras razones operativas, legales o regulatorias.</p>
     
         <h2 className="policy__subtitle">Contáctanos</h2>
-        <p className="policy__text">Para obtener más información sobre nuestras prácticas de privacidad, si tienes preguntas o si deseas presentar una queja, contáctanos por correo electrónico a <a href="mailto:info@bydanygarcia.com">info@bydanygarcia.com</a>.</p>`,
+        <p className="policy__text">Para obtener más información sobre nuestras prácticas de privacidad, si tienes preguntas o si deseas presentar una queja, contáctanos por correo electrónico a <a href="mailto:info@angelasanguino.com">info@angelasanguino.com</a>.</p>`,
     
         //ABOUT
         'about_me': `Sobre mí`,
-        'about_me_body': `<p className="about__text">¡Hola, soy Daniela Garcia y bienvenidos a mi blog! Soy una escritora apasionada que ama compartir sus ideas y experiencias con el mundo. Comencé este blog como una forma de conectar con personas afines y crear un espacio donde todos podamos aprender y crecer juntos.</p>
+        'about_me_body': `<p className="about__text">¡Hola, soy Angela Sanguino y bienvenidos a mi blog! Soy una escritora apasionada que ama compartir sus ideas y experiencias con el mundo. Comencé este blog como una forma de conectar con personas afines y crear un espacio donde todos podamos aprender y crecer juntos.</p>
         <p className="about__text">Tengo un título en Turismo y Hospitalidad con un enfoque profundo en Servicio y Gestión de Eventos, y llevo más de 5 años escribiendo. Siempre estoy buscando nuevas ideas e inspiración para mis escritos, y me encanta explorar diferentes temas y perspectivas. En este blog encontrarás una mezcla de historias personales, consejos de estilo de vida y artículos que te harán reflexionar sobre una variedad de temas.</p>
         <p className="about__text">Cuando no estoy escribiendo, disfruto pasar tiempo con mi familia, leer libros y viajar a nuevos lugares. También soy una gran fan de la meditación a través de la pintura, y creo en el poder de la fe y la atención plena para transformar nuestras vidas.</p>
         <p className="about__text">¡Gracias por visitar mi blog y espero que disfrutes leyendo mis publicaciones tanto como yo disfruto escribirlas!</p>`,
@@ -166,7 +166,7 @@ export const TEXT: { [key: string]: { [key: string]: string } } = {
         //SUBSCRIBE
         'full_name': `Your full name`,
         'subscribe_info': `  <h2>Subscribe</h2>
-        <h3>Subscribe to by DANY GARCIA and stay up-to-date with the latest content, news, and special offers from BESPOKEN.</h3>
+        <h3>Subscribe to Angelita and stay up-to-date with the latest content, news, and special offers from BESPOKEN.</h3>
         <h4>As a subscriber, you'll receive:</h4>
         <ul>
             <li>Regular updates on the latest blog posts and articles</li>
@@ -178,9 +178,9 @@ export const TEXT: { [key: string]: { [key: string]: string } } = {
         <h4>All this for free!</h4>
         <br /> <br /> <br /> <br />
         <p>To subscribe, simply enter your email address in the form and click "Subscribe". We'll send you a confirmation email to verify your email address and confirm your subscription.
-            <br />Al suscribirte, aceptas recibir correos electrónicos y boletines de DANY GARCIA. Nunca compartiremos ni venderemos su dirección de correo electrónico a organizaciones de terceros. Puede darse de baja en cualquier momento haciendo clic en el enlace "cancelar suscripción" en la parte inferior de nuestros correos electrónicos.
+            <br />Al suscribirte, aceptas recibir correos electrónicos y boletines de Angelita. Nunca compartiremos ni venderemos su dirección de correo electrónico a organizaciones de terceros. Puede darse de baja en cualquier momento haciendo clic en el enlace "cancelar suscripción" en la parte inferior de nuestros correos electrónicos.
 
-            <br /> <br />¡Gracias por suscribirte a by DANY GARCIA! Espero poder compartir mis últimos contenidos y noticias contigo.
+            <br /> <br />¡Gracias por suscribirte a Angelita! Espero poder compartir mis últimos contenidos y noticias contigo.
         </p>`,
 
         //CONTACT
@@ -196,7 +196,7 @@ export const TEXT: { [key: string]: { [key: string]: string } } = {
         //PRIVACY POLICY
         'privacy_policies': ` <h1 className="privacy__title">Privacy Policy</h1>
         <h2 className="policy__subtitle">Introduction</h2>
-        <p className="policy__text">At By Daniela Garcia, we take privacy seriously. This privacy policy explains how we collect, use, and protect your personal information when you visit our blog site (the “Site”).</p>
+        <p className="policy__text">At Angelita, we take privacy seriously. This privacy policy explains how we collect, use, and protect your personal information when you visit our blog site (the “Site”).</p>
 
         <h2 className="policy__subtitle">What personal information do we collect?</h2>
         <p className="policy__text">When you visit the Site, we automatically collect certain information about your device, including information about your web browser, IP address, time zone, and some of the cookies that are installed on your device. Additionally, as you browse the Site, we collect information about the individual web pages or products that you view, what websites or search terms referred you to the Site, and information about how you interact with the Site.</p>
@@ -214,11 +214,11 @@ export const TEXT: { [key: string]: { [key: string]: string } } = {
         <p className="policy__text">We may update this privacy policy from time to time in order to reflect, for example, changes to our practices or for other operational, legal, or regulatory reasons.</p>
 
         <h2 className="policy__subtitle">Contact us</h2>
-        <p className="policy__text">For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by email at <a href="mailto:info@bydanygarcia.com">info@bydanygarcia.com</a>.</p>`,
+        <p className="policy__text">For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by email at <a href="mailto:info@angelasanguino.com">info@angelasanguino.com</a>.</p>`,
     
         //ABOUT
         'about_me': `About me`,
-        'about_me_body': ` <p className="about__text">Hi, I'm Daniela Garcia, and welcome to my blog! I'm a passionate writer who loves to share her ideas and experiences with the world. I started this blog as a way to connect with other like-minded people and to create a space where we can all learn and grow together.</p>
+        'about_me_body': ` <p className="about__text">Hi, I'm Angela Sanguino, and welcome to my blog! I'm a passionate writer who loves to share her ideas and experiences with the world. I started this blog as a way to connect with other like-minded people and to create a space where we can all learn and grow together.</p>
         <p className="about__text">I have a degree in Tourism & Hospitality with deep focus in Service and Event Management, and have been writing for over 5 years. I'm constantly seeking out new ideas and inspiration for my writing, and I love to explore different topics and perspectives. On this blog, you'll find a mix of personal stories, lifestyle tips, and thought-provoking articles on a variety of subjects.</p>
         <p className="about__text">When I'm not writing, I enjoy spending time with my family, reading books, and traveling to new places. I'm also a big fan of painting meditation, and I believe in the power of faith and mindfulness to transform our lives.</p>
         <p className="about__text">Thank you for visiting my blog, and I hope you enjoy reading my posts as much as I enjoy writing them!</p>`,
