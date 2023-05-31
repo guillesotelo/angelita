@@ -1,9 +1,16 @@
+import Image1 from '../assets/images/image1.jpeg'
+import Image2 from '../assets/images/image2.jpg'
+import Image3 from '../assets/images/image3.jpg'
+import Image4 from '../assets/images/image4.jpg'
+import Image5 from '../assets/images/image5.jpg'
+import Image6 from '../assets/images/image6.webp'
+
 export const psicoterapiaVirtual =
     <div className="service-template__container">
         <h2 className="service-template__title">Psicoterapia Virtual (con continuidad)</h2>
         <div className="service-template__section">
             <div className="service-template__col1">
-                <img src="https://facilitationfirst.com/wp-content/uploads/2020/09/Virtual-meeting-warm-up-scaled.jpg" alt="Psicologia Virtual (con continuidad)" loading="lazy" className="service-template__image" />
+                <img src={Image1} alt="Psicologia Virtual (con continuidad)" loading="lazy" className="service-template__image" />
                 <h4 className="service-template__open-hours">
                     Martes, Miércoles, Jueves, Sábado.
                     <br />
@@ -32,7 +39,7 @@ export const consejeriaVirtual =
         <h2 className="service-template__title">Consejería Virtual (sin continuidad)</h2>
         <div className="service-template__section">
             <div className="service-template__col1">
-                <img src="https://media.istockphoto.com/id/1416048929/sv/foto/woman-working-on-laptop-online-checking-emails-and-planning-on-the-internet-while-sitting-in.jpg?s=612x612&w=0&k=20&c=tS_2t3O3QEfaTG0bvkpFyqt_4p9oZirF8rfh4MLR3to=" alt="Consejería Virtual (sin continuidad)" loading="lazy" className="service-template__image" />
+                <img src={Image2} alt="Consejería Virtual (sin continuidad)" loading="lazy" className="service-template__image" />
                 <h4 className="service-template__open-hours">
                     Martes, Miércoles, Jueves, Sábado.
                     <br />
@@ -61,7 +68,7 @@ export const psicoGrupalVirtual =
         <h2 className="service-template__title">Psicoterapia Grupal Virtual</h2>
         <div className="service-template__section">
             <div className="service-template__col1">
-                <img src="https://coworkingfy.com/wp-content/uploads/2020/04/dinamicas-de-grupo.jpg" alt="Psicoterapia Grupal Virtual" loading="lazy" className="service-template__image" />
+                <img src={Image3} alt="Psicoterapia Grupal Virtual" loading="lazy" className="service-template__image" />
                 <h4 className="service-template__open-hours">
                     Según aforo.
                     <br />
@@ -88,7 +95,7 @@ export const tallerMensualVirtual =
         <h2 className="service-template__title">Taller Mensual Virtual</h2>
         <div className="service-template__section">
             <div className="service-template__col1">
-                <img src="https://cdn-e360.s3-sa-east-1.amazonaws.com/educacion-en-tiempos-de-pandemia-por-que-es-importante-que-los-ninos-lleven-talleres-extracurriculares-online-large-IOb1DWjoad.jpg" alt="Taller Mensual Virtual" loading="lazy" className="service-template__image" />
+                <img src={Image4} alt="Taller Mensual Virtual" loading="lazy" className="service-template__image" />
                 <h4 className="service-template__open-hours">
                     Último sábado del mes, según aforo.
                     <br />
@@ -115,7 +122,7 @@ export const cursoSemetral =
     <h2 className="service-template__title">Taller Mensual Virtual</h2>
     <div className="service-template__section">
         <div className="service-template__col1">
-            <img src="https://cdn1.matadornetwork.com/blogs/2/2020/03/shutterstock_1069206707-1200x854.jpg" alt="Curso Semestral" loading="lazy" className="service-template__image" />
+            <img src={Image5} alt="Curso Semestral" loading="lazy" className="service-template__image" />
             <h4 className="service-template__open-hours">
                 {/* Último sábado del mes, según aforo. */}
                 <br />
@@ -142,7 +149,7 @@ export const encuentrosPresencialesVirtuales =
     <h2 className="service-template__title">Encuentros y Charlas Presenciales y virtuales</h2>
     <div className="service-template__section">
         <div className="service-template__col1">
-            <img src="https://www.verywellmind.com/thmb/lnGdkp_2JxSbD1U2PsBU0-Sg5t0=/400x250/filters:no_upscale():max_bytes(150000):strip_icc()/Primary-Image-best-online-peer-counseling-6951613-4a9bd11dcd2a4b4e9f5fe85578cf60ec.jpg" alt="Encuentros y Charlas Presenciales y Virtuales" loading="lazy" className="service-template__image" />
+            <img src={Image6} alt="Encuentros y Charlas Presenciales y Virtuales" loading="lazy" className="service-template__image" />
             <h4 className="service-template__open-hours">
                 {/* Último sábado del mes, según aforo. */}
                 {/* <br /> */}

@@ -171,6 +171,8 @@ export default function Header({ style }: Props) {
                     </div>
                 </div>
             </div>
+            <div className="header__logo">
+            </div>
         </div>
     )
 }

@@ -107,13 +107,11 @@ export const TEXT: { [key: string]: { [key: string]: string } } = {
     
         <h2 className="policy__subtitle">Contáctanos</h2>
         <p className="policy__text">Para obtener más información sobre nuestras prácticas de privacidad, si tienes preguntas o si deseas presentar una queja, contáctanos por correo electrónico a <a href="mailto:info@angelasanguino.com">info@angelasanguino.com</a>.</p>`,
-    
+
         //ABOUT
         'about_me': `Sobre mí`,
-        'about_me_body': `<p className="about__text">¡Hola, soy Angela Sanguino y bienvenidos a mi blog! Soy una escritora apasionada que ama compartir sus ideas y experiencias con el mundo. Comencé este blog como una forma de conectar con personas afines y crear un espacio donde todos podamos aprender y crecer juntos.</p>
-        <p className="about__text">Tengo un título en Turismo y Hospitalidad con un enfoque profundo en Servicio y Gestión de Eventos, y llevo más de 5 años escribiendo. Siempre estoy buscando nuevas ideas e inspiración para mis escritos, y me encanta explorar diferentes temas y perspectivas. En este blog encontrarás una mezcla de historias personales, consejos de estilo de vida y artículos que te harán reflexionar sobre una variedad de temas.</p>
-        <p className="about__text">Cuando no estoy escribiendo, disfruto pasar tiempo con mi familia, leer libros y viajar a nuevos lugares. También soy una gran fan de la meditación a través de la pintura, y creo en el poder de la fe y la atención plena para transformar nuestras vidas.</p>
-        <p className="about__text">¡Gracias por visitar mi blog y espero que disfrutes leyendo mis publicaciones tanto como yo disfruto escribirlas!</p>`,
+        'about_me_body': `<p className="about__text">¡Hola, me llamo Angela Sanguino García, para los que quieran “Angelita”.
+        <p className="about__text">Estudio psicología hace 28 años, me gradué como psicóloga clínica cognitivo-conductual, junto con una especialización en psicología del consumidor. De ahí en adelante me dediqué a cuestionar todo lo que había aprendido porque me quedaba sumamente corta con el abordaje conductual, así que gracias a los fundamentos que me dió la carrera profesional, pude elegir y discriminar muy bien entre información común e información especializada y empecé a atar cabos que me llevaban siempre al estudio del ser y de la existencia desde integración de la triada cuerpo | alma / psiquis | espíritu. Así que mi abordaje preferido es el ontológico y el integrativo y con él he podido direccionar almas desesperadas a una solución absoluta que no tiene opuestos ni contradictorios y en cuyo encuentro solo hay fuerza, poder, paz, dicha y descanso.</p>`,
     },
     'en': {
         //HEADER
@@ -215,7 +213,7 @@ export const TEXT: { [key: string]: { [key: string]: string } } = {
 
         <h2 className="policy__subtitle">Contact us</h2>
         <p className="policy__text">For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by email at <a href="mailto:info@angelasanguino.com">info@angelasanguino.com</a>.</p>`,
-    
+
         //ABOUT
         'about_me': `About me`,
         'about_me_body': ` <p className="about__text">Hi, I'm Angela Sanguino, and welcome to my blog! I'm a passionate writer who loves to share her ideas and experiences with the world. I started this blog as a way to connect with other like-minded people and to create a space where we can all learn and grow together.</p>

@@ -8,7 +8,21 @@ import { TEXT } from '../../constants/lang'
 import BGVideo from '../../assets/videos/background_video.mp4'
 import Header from '../../components/Header/Header'
 import ItemCard from '../../components/ItemCard/ItemCard'
-import { consejeriaVirtual, cursoSemetral, encuentrosPresencialesVirtuales, psicoGrupalVirtual, psicoterapiaVirtual, successCheckoutTemplate, tallerMensualVirtual } from '../../constants/serviceTemplates'
+import { 
+    consejeriaVirtual, 
+    cursoSemetral, 
+    encuentrosPresencialesVirtuales, 
+    psicoGrupalVirtual, 
+    psicoterapiaVirtual, 
+    successCheckoutTemplate, 
+    tallerMensualVirtual 
+} from '../../constants/serviceTemplates'
+import Image1 from '../../assets/images/image1.jpeg'
+import Image2 from '../../assets/images/image2.jpg'
+import Image3 from '../../assets/images/image3.jpg'
+import Image4 from '../../assets/images/image4.jpg'
+import Image5 from '../../assets/images/image5.jpg'
+import Image6 from '../../assets/images/image6.webp'
 
 type Props = {
 }
@@ -26,7 +40,6 @@ export default function Home({ }: Props) {
     }, [])
 
     const activateRenderEffects = () => {
-        console.log('1')
         const header = document.getElementById('header__container')
         if (header) header.classList.remove('header--fixed')
         let scrollPosition = 0
@@ -58,7 +71,6 @@ export default function Home({ }: Props) {
                     const screenHeight = window.innerHeight
 
                     if (itemPosition < screenHeight * 0.8) {
-                        console.log('2')
                         if (item.classList.contains('home__wraplist-checkpoint')) setShouldRenderList(true)
                         item.classList.remove('disappear')
                         item.classList.add('appear-down')
@@ -133,42 +145,42 @@ export default function Home({ }: Props) {
             {shouldRenderList ?
                 <div className="home__card-wrapper" style={{ filter: openModal ? 'blur(10px)' : '' }}>
                     <ItemCard
-                        image='https://facilitationfirst.com/wp-content/uploads/2020/09/Virtual-meeting-warm-up-scaled.jpg'
+                        image={Image1}
                         title='Psicoterapia Virtual'
                         price='US $40'
                         onClick={() => setOpenModal(1)}
                         style={{ animationDelay: '.5s' }}
                     />
                     <ItemCard
-                        image='https://media.istockphoto.com/id/1416048929/sv/foto/woman-working-on-laptop-online-checking-emails-and-planning-on-the-internet-while-sitting-in.jpg?s=612x612&w=0&k=20&c=tS_2t3O3QEfaTG0bvkpFyqt_4p9oZirF8rfh4MLR3to='
+                        image={Image2}
                         title='Conserjería Virtual'
                         price='US $40'
                         onClick={() => setOpenModal(2)}
                         style={{ animationDelay: '.7s' }}
                     />
                     <ItemCard
-                        image='https://coworkingfy.com/wp-content/uploads/2020/04/dinamicas-de-grupo.jpg'
+                        image={Image3}
                         title='Psicoterapia Virtual'
                         price='US $10'
                         onClick={() => setOpenModal(3)}
                         style={{ animationDelay: '.9s' }}
                     />
                     <ItemCard
-                        image='https://cdn-e360.s3-sa-east-1.amazonaws.com/educacion-en-tiempos-de-pandemia-por-que-es-importante-que-los-ninos-lleven-talleres-extracurriculares-online-large-IOb1DWjoad.jpg'
+                        image={Image4}
                         title='Taller Mensual Virtual'
                         price='US $50'
                         onClick={() => setOpenModal(4)}
                         style={{ animationDelay: '1.1s' }}
                     />
                     <ItemCard
-                        image='https://cdn1.matadornetwork.com/blogs/2/2020/03/shutterstock_1069206707-1200x854.jpg'
+                        image={Image5}
                         title='Curso Semestral'
                         price='US $100'
                         onClick={() => setOpenModal(5)}
                         style={{ animationDelay: '1.3s' }}
                     />
                     <ItemCard
-                        image='https://www.verywellmind.com/thmb/lnGdkp_2JxSbD1U2PsBU0-Sg5t0=/400x250/filters:no_upscale():max_bytes(150000):strip_icc()/Primary-Image-best-online-peer-counseling-6951613-4a9bd11dcd2a4b4e9f5fe85578cf60ec.jpg'
+                        image={Image6}
                         title='Encuentros y Charlas Presenciales y virtuales'
                         price='Aporte voluntario'
                         onClick={() => setOpenModal(6)}
