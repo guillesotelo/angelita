@@ -119,7 +119,7 @@ export const tallerMensualVirtual =
 
 export const cursoSemetral =
 <div className="service-template__container">
-    <h2 className="service-template__title">Taller Mensual Virtual</h2>
+    <h2 className="service-template__title">Curso Semestral</h2>
     <div className="service-template__section">
         <div className="service-template__col1">
             <img src={Image5} alt="Curso Semestral" loading="lazy" className="service-template__image" />
@@ -146,7 +146,7 @@ export const cursoSemetral =
 
 export const encuentrosPresencialesVirtuales =
 <div className="service-template__container">
-    <h2 className="service-template__title">Encuentros y Charlas Presenciales y virtuales</h2>
+    <h2 className="service-template__title">Encuentros y Charlas Presenciales y Virtuales</h2>
     <div className="service-template__section">
         <div className="service-template__col1">
             <img src={Image6} alt="Encuentros y Charlas Presenciales y Virtuales" loading="lazy" className="service-template__image" />

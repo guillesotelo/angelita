@@ -146,21 +146,21 @@ export default function Home({ }: Props) {
                 <div className="home__card-wrapper" style={{ filter: openModal ? 'blur(10px)' : '' }}>
                     <ItemCard
                         image={Image1}
-                        title='Psicoterapia Virtual'
+                        title='Psicoterapia Virtual (con continuidad)'
                         price='US $40'
                         onClick={() => setOpenModal(1)}
                         style={{ animationDelay: '.5s' }}
                     />
                     <ItemCard
                         image={Image2}
-                        title='Conserjería Virtual'
+                        title='Conserjería Virtual (sin continuidad)'
                         price='US $40'
                         onClick={() => setOpenModal(2)}
                         style={{ animationDelay: '.7s' }}
                     />
                     <ItemCard
                         image={Image3}
-                        title='Psicoterapia Virtual'
+                        title='Psicoterapia Grupal Virtual'
                         price='US $10'
                         onClick={() => setOpenModal(3)}
                         style={{ animationDelay: '.9s' }}
@@ -181,7 +181,7 @@ export default function Home({ }: Props) {
                     />
                     <ItemCard
                         image={Image6}
-                        title='Encuentros y Charlas Presenciales y virtuales'
+                        title='Encuentros y Charlas Presenciales y Virtuales'
                         price='Aporte voluntario'
                         onClick={() => setOpenModal(6)}
                         style={{ animationDelay: '1.5s' }}

@@ -17,7 +17,8 @@ import { AppProvider } from './AppContext';
 
 const App: React.FC = () => {
   const preferedLang = localStorage.getItem('preferedLang')
-  const localLang = preferedLang ? preferedLang : navigator.language.startsWith('es') ? 'es' : 'en'
+  // const localLang = preferedLang ? preferedLang : navigator.language.startsWith('es') ? 'es' : 'en'
+  const localLang = 'es' // hardcoded for now
   const isMobile = window.screen.width <= 768
   const [search, setSearch] = useState<string[]>([])
   const [lang, setLang] = useState<string>(localLang)
