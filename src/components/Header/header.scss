@@ -180,6 +180,7 @@
             box-shadow: 7px 11px 16px -3px #9999995e;
             border-bottom-left-radius: 1vw;
             border-bottom-right-radius: 1vw;
+            pointer-events: none;
 
             &-text {
                 margin: .3vw 0;
@@ -212,6 +213,7 @@
             top: 0;
             transition: .5s;
             opacity: 1;
+            pointer-events: initial;
         }
     }
 

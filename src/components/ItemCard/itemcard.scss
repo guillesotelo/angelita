@@ -3,8 +3,7 @@
         margin-top: 3vw;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        width: 20vw;
+        width: 18vw;
         border-radius: 1vw;
         overflow: hidden;
         border: 1px solid lightgray;
@@ -37,11 +36,12 @@
     }
 
     &__details {
-        margin: .3vw 0
+        margin: .3vw 0;
     }
 
     &__title {
         font-size: 1.2vw;
+        margin: 1vw;
         // font-weight: normal;
     }
 
@@ -54,11 +54,12 @@
         border: 2px solid #EBD28D;
         border-radius: 1vw;
         background-color: #fff8ec;
-        font-size: 1.3vw;
-        padding: .5vw;
+        font-size: 1.2vw;
+        padding: .5vw .7vw;
         cursor: pointer;
         transition: .3s;
         text-align: center;
+        margin: 0 1vw;
 
         &:hover {
             background-color: #EBD28D;

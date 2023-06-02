@@ -49,6 +49,39 @@
 
     &__section {
         margin: 2vw 0;
+        height: 100vh;
+        padding: 0 4vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        &-col1 {
+            width: 45%;
+        }
+
+        &-col2 {
+            width: 45%;
+        }
+
+        &-title {
+            opacity: 0;
+            animation: move-y-up 1s forwards;
+            font-size: 2.5vw;
+            font-weight: normal;
+            margin-bottom: 0;
+        }
+
+        &-text {
+            opacity: 0;
+            animation: move-y-up 1s forwards;
+            font-size: 1.2vw;
+        }
     }
 
     &__card-wrapper {
