@@ -23,6 +23,7 @@ import Image3 from '../../assets/images/image3.jpg'
 import Image4 from '../../assets/images/image4.jpg'
 import Image5 from '../../assets/images/image5.jpg'
 import Image6 from '../../assets/images/image6.webp'
+import PaymentForm from '../../components/PaymentForm/PaymentForm'
 
 type Props = {
 }
@@ -152,7 +153,7 @@ export default function Home({ }: Props) {
                         setOpenModal(0)
                         setSuccessCheckout(0)
                     }}>X</h4>
-                    {!successCheckout ? getServiceTemplate(openModal) : successCheckoutTemplate}
+                    {!successCheckout ? getServiceTemplate(openModal) : PaymentForm}
                     {!successCheckout ?
                         <button className="home__modal-body-btn" onClick={() => {
                             checkout(1)
