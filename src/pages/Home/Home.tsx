@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import PostCard from '../../components/PostCard/PostCard'
 import { testImages } from '../../constants/dev'
-import { getAllPosts } from '../../services'
 import { AppContext } from '../../AppContext'
 import { TEXT } from '../../constants/lang'
 import BGVideo from '../../assets/videos/background_video.mp4'
@@ -23,7 +21,7 @@ import Image3 from '../../assets/images/image3.jpg'
 import Image4 from '../../assets/images/image4.jpg'
 import Image5 from '../../assets/images/image5.jpg'
 import Image6 from '../../assets/images/image6.webp'
-import PaymentForm from '../../components/PaymentForm/PaymentForm'
+import StripePayment from '../../components/Payment/StripePayment'
 
 type Props = {
 }
@@ -153,15 +151,16 @@ export default function Home({ }: Props) {
                         setOpenModal(0)
                         setSuccessCheckout(0)
                     }}>X</h4>
-                    {!successCheckout ? getServiceTemplate(openModal) : PaymentForm}
+                    {!successCheckout ? getServiceTemplate(openModal) : <StripePayment />}
                     {!successCheckout ?
                         <button className="home__modal-body-btn" onClick={() => {
                             checkout(1)
                         }}>Reservar</button>
-                        : <button className="home__modal-body-btn" style={{ width: '100%', marginTop: '1vw' }} onClick={() => {
-                            setOpenModal(0)
-                            setSuccessCheckout(0)
-                        }}>Hecho</button>
+                        : ''
+                        // <button className="home__modal-body-btn" style={{ width: '100%', marginTop: '1vw' }} onClick={() => {
+                        //     setOpenModal(0)
+                        //     setSuccessCheckout(0)
+                        // }}>Hecho</button>
                     }
                 </div >
                 : ''
@@ -170,7 +169,7 @@ export default function Home({ }: Props) {
             <div className="home__thrapy-list scroll-item"></div>
             {renderList ?
                 <div className="home__card-wrapper-container">
-                    <h2 className="home__section-title scroll-item" style={{ textAlign: 'center' }}>Terapias</h2>
+                    <h2 className="home__section-title scroll-item" style={{ textAlign: 'center', filter: openModal ? 'blur(10px)' : '' }}>Terapias</h2>
                     <div className="home__card-wrapper" style={{ filter: openModal ? 'blur(10px)' : '' }}>
                         <ItemCard
                             image={Image1}

@@ -21,6 +21,7 @@
 
         &>p {
             margin: 0;
+            font-size: 1vw;
         }
     }
 
@@ -42,9 +43,11 @@
     &__open-hours {
         font-weight: normal;
         margin: 1vw 0 0 0;
+        font-size: 1.2vw;
     }
 
     &__prices {
         font-weight: normal;
+        font-size: 1.3vw;
     }
 }

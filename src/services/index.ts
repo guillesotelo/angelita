@@ -5,18 +5,14 @@ import {
 } from './user'
 
 import {
-    getAllPosts,
-    createPost,
-    updatePost,
-    deletePost
-} from './post'
+    getPublicKey,
+    createPayment,
+} from './payment'
 
 export {
     loginUser,
     registerUser,
     updateUser,
-    getAllPosts,
-    createPost,
-    updatePost,
-    deletePost
+    getPublicKey,
+    createPayment,
 }

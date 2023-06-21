@@ -9,7 +9,6 @@ import { useHistory, useLocation } from 'react-router-dom'
 import Button from '../Button/Button'
 import DeleteIcon from '../../assets/icons/delete.svg'
 import EditIcon from '../../assets/icons/edit.svg'
-import { deletePost, getAllPosts } from '../../services'
 import { toast } from 'react-hot-toast'
 import { APP_VERSION } from '../../constants/app'
 import { AppContext } from '../../AppContext'
@@ -87,19 +86,6 @@ export default function Header({ style }: Props) {
             setSearch(prompt.split(' '))
             history.push('/search')
         }
-    }
-
-    const handleDeletePost = async () => {
-        await toast.promise(
-            deletePost({ _id: postId }),
-            {
-                loading: TEXT[lang]['deleting_post'],
-                success: <b>Post deleted successfully. Redirecting...</b>,
-                error: <b>Error deleting post</b>,
-            }
-        )
-        setDeleteModal(false)
-        setTimeout(() => history.push('/blog'), 1500)
     }
 
     const logOut = () => {

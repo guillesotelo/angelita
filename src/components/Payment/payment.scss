@@ -1,0 +1,14 @@
+.payment {
+    &__container {
+        display: flex;
+        flex-direction: column;
+        gap: 2vw;
+    }
+    &__form {
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+        gap: 2vw;
+        width: 100%;
+    }
+}
