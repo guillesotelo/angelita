@@ -3,7 +3,8 @@
         margin-top: 3vw;
         display: flex;
         flex-direction: column;
-        width: 18vw;
+        width: 22vw;
+        height: 50vh;
         border-radius: 1vw;
         overflow: hidden;
         border: 1px solid lightgray;
@@ -51,10 +52,10 @@
     }
 
     &__btn {
-        border: 2px solid #EBD28D;
+        border: 1px solid #EBD28D;
         border-radius: 1vw;
         background-color: #fff8ec;
-        font-size: 1.2vw;
+        font-size: 1vw;
         padding: .5vw .7vw;
         cursor: pointer;
         transition: .3s;

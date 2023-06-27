@@ -36,14 +36,16 @@
         font-family: "Roboto", sans-serif;
         animation: fade-in 1.5s ease-in;
 
-        &>h4 {
-            font-size: 4vw;
+        &-title {
+            font-size: 5vw;
             margin: 0;
+            font-weight: normal;
         }
 
-        &>p {
-            font-size: 1.5vw;
+        &-subtitle {
+            font-size: 2vw;
             margin: 0;
+            font-weight: normal;
         }
     }
 
@@ -88,7 +90,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 2vw;
+        gap: 4vw;
         transition: .3s;
     }
 
@@ -96,12 +98,7 @@
         &-container {
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
             position: fixed;
-            max-width: 60vw;
-            height: fit-content;
-            max-height: 80vh;
-            overflow-y: scroll;
             background-color: white;
             z-index: 5;
             border: 1px solid gray;
@@ -112,6 +109,7 @@
             transform: translate(-50%, -50%);
             padding: 2vw;
             overflow: hidden;
+            width: 70vw;
         }
 
         &-close {
@@ -133,46 +131,6 @@
             width: 50%;
             height: 50%;
             object-fit: cover;
-        }
-
-        &-body {
-            padding: 2vw;
-            display: flex;
-            flex-direction: column;
-            gap: 2vw;
-            justify-content: space-between;
-
-            &-details {
-                display: flex;
-                flex-direction: row;
-                gap: 1vw;
-                text-align: justify;
-            }
-
-            &-text {
-                margin: 0;
-                font-weight: normal;
-            }
-
-            &-btn {
-                border: 2px solid #EBD28D;
-                border-radius: 1vw;
-                background-color: #fff8ec;
-                font-size: 1.3vw;
-                padding: .5vw .8vw;
-                text-align: center;
-                cursor: pointer;
-                transition: .3s;
-                width: 50%;
-
-                &:hover {
-                    background-color: #EBD28D;
-                }
-
-                &:active {
-                    outline: none;
-                }
-            }
         }
     }
 }

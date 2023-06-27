@@ -2,6 +2,8 @@
     &__container {
         display: flex;
         flex-direction: column;
+        flex-grow: 1;
+        margin-bottom: 1vw;
     }
 
     &__section {
@@ -16,8 +18,12 @@
     }
 
     &__col2 {
-        height: 100%;
-        width: 50%;
+        // height: 100%;
+        max-width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1vw;
 
         &>p {
             margin: 0;
@@ -27,6 +33,7 @@
 
     &__title {
         margin: 0 0 1vw 0;
+        font-size: 1.5vw;
     }
 
     &__image {
@@ -47,7 +54,109 @@
     }
 
     &__prices {
-        font-weight: normal;
-        font-size: 1.3vw;
+        width: 6vw;
+        height: 6vw;
+        background-color: #fff4e1;
+        border-radius: 50%;
+        padding: 0 .5vw;
+        text-align: center;
+        align-self: center;
+
+        &-text {
+            font-size: 1.5vw;
+            color: #373737;
+
+            &-voluntary {
+                font-size: .9vw;
+                color: #373737;
+            }
+        }
+    }
+
+    &__btn {
+        border: 1px solid #EBD28D;
+        border-radius: 1vw;
+        background-color: #fff8ec;
+        font-size: 1.2vw;
+        padding: .5vw .8vw;
+        text-align: center;
+        cursor: pointer;
+        transition: .3s;
+
+        &:hover {
+            background-color: #EBD28D;
+        }
+
+        &:active {
+            outline: none;
+        }
+    }
+
+    &__subservice {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: .7vw;
+        // width: 30vw;
+        border: 1px solid #828282;
+        border-radius: .5vw;
+        cursor: pointer;
+        transition: .3s;
+
+        &:hover {
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
+            transform: translate(1%, 1%);
+            transition: .3s;
+        }
+
+        &-details {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+        }
+
+        &-title {
+            margin: 0 0 .5vw 0;
+            font-weight: normal;
+            font-size: 1.5vw;
+        }
+
+        &-subtitle {
+            margin: 0 0 .2vw 0;
+            font-weight: normal;
+            font-size: 1vw;
+        }
+
+        &-pacients {
+            margin: 0;
+            font-weight: normal;
+            font-size: .9vw;
+        }
+
+        &-open-hours {
+            margin: .5vw 0 0 0;
+            font-weight: normal;
+            font-size: .9vw;
+        }
+
+        &-price {
+            width: 6vw;
+            height: 6vw;
+            background-color: #fff4e1;
+            border-radius: 50%;
+            padding: 0 .5vw;
+            text-align: center;
+
+            &-text {
+                font-size: 1.5vw;
+                color: #373737;
+
+                &-voluntary {
+                    font-size: .9vw;
+                    color: #373737;
+                }
+            }
+        }
     }
 }
