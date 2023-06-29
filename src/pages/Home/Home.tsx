@@ -11,6 +11,10 @@ import Image1 from '../../assets/images/coffee/image14.png'
 import Image2 from '../../assets/images/coffee/image42.png'
 import Image3 from '../../assets/images/coffee/image9.png'
 import StripePayment from '../../components/Payment/StripePayment'
+import ProfilePicture from '../../assets/images/angela1.jpeg'
+import ImageEvent1 from '../../assets/images/coffee/image30.png'
+import Calendar from 'react-calendar'
+// import 'react-calendar/dist/Calendar.css'
 
 type Props = {
 }
@@ -20,10 +24,12 @@ export default function Home({ }: Props) {
     const [renderSection1, setRenderSection1] = useState(false)
     const [renderSection2, setRenderSection2] = useState(false)
     const [renderList, setRenderList] = useState(false)
+    const [renderEvents, setRenderEvents] = useState(false)
     const [successCheckout, setSuccessCheckout] = useState(0)
     const [service, setService] = useState(0)
     const [subService, setSubService] = useState(0)
     const [renderAll, setRenderAll] = useState(false)
+    const [date, setDate] = useState<any>(new Date())
     const history = useHistory()
     const { lang, isMobile } = useContext(AppContext)
 
@@ -44,6 +50,7 @@ export default function Home({ }: Props) {
         setRenderList(renderAll)
         setRenderSection1(renderAll)
         setRenderSection2(renderAll)
+        setRenderEvents(renderAll)
     }, [renderAll])
 
     const scrollToSection = (section: string) => {
@@ -89,6 +96,7 @@ export default function Home({ }: Props) {
                         if (item.classList.contains('home__thrapy-list')) setRenderList(true)
                         if (item.classList.contains('home__section1')) setRenderSection1(true)
                         if (item.classList.contains('home__section2')) setRenderSection2(true)
+                        if (item.classList.contains('home__events')) setRenderEvents(true)
                         item.classList.remove('disappear')
                         item.classList.add('appear-down')
                     } else {
@@ -110,7 +118,6 @@ export default function Home({ }: Props) {
         setSuccessCheckout(item)
     }
 
-
     return <div className="home__container" id='home__container'>
         <div className="home__bg-video-container" style={{ filter: service ? 'blur(10px)' : '' }}>
             <video className="home__bg-video" autoPlay loop muted>
@@ -122,35 +129,37 @@ export default function Home({ }: Props) {
                 <h2 className="home__bg-video-text-subtitle">Psicología con amor y café</h2>
             </div>
         </div>
+
         <Header setRenderAll={setRenderAll} setService={setService} style={{ filter: service ? 'blur(10px)' : '' }} />
 
         <div className="home__section1 scroll-item"></div>
         {renderSection1 ?
-            <div className="home__section" style={{ height: '70vh' }}>
+            <div className="home__section" style={{ backgroundColor: '#B0BCEB' }}>
                 <div className="home__section-row">
-                    <div className="home__section-col1">
-                        <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Descúbrete hoy</h2>
+                    <div className="home__section-col1" style={{ width: '60%', textAlign: 'justify' }}>
+                        {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Descúbrete hoy</h2> */}
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
-                            Encuentros participativos para comprender y liberarse.
+                            Me llamo Angela Sanguino y me gusta cuando me llaman de cariño “Angelita”.
                             <br />
+                            Estudio Psicología Clínica desde hace 28 años y me gradué con una especialización en Psicología Clínica, Organizacional y del Consumidor.
                             <br />
-                            Adéntrate en un espacio de crecimiento personal y transformación, donde explorarás nuevas posibilidades, sanarás heridas y descubrirás el potencial ilimitado dentro de ti.
+                            Me he dedicado a explorar y estudiar técnicas y terapias dentro del marco de las Tres Corrientes Psicológicas existentes: Humanista, Psicodinámica y Comportamental.
+                            <br />
+                            Promuevo la resolución eficiente de conflictos y empodero al consultante en la renovación de su sistema de valores de manera que pueda redirigir el curso, plan y propósito de vida.
+                            <br />
+                            Sigo profundizando en diversos aportes terapéuticos y herramientas psicológicas para encontrar un modelo que satisfaga y colme la necesidad del consultante a sus inquietudes más profundas sin desperdiciar tiempo, energía, ni dinero.
                         </p>
                     </div>
-                    <div className="home__section-col2">
-                        <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Mira dentro de tí</h2>
-                        <p className="home__section-text scroll-item" style={{ animationDelay: '.6s' }}>
-                            Descubre una conexión profunda contigo mismo/a mientras te acompaño en un viaje de autoexploración y desarrollo personal.
-                            <br />
-                            <br />
-                            En este espacio seguro y confidencial, encontrarás el apoyo necesario para liberarte y abrazar tu autenticidad.
-                        </p>
+                    <div className="home__section-col2 scroll-item" style={{ width: '30%' }} >
+                        {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Mira dentro de tí</h2> */}
+                        <img src={ProfilePicture} alt="Angela Sanguino" className="home__section-about-image" />
                     </div>
                 </div>
+                <h4 className='home__section-about-foot-text scroll-item'>Busco la paz interior y la sigo &nbsp&nbsp•&nbsp&nbsp Me gusta la armonía, el silencio y la sencillez en las formas &nbsp&nbsp•&nbsp&nbsp Me gusta sonreír y divertirme, sin ningún motivo en particular</h4>
             </div>
             : ''}
 
-        <div className="home__section" id='servicios'>
+        <div className="home__section" id='servicios' style={{ backgroundColor: '#EBD28D' }}>
             {service ?
                 <div className='home__modal-container'>
                     <h4 className="home__modal-close" onClick={() => {
@@ -208,20 +217,67 @@ export default function Home({ }: Props) {
         <div className="home__section2 scroll-item"></div>
         {renderSection2 ?
             <div className="home__section">
-                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Section Title</h2>
+                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Profesión y Servicio</h2>
                 <div className="home__section-row">
-                    <div className="home__section-col1">
+                    <div className="home__section-col1" style={{ textAlign: 'justify' }}>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis veniam fugiat ullam nostrum voluptas non, fuga consequuntur a itaque iure numquam velit alias! Reiciendis consequatur facere culpa omnis tenetur odio?Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga eum molestias impedit, deleniti sint nam fugiat porro at illum sapiente reprehenderit. Saepe porro expedita sapiente libero animi eveniet tempore fuga!
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex ipsum natus vitae? Ratione, numquam. Unde eligendi fugit totam ipsa iure. Minus dolorem ut nulla incidunt? Provident deserunt eius quos nemo.
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse libero, maxime pariatur, nesciunt ipsam fugiat illum autem optio nulla quisquam excepturi quam, ullam eveniet debitis voluptas est illo iste quos!
+                            Me gradué con una especialización en Psicología Clínica, Organizacional y del Consumidor en el año 2000, con registro Profesional en Colombia (001565 FUKL).
+                            <br />
+                            En lo sucesivo, he seguido profundizando en diversos aportes terapéuticos y herramientas psicológicas hasta encontrar un modelo que satisface y colma la necesidad del consultante a sus inquietudes más profundas, sin desperdiciar tiempo, energía, ni dinero.
+                            <br />
+                            Ofrezco asesoría psicológica profesional, afectuosa, comprometida, interactiva, práctica y expansiva.
+                            <br />
+                            Como seres humanos percibimos experiencias inquietantes y desafiantes que si nos superan o nos llevan a estados de mucho dolor, temor o búsqueda de placer, revelan una alteración psicológica inconsciente, que es digna de comprender para hallar la solución y desarrollarte libre, dichoso y en paz.
                         </p>
                     </div>
                     <div className="home__section-col2">
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.6s' }}>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis veniam fugiat ullam nostrum voluptas non, fuga consequuntur a itaque iure numquam velit alias! Reiciendis consequatur facere culpa omnis tenetur odio?Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga eum molestias impedit, deleniti sint nam fugiat porro at illum sapiente reprehenderit. Saepe porro expedita sapiente libero animi eveniet tempore fuga!
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex ipsum natus vitae? Ratione, numquam. Unde eligendi fugit totam ipsa iure. Minus dolorem ut nulla incidunt? Provident deserunt eius quos nemo.
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse libero, maxime pariatur, nesciunt ipsam fugiat illum autem optio nulla quisquam excepturi quam, ullam eveniet debitis voluptas est illo iste quos!                        </p>
+                            En mi comprensión actual, toda distorsión en la identidad propia y ajena, en el concepto del mundo y sus elementos, así como los conceptos de  existencia, propósito, relaciones, servicio y trascendencia, es la responsable del sufrimiento y desgaste inter e intra personal.
+                            <br />
+                            Para mí es un gusto asesorar y asistir en el proceso de descubrimiento y fortalecimiento psicológico del núcleo esencial o SER del consultante con el fin de que desde allí, él mismo, provoque a voluntad, la  disolución de la causa inconsciente de esos sentimientos, conductas y experiencias destructivas que ocasionan desgaste emocional, físico y relacional innecesario.
+                            <br />
+                            Promuevo la resolución eficiente de conflictos y  empodero al consultante en la renovación de su sistema de valores de manera que pueda redirigir el curso, plan y propósito de vida.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            : ''}
+
+
+        <div className="home__events scroll-item"></div>
+        {renderEvents ?
+            <div className="home__section" id='eventos' style={{ backgroundColor: '#B0BCEB' }}>
+                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Eventos</h2>
+                <div className="home__section-row">
+                    <div className="home__section-col1" style={{ textAlign: 'justify' }}>
+                        <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
+                            No te pierdas los últimos eventos donde podrás encontrar reuniones virtuales, talleres y encuentros grupales en distintos lugares.
+                            <br />
+                        </p>
+                        <div className="home__event-calendar scroll-item">
+                            <Calendar onChange={setDate} value={date} />
+                        </div>
+                    </div>
+                    <div className="home__section-col2" style={{ width: '55%'}}>
+                        <div className="home__event-list">
+                            <div className="home__event-row">
+                                <div className="home__event-schedule">
+                                    Sáb
+                                    <br />
+                                    25 Jun
+                                    <br />
+                                    11:00
+                                </div>
+                                <div className="home__event-image">
+                                    <img src={ImageEvent1} alt="Evento" className="home__event-image" />
+                                </div>
+                                <div className="home__event-details">
+                                    <h1 className="home__event-title">Cómo Lidiar con la Negatividad</h1>
+                                    <h2 className="home__event-subtitle">👥 13 Participantes</h2>
+                                    <h3 className="home__event-venue">Evento Virtual</h3>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

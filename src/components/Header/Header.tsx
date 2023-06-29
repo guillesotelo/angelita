@@ -137,7 +137,7 @@ export default function Header({ style, setRenderAll, setService }: Props) {
     return (
         <div className='header__container header--fixed' id='header__container' style={style}>
             <div className="header__logo" onClick={() => history.push('/')}>
-                <h4 className="header__logo-text">ANGELITA</h4>
+                <h4 className="header__logo-text">Angelita</h4>
             </div>
             <div className="header__items">
                 <div className="header__item" onClick={goHome}>
@@ -158,6 +158,9 @@ export default function Header({ style, setRenderAll, setService }: Props) {
                     </div>
                 </div>
                 <div className="header__item">
+                    <div className="header__item-text" onClick={() => scrollToSection('eventos')}>Eventos</div>
+                </div>
+                <div className="header__item">
                     <div className="header__item-text">Talleres</div>
                     <div className="header__item-dropdown">
                         <div className="header__item-dropdown-row">
@@ -165,17 +168,6 @@ export default function Header({ style, setRenderAll, setService }: Props) {
                         </div>
                         <div className="header__item-dropdown-row">
                             <h4 className="header__item-dropdown-text">Encuentros Personales y Virtuales</h4>
-                        </div>
-                    </div>
-                </div>
-                <div className="header__item">
-                    <div className="header__item-text">Cursos</div>
-                    <div className="header__item-dropdown">
-                        <div className="header__item-dropdown-row">
-                            <h4 className="header__item-dropdown-text">Psicología Práctica y Profunda</h4>
-                        </div>
-                        <div className="header__item-dropdown-row">
-                            <h4 className="header__item-dropdown-text">Ver todos los cursos</h4>
                         </div>
                     </div>
                 </div>

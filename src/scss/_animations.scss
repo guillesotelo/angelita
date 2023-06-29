@@ -102,11 +102,11 @@
 }
 
 .appear-down {
-    animation: move-y-down 1s forwards;
+    animation: move-y-down 2s forwards;
 }
 
 .disappear {
-    animation: fade-out 1s forwards;
+    animation: fade-out 2s forwards;
     animation-delay: unset !important;
 }
 
