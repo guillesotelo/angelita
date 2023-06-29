@@ -5,6 +5,7 @@
         font-size: 1vw;
         padding: .4vw;
         font-weight: normal;
+        font-family: 'PT Serif', serif;
 
         &:focus {
             border: 1px solid #D3AFAF;
@@ -30,7 +31,8 @@
         padding: .4vw;
         font-weight: normal;
         resize: none;
-        font-family: 'Montserrat', sans-serif;
+        font-family: 'PT Serif', serif;
+
         &::placeholder {
             color: #b5b5b5;
         }
@@ -75,6 +77,7 @@
             font-weight: normal;
             resize: none;
         }
+
         &::placeholder {
             color: #b5b5b5;
             font-size: 6vw;

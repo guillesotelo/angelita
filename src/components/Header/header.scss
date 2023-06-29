@@ -151,6 +151,10 @@
         transition: 0.3s;
         position: relative;
 
+        &-link {
+            all: unset !important;
+        }
+
         &:hover {
             background-color: #EBCE98;
         }
@@ -158,6 +162,7 @@
         &-text {
             font-size: 1vw;
             font-weight: normal;
+            padding: 1vw 0;
         }
 
         &-svg {

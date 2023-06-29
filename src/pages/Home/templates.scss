@@ -3,7 +3,7 @@
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        margin-bottom: 1vw;
+        // margin-bottom: 1vw;
     }
 
     &__section {
@@ -13,8 +13,11 @@
     }
 
     &__col1 {
-        height: 100%;
+        // height: 100%;
         width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     &__col2 {
@@ -33,7 +36,13 @@
 
     &__title {
         margin: 0 0 1vw 0;
-        font-size: 1.5vw;
+        font-size: 1.8vw;
+        font-weight: normal;
+    }
+
+    &__subtitle {
+        margin: 0 0 1vw 0;
+        font-size: 1.2vw;
     }
 
     &__image {
@@ -45,6 +54,7 @@
 
     &__body {
         text-align: justify;
+        font-size: 1vw;
     }
 
     &__open-hours {
@@ -78,7 +88,7 @@
         border-radius: 1vw;
         background-color: #fff8ec;
         font-size: 1.2vw;
-        padding: .5vw .8vw;
+        padding: .8vw;
         text-align: center;
         cursor: pointer;
         transition: .3s;

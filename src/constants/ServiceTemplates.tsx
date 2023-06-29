@@ -17,15 +17,16 @@ export default function ServiceTemplates({ service, subService, setSubService, c
                 <div className="service-template__section">
                     <div className="service-template__col1">
                         <img src={Image1} alt="Charla Participativa" loading="lazy" className="service-template__image" />
-                    </div>
-                    <div className="service-template__col2">
-                        <h4 className="service-template__open-hours" style={{ margin: 0 }}>
-                            <strong>Fortalecimiento Psicológico</strong>
-                            <br />
+                        <h4 className="service-template__open-hours">
                             Pareja, relaciones, familia y más
                             <br />
-                            Miércoles 18 hs UTC/GMT+2 (Berlin). Sesión de 1 hora.
+                            Miércoles 18 hs UTC/GMT+2 (Berlin)
+                            <br />
+                            Sesión de 1 hora
                         </h4>
+                    </div>
+                    <div className="service-template__col2">
+                        <h2 className="service-template__subtitle">Fortalecimiento Psicológico</h2>
                         <p className="service-template__body">
                             Eventos participativos en línea, con temas propuestos previamente por los participantes.
                             <br />
@@ -44,15 +45,17 @@ export default function ServiceTemplates({ service, subService, setSubService, c
                     <div className="service-template__section">
                         <div className="service-template__col1">
                             <img src={Image1} alt="Charla Participativa" loading="lazy" className="service-template__image" />
+                            <h4 className="service-template__open-hours">
+                                Domingo 16 hs UTC/GMT+2 (Berlin)
+                                <br />
+                                Sesión de 2 horas
+                            </h4>
                         </div>
                         <div className="service-template__col2">
-                            <h4 className="service-template__open-hours" style={{ margin: 0 }}>
-                                <strong>Mente Divina</strong>                                <br />
+                            <h2 className="service-template__subtitle">Mente Divina</h2>
+                            <p className="service-template__body">
                                 Entendemos la psicología desde el discernimiento espiritual.
                                 <br />
-                                Domingo 16 hs UTC/GMT+2 (Berlin). Sesión de 2 horas.
-                            </h4>
-                            <p className="service-template__body">
                                 Eventos participativos en línea, con temas propuestos previamente por los participantes.
                                 <br />
                                 Causas y efectos de las alteraciones psicológicas, Identidad, propósito, valores, regulación emocional, sentimientos y afectos, relacionamiento,  pareja, traumas, herramientas terapéuticas.
@@ -219,7 +222,7 @@ export default function ServiceTemplates({ service, subService, setSubService, c
                 :
                 service === 3 ?
                     <div className="service-template__container">
-                        <h2 className="service-template__title">Psicoterapia Grupal Virtual</h2>
+                        <h2 className="service-template__title">Psicoterapia Privada</h2>
                         <div className="service-template__section">
                             <div className="service-template__col1">
                                 <img src={Image3} alt="Psicoterapia Grupal Virtual" loading="lazy" className="service-template__image" />
@@ -239,7 +242,7 @@ export default function ServiceTemplates({ service, subService, setSubService, c
                                     </div>
                                 </div>
                                 <div className="service-template__subservice" onClick={() => setSubService(5)}>
-                                <div className="service-template__subservice-details">
+                                    <div className="service-template__subservice-details">
                                         <h2 className="service-template__subservice-title">2 horas</h2>
                                         <h3 className="service-template__subservice-pacients">Persona, pareja, o familia</h3>
                                         <h4 className="service-template__subservice-open-hours">Lunes a jueves & sábados - 11 - 19 hs UTC/GMT+2 (Berlin)</h4>

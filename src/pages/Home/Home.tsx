@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { testImages } from '../../constants/dev'
 import { AppContext } from '../../AppContext'
 import { TEXT } from '../../constants/lang'
@@ -23,12 +23,36 @@ export default function Home({ }: Props) {
     const [successCheckout, setSuccessCheckout] = useState(0)
     const [service, setService] = useState(0)
     const [subService, setSubService] = useState(0)
+    const [renderAll, setRenderAll] = useState(false)
     const history = useHistory()
     const { lang, isMobile } = useContext(AppContext)
 
     useEffect(() => {
         activateRenderEffects()
+        const sectionId = new URLSearchParams(document.location.search).get('sectionId')
+        const _service = new URLSearchParams(document.location.search).get('service')
+
+        if (_service) setService(parseInt(_service))
+        if (sectionId) {
+            setTimeout(() => {
+                scrollToSection(sectionId)
+            }, 100)
+        }
     }, [])
+
+    useEffect(() => {
+        setRenderList(renderAll)
+        setRenderSection1(renderAll)
+        setRenderSection2(renderAll)
+    }, [renderAll])
+
+    const scrollToSection = (section: string) => {
+        if (setRenderAll) setRenderAll(true)
+        setTimeout(() => {
+            const element = document.getElementById(section)
+            if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' })
+        }, 50)
+    }
 
     const activateRenderEffects = () => {
         const header = document.getElementById('header__container')
@@ -98,7 +122,7 @@ export default function Home({ }: Props) {
                 <h2 className="home__bg-video-text-subtitle">Psicología con amor y café</h2>
             </div>
         </div>
-        <Header style={{ filter: service ? 'blur(10px)' : '' }} />
+        <Header setRenderAll={setRenderAll} setService={setService} style={{ filter: service ? 'blur(10px)' : '' }} />
 
         <div className="home__section1 scroll-item"></div>
         {renderSection1 ?
@@ -126,7 +150,7 @@ export default function Home({ }: Props) {
             </div>
             : ''}
 
-        <div className="home__section">
+        <div className="home__section" id='servicios'>
             {service ?
                 <div className='home__modal-container'>
                     <h4 className="home__modal-close" onClick={() => {
@@ -149,7 +173,10 @@ export default function Home({ }: Props) {
             <div className="home__thrapy-list scroll-item"></div>
             {renderList ?
                 <div className="home__card-wrapper-container">
-                    <h2 className="home__section-title scroll-item" style={{ textAlign: 'center', filter: service ? 'blur(10px)' : '' }}>Servicios</h2>
+                    <h2 className="home__section-title scroll-item"
+                        style={{ textAlign: 'center', filter: service ? 'blur(10px)' : '' }}>
+                        Servicios
+                    </h2>
                     <div className="home__card-wrapper" style={{ filter: service ? 'blur(10px)' : '' }}>
                         <ItemCard
                             image={Image1}

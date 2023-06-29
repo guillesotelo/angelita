@@ -16,9 +16,11 @@ import { TEXT } from '../../constants/lang'
 
 type Props = {
     style?: React.CSSProperties
+    setRenderAll?: (value: boolean) => void
+    setService?: (value: number) => void
 }
 
-export default function Header({ style }: Props) {
+export default function Header({ style, setRenderAll, setService }: Props) {
     const [postId, setPostId] = useState('')
     const [prompt, setPrompt] = useState('')
     const [isAdmin, setIsAdmin] = useState(false)
@@ -111,6 +113,27 @@ export default function Header({ style }: Props) {
         }
     }
 
+    const scrollToSection = (section: string, service?: number) => {
+        if (setRenderAll) setRenderAll(true)
+        setTimeout(() => {
+            const element = document.getElementById(section)
+            if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' })
+            else window.location.href = `/?sectionId=${section}&service=${service || ''}`
+        }, 50)
+    }
+
+    const scrollToSubSection = (section: string, service?: number) => {
+        if (setRenderAll) setRenderAll(true)
+        if (setService) setService(service || -1)
+        setTimeout(() => {
+            const element = document.getElementById(section)
+            if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' })
+            else window.location.href = `/?sectionId=${section}&service=${service || ''}`
+        }, 50)
+    }
+
+
+
     return (
         <div className='header__container header--fixed' id='header__container' style={style}>
             <div className="header__logo" onClick={() => history.push('/')}>
@@ -121,16 +144,16 @@ export default function Header({ style }: Props) {
                     <h4 className="header__item-text">Inicio</h4>
                 </div>
                 <div className="header__item">
-                    <div className="header__item-text">Terapias</div>
+                    <div className="header__item-text" onClick={() => scrollToSection('servicios')}>Servicios</div>
                     <div className="header__item-dropdown">
-                        <div className="header__item-dropdown-row">
-                            <h4 className="header__item-dropdown-text">Psicoterapia Peronal</h4>
+                        <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 1)}>
+                            <h4 className="header__item-dropdown-text">Encuentros Grupales</h4>
                         </div>
-                        <div className="header__item-dropdown-row">
-                            <h4 className="header__item-dropdown-text">Psicoterapia Grupal</h4>
+                        <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 2)}>
+                            <h4 className="header__item-dropdown-text">Psicoterapia en Grupo</h4>
                         </div>
-                        <div className="header__item-dropdown-row">
-                            <h4 className="header__item-dropdown-text">Consejería</h4>
+                        <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 3)}>
+                            <h4 className="header__item-dropdown-text">Psicoterapia Privada</h4>
                         </div>
                     </div>
                 </div>
@@ -152,7 +175,7 @@ export default function Header({ style }: Props) {
                             <h4 className="header__item-dropdown-text">Psicología Práctica y Profunda</h4>
                         </div>
                         <div className="header__item-dropdown-row">
-                            <h4 className="header__item-dropdown-text">Ver más</h4>
+                            <h4 className="header__item-dropdown-text">Ver todos los cursos</h4>
                         </div>
                     </div>
                 </div>
