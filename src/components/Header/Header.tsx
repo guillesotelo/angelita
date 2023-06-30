@@ -9,6 +9,9 @@ import { useHistory, useLocation } from 'react-router-dom'
 import Button from '../Button/Button'
 import DeleteIcon from '../../assets/icons/delete.svg'
 import EditIcon from '../../assets/icons/edit.svg'
+import ImageLogo from '../../assets/logos/angelita_logo2.png'
+import ImageLogo2 from '../../assets/logos/angelita_logo.png'
+import ImageLogo3 from '../../assets/logos/angelita_logo3.png'
 import { toast } from 'react-hot-toast'
 import { APP_VERSION } from '../../constants/app'
 import { AppContext } from '../../AppContext'
@@ -136,8 +139,9 @@ export default function Header({ style, setRenderAll, setService }: Props) {
 
     return (
         <div className='header__container header--fixed' id='header__container' style={style}>
-            <div className="header__logo" onClick={() => history.push('/')}>
-                <h4 className="header__logo-text">Angelita</h4>
+            <div className="header__logo" onClick={goHome}>
+                {/* <h4 className="header__logo-text">Angelita</h4> */}
+                <img src={ImageLogo} alt="Logo" loading='lazy' className="header__logo-image" />
             </div>
             <div className="header__items">
                 <div className="header__item" onClick={goHome}>
@@ -159,17 +163,6 @@ export default function Header({ style, setRenderAll, setService }: Props) {
                 </div>
                 <div className="header__item">
                     <div className="header__item-text" onClick={() => scrollToSection('eventos')}>Eventos</div>
-                </div>
-                <div className="header__item">
-                    <div className="header__item-text">Talleres</div>
-                    <div className="header__item-dropdown">
-                        <div className="header__item-dropdown-row">
-                            <h4 className="header__item-dropdown-text">Taller del Mes</h4>
-                        </div>
-                        <div className="header__item-dropdown-row">
-                            <h4 className="header__item-dropdown-text">Encuentros Personales y Virtuales</h4>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div className="header__logo">

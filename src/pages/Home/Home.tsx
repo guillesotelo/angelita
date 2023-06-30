@@ -6,13 +6,18 @@ import { TEXT } from '../../constants/lang'
 import BGVideo from '../../assets/videos/background_video.mp4'
 import Header from '../../components/Header/Header'
 import ItemCard from '../../components/ItemCard/ItemCard'
-import ServiceTemplates from '../../constants/ServiceTemplates'
+import ServiceTemplates from '../../constants/templates/ServiceTemplates'
 import Image1 from '../../assets/images/coffee/image14.png'
 import Image2 from '../../assets/images/coffee/image42.png'
 import Image3 from '../../assets/images/coffee/image9.png'
 import StripePayment from '../../components/Payment/StripePayment'
 import ProfilePicture from '../../assets/images/angela1.jpeg'
+import ProfilePicture2 from '../../assets/images/angela2.png'
 import ImageEvent1 from '../../assets/images/coffee/image30.png'
+import ImageEvent2 from '../../assets/images/coffee/image35.png'
+import ImageEvent3 from '../../assets/images/coffee/image24.png'
+import AngelitaIsoLogo from '../../assets/logos/isologo.svg'
+import PresentationImage from '../../assets/illustrations/presentation.svg'
 import Calendar from 'react-calendar'
 // import 'react-calendar/dist/Calendar.css'
 
@@ -21,9 +26,10 @@ type Props = {
 
 export default function Home({ }: Props) {
     const [loading, setLoading] = useState(false)
-    const [renderSection1, setRenderSection1] = useState(false)
-    const [renderSection2, setRenderSection2] = useState(false)
-    const [renderList, setRenderList] = useState(false)
+    const [renderPresentacion, setRenderPresentacion] = useState(false)
+    const [renderSectionAbout, setRenderSectionAbout] = useState(false)
+    const [renderProfesionYServicio, setRenderProfesionYServicio] = useState(false)
+    const [renderServices, setRenderServices] = useState(false)
     const [renderEvents, setRenderEvents] = useState(false)
     const [successCheckout, setSuccessCheckout] = useState(0)
     const [service, setService] = useState(0)
@@ -47,9 +53,10 @@ export default function Home({ }: Props) {
     }, [])
 
     useEffect(() => {
-        setRenderList(renderAll)
-        setRenderSection1(renderAll)
-        setRenderSection2(renderAll)
+        setRenderServices(renderAll)
+        setRenderPresentacion(renderAll)
+        setRenderSectionAbout(renderAll)
+        setRenderProfesionYServicio(renderAll)
         setRenderEvents(renderAll)
     }, [renderAll])
 
@@ -73,7 +80,7 @@ export default function Home({ }: Props) {
                 if (header && home) {
                     scrollPosition = scrollPosition || header.offsetTop
                     if (scrollTop > scrollPosition) {
-                        home.style.marginTop = '7vh'
+                        home.style.marginTop = '9vh'
                         header.classList.add('header--fixed')
                     }
                     else {
@@ -92,10 +99,11 @@ export default function Home({ }: Props) {
                     const itemPosition = item.getBoundingClientRect().top
                     const screenHeight = window.innerHeight
 
-                    if (itemPosition < screenHeight * 0.9) {
-                        if (item.classList.contains('home__thrapy-list')) setRenderList(true)
-                        if (item.classList.contains('home__section1')) setRenderSection1(true)
-                        if (item.classList.contains('home__section2')) setRenderSection2(true)
+                    if (itemPosition < screenHeight) {
+                        if (item.classList.contains('home__thrapy-list')) setRenderServices(true)
+                        if (item.classList.contains('home__section-pres')) setRenderPresentacion(true)
+                        if (item.classList.contains('home__section-about')) setRenderSectionAbout(true)
+                        if (item.classList.contains('home__section-prof')) setRenderProfesionYServicio(true)
                         if (item.classList.contains('home__events')) setRenderEvents(true)
                         item.classList.remove('disappear')
                         item.classList.add('appear-down')
@@ -103,7 +111,7 @@ export default function Home({ }: Props) {
                         if (item.classList.contains('appear-down')) {
                             item.classList.remove('appear-down')
                             item.classList.add('disappear')
-                            // setRenderList(false)
+                            // setRenderServices(false)
                         }
                     }
                 })
@@ -124,17 +132,51 @@ export default function Home({ }: Props) {
                 <source src={BGVideo} type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
-            <div className="home__bg-video-text">
-                <h1 className="home__bg-video-text-title">Angelita</h1>
-                <h2 className="home__bg-video-text-subtitle">Psicología con amor y café</h2>
+            <div className="home__bg-video-overlay">
+                {/* <h1 className="home__bg-video-text-title">Angelita</h1> */}
+                <img src={AngelitaIsoLogo} alt="Logo" className="home__bg-video-overlay-logo" />
+                <h2 className="home__bg-video-overlay-subtitle">Psicología con Amor y Café</h2>
             </div>
         </div>
 
         <Header setRenderAll={setRenderAll} setService={setService} style={{ filter: service ? 'blur(10px)' : '' }} />
 
-        <div className="home__section1 scroll-item"></div>
-        {renderSection1 ?
-            <div className="home__section" style={{ backgroundColor: '#B0BCEB' }}>
+        <div className="home__section-pres scroll-item"></div>
+        {renderPresentacion ?
+            <div className="home__section" style={{ backgroundColor: '#fff' }}>
+                <div className="home__section-row">
+                    <div className="home__section-col1" style={{ width: '60%', textAlign: 'justify' }}>
+                        {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Descúbrete hoy</h2> */}
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.1s', fontSize: '1.5vw' }}>
+                            ¿Quieres superar tus temores, angustias, dependencias, estados depresivos?
+                        </p>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.3s', fontSize: '1.5vw' }}>
+                            ¿Ahora estás listo para un cambio en la manera de ver lo que te sucede?
+                        </p>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.5s', fontSize: '1.5vw' }}>
+                            ¿Quieres redirigir y hacerte consciente de lo que haces?
+                        </p>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.7s', fontSize: '1.5vw' }}>
+                            ¿Quieres conocerte a ti mismo?
+                        </p>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.9s', fontSize: '1.5vw' }}>
+                            ¿Quieres experimentar Fortaleza Interior?
+                        </p>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '1.5vw' }}>
+                            ¿Quieres relacionarte sanamente?
+                        </p>
+                    </div>
+                    <div className="home__section-col2 scroll-item" style={{ width: '30%', animationDuration: '5s' }} >
+                        {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Mira dentro de tí</h2> */}
+                        <img src={PresentationImage} alt="Presentacion" className="home__section-pres-image" />
+                    </div>
+                </div>
+            </div>
+            : ''}
+
+        <div className="home__section-about scroll-item"></div>
+        {renderSectionAbout ?
+            <div className="home__section" style={{ backgroundColor: '#099fea6e' }}>
                 <div className="home__section-row">
                     <div className="home__section-col1" style={{ width: '60%', textAlign: 'justify' }}>
                         {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Descúbrete hoy</h2> */}
@@ -152,10 +194,10 @@ export default function Home({ }: Props) {
                     </div>
                     <div className="home__section-col2 scroll-item" style={{ width: '30%' }} >
                         {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Mira dentro de tí</h2> */}
-                        <img src={ProfilePicture} alt="Angela Sanguino" className="home__section-about-image" />
+                        <img src={ProfilePicture2} alt="Angela Sanguino" className="home__section-about-image" />
                     </div>
                 </div>
-                <h4 className='home__section-about-foot-text scroll-item'>Busco la paz interior y la sigo &nbsp&nbsp•&nbsp&nbsp Me gusta la armonía, el silencio y la sencillez en las formas &nbsp&nbsp•&nbsp&nbsp Me gusta sonreír y divertirme, sin ningún motivo en particular</h4>
+                <h4 className='home__section-about-foot-text scroll-item'>Busco la paz interior y la sigo &nbsp;&nbsp;•&nbsp;&nbsp; Me gusta la armonía, el silencio y la sencillez en las formas &nbsp;&nbsp;•&nbsp;&nbsp; Me gusta sonreír y divertirme, sin ningún motivo en particular</h4>
             </div>
             : ''}
 
@@ -180,7 +222,7 @@ export default function Home({ }: Props) {
             }
 
             <div className="home__thrapy-list scroll-item"></div>
-            {renderList ?
+            {renderServices ?
                 <div className="home__card-wrapper-container">
                     <h2 className="home__section-title scroll-item"
                         style={{ textAlign: 'center', filter: service ? 'blur(10px)' : '' }}>
@@ -192,21 +234,21 @@ export default function Home({ }: Props) {
                             title='Encuentros Grupales'
                             // price='US $15'
                             onClick={() => setService(1)}
-                            style={{ animationDelay: '0s' }}
+                            style={{ animationDelay: '.5s' }}
                         />
                         <ItemCard
                             image={Image2}
                             title='Psicoterapia en Grupo'
                             // price='US $25'
                             onClick={() => setService(2)}
-                            style={{ animationDelay: '.2s' }}
+                            style={{ animationDelay: '.9s' }}
                         />
                         <ItemCard
                             image={Image3}
                             title='Psicoterapia Privada'
                             // price='US $50'
                             onClick={() => setService(3)}
-                            style={{ animationDelay: '.4s' }}
+                            style={{ animationDelay: '1.2s' }}
                         />
                     </div>
                 </div>
@@ -214,11 +256,11 @@ export default function Home({ }: Props) {
         </div>
 
 
-        <div className="home__section2 scroll-item"></div>
-        {renderSection2 ?
+        <div className="home__section-prof scroll-item"></div>
+        {renderProfesionYServicio ?
             <div className="home__section">
                 <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Profesión y Servicio</h2>
-                <div className="home__section-row">
+                <div className="home__section-row" style={{ alignItems: 'flex-start' }}>
                     <div className="home__section-col1" style={{ textAlign: 'justify' }}>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
                             Me gradué con una especialización en Psicología Clínica, Organizacional y del Consumidor en el año 2000, con registro Profesional en Colombia (001565 FUKL).
@@ -230,7 +272,7 @@ export default function Home({ }: Props) {
                             Como seres humanos percibimos experiencias inquietantes y desafiantes que si nos superan o nos llevan a estados de mucho dolor, temor o búsqueda de placer, revelan una alteración psicológica inconsciente, que es digna de comprender para hallar la solución y desarrollarte libre, dichoso y en paz.
                         </p>
                     </div>
-                    <div className="home__section-col2">
+                    <div className="home__section-col2" >
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.6s' }}>
                             En mi comprensión actual, toda distorsión en la identidad propia y ajena, en el concepto del mundo y sus elementos, así como los conceptos de  existencia, propósito, relaciones, servicio y trascendencia, es la responsable del sufrimiento y desgaste inter e intra personal.
                             <br />
@@ -249,17 +291,17 @@ export default function Home({ }: Props) {
             <div className="home__section" id='eventos' style={{ backgroundColor: '#B0BCEB' }}>
                 <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Eventos</h2>
                 <div className="home__section-row">
-                    <div className="home__section-col1" style={{ textAlign: 'justify' }}>
+                    <div className="home__section-col1" style={{ width: '40%', justifyContent: 'flex-start', textAlign: 'justify' }}>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
                             No te pierdas los últimos eventos donde podrás encontrar reuniones virtuales, talleres y encuentros grupales en distintos lugares.
                             <br />
                         </p>
                         <div className="home__event-calendar scroll-item">
-                            <Calendar onChange={setDate} value={date} />
+                            <Calendar locale='es' onChange={setDate} value={date} />
                         </div>
                     </div>
-                    <div className="home__section-col2" style={{ width: '55%'}}>
-                        <div className="home__event-list">
+                    <div className="home__section-col2" style={{ width: '55%' }}>
+                        <div className="home__event-list scroll-item">
                             <div className="home__event-row">
                                 <div className="home__event-schedule">
                                     Sáb
@@ -268,12 +310,48 @@ export default function Home({ }: Props) {
                                     <br />
                                     11:00
                                 </div>
-                                <div className="home__event-image">
+                                <div className="home__event-image-wrapper">
                                     <img src={ImageEvent1} alt="Evento" className="home__event-image" />
                                 </div>
                                 <div className="home__event-details">
                                     <h1 className="home__event-title">Cómo Lidiar con la Negatividad</h1>
                                     <h2 className="home__event-subtitle">👥 13 Participantes</h2>
+                                    <h3 className="home__event-venue">🖥 Evento Virtual</h3>
+                                </div>
+                            </div>
+
+                            <div className="home__event-row">
+                                <div className="home__event-schedule">
+                                    Sáb
+                                    <br />
+                                    18 Jun
+                                    <br />
+                                    13:00
+                                </div>
+                                <div className="home__event-image-wrapper">
+                                    <img src={ImageEvent2} alt="Evento" className="home__event-image" />
+                                </div>
+                                <div className="home__event-details">
+                                    <h1 className="home__event-title">4 temores cuando hablamos en público</h1>
+                                    <h2 className="home__event-subtitle">👥 22 Participantes</h2>
+                                    <h3 className="home__event-venue">Evento Virtual</h3>
+                                </div>
+                            </div>
+
+                            <div className="home__event-row" style={{ border: 'none' }}>
+                                <div className="home__event-schedule">
+                                    Sáb
+                                    <br />
+                                    2 Jul
+                                    <br />
+                                    14:30
+                                </div>
+                                <div className="home__event-image-wrapper">
+                                    <img src={ImageEvent3} alt="Evento" className="home__event-image" />
+                                </div>
+                                <div className="home__event-details">
+                                    <h1 className="home__event-title">Cuando la estrategia paternal  es la imposición y el dominio</h1>
+                                    <h2 className="home__event-subtitle">👥 9 Participantes</h2>
                                     <h3 className="home__event-venue">Evento Virtual</h3>
                                 </div>
                             </div>
