@@ -45,7 +45,7 @@ function Payment() {
                     <PaymentForm />
                 </Elements>
                 :
-                <h4 className="service-template__prices">Cargando medios de pago...</h4>
+                <h4 className="payment__loading-methods">Cargando medios de pago...</h4>
             }
         </div>
     )
