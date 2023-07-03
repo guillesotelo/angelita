@@ -1,11 +1,11 @@
-import CharlaParticipativa2 from './services/CharlaParticipativa2'
+import PedacitoDeCielo from './services/PedacitoDeCielo'
 import EncuentrosGrupales from './services/EncuentrosGrupales'
 import PsicoterapiaEnGrupo from './services/PsicoterapiaEnGrupo'
+import Consejeria from './services/Consejeria'
+import Psicoterapia from './services/Psicoterapia'
 import PsicoterapiaPrivada from './services/PsicoterapiaPrivada'
-import PsicoterapiaPrivada2 from './services/PsicoterapiaPrivada2'
-import PsicoterapiaPrivada3 from './services/PsicoterapiaPrivada3'
-import TallerMensual from './services/TallerMensual'
-import CharlaParticipativa from './services/CharlaParticipativa'
+import FormacionPsicologica from './services/FormacionPsicologica'
+import MenteDivina from './services/MenteDivina'
 
 type Props = {
     service: number
@@ -17,15 +17,15 @@ export default function ServiceTemplates({ service, subService, setSubService, c
 
     return subService ?
         subService === 1 ?
-            <CharlaParticipativa checkout={checkout} />
+            <MenteDivina checkout={checkout} />
             : subService === 2 ?
-                <CharlaParticipativa2 checkout={checkout} />
+                <PedacitoDeCielo checkout={checkout} />
                 : subService === 3 ?
-                    <TallerMensual checkout={checkout} />
+                    <FormacionPsicologica checkout={checkout} />
                     : subService === 4 ?
-                        <PsicoterapiaPrivada checkout={checkout} />
+                        <Consejeria checkout={checkout} />
                         : subService === 5 ?
-                            <PsicoterapiaPrivada2 checkout={checkout} />
+                            <Psicoterapia checkout={checkout} />
                             : null
         : service === 1 ?
             <EncuentrosGrupales checkout={checkout} setSubService={setSubService} />
@@ -33,6 +33,6 @@ export default function ServiceTemplates({ service, subService, setSubService, c
                 <PsicoterapiaEnGrupo checkout={checkout} setSubService={setSubService} />
                 :
                 service === 3 ?
-                    <PsicoterapiaPrivada3 checkout={checkout} setSubService={setSubService} />
+                    <PsicoterapiaPrivada checkout={checkout} setSubService={setSubService} />
                     : null
 }

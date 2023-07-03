@@ -7,10 +7,10 @@ type Props = {
     checkout: (value: number) => void
 }
 
-export default function CharlaParticipativa2({ checkout }: Props) {
+export default function PedacitoDeCielo({ checkout }: Props) {
     return (
         <div className="service-template__container">
-            <h2 className="service-template__title">Charla Participativa</h2>
+            <h2 className="service-template__title">Pedacito de Cielo</h2>
             <div className="service-template__section">
                 <div className="service-template__col1">
                     <img src={Image1} alt="Charla Participativa" loading="lazy" className="service-template__image" />
@@ -21,7 +21,7 @@ export default function CharlaParticipativa2({ checkout }: Props) {
                     </h4>
                 </div>
                 <div className="service-template__col2">
-                    <h2 className="service-template__subtitle">Mente Divina</h2>
+                    <h2 className="service-template__subtitle">Discernimiento Espiritual</h2>
                     <p className="service-template__body">
                         Entendemos la psicología desde el discernimiento espiritual.
                         <br />

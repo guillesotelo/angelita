@@ -7,17 +7,16 @@ type Props = {
     checkout: (value: number) => void
 }
 
-export default function TallerMensual({ checkout }: Props) {
+export default function FormacionPsicologica({ checkout }: Props) {
     return (
         <div className="service-template__container">
-            <h2 className="service-template__title">Taller Mensual</h2>
+            <h2 className="service-template__title">Formación Psicológica</h2>
             <div className="service-template__section">
                 <div className="service-template__col1">
                     <img src={Image1} alt="Consejería Virtual (sin continuidad)" loading="lazy" className="service-template__image" />
                 </div>
                 <div className="service-template__col2">
                     <h4 className="service-template__open-hours" style={{ margin: 0 }}>
-                        <strong>Formación Psicológica</strong>
                         <br />
                         1er sábado del mes
                         <br />

@@ -34,6 +34,15 @@
         }
     }
 
+    &__row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 1vw;
+    }
+
+
     &__title {
         margin: 0 0 1vw 0;
         font-size: 1.8vw;

@@ -7,7 +7,7 @@ type Props = {
     checkout: (value: number) => void
 }
 
-export default function PsicoterapiaPrivada2({ checkout }: Props) {
+export default function Psicoterapia({ checkout }: Props) {
     return (
         <div className="service-template__container">
             <h2 className="service-template__title">Psicoterapia Privada</h2>
@@ -22,14 +22,21 @@ export default function PsicoterapiaPrivada2({ checkout }: Props) {
                         Lunes a jueves & sábados.
                         <br />
                         Entre 11 - 19 hs UTC/GMT+2 (Berlin).
-                        <br />
-                        Sesión de 2 horas.
                     </h4>
                     <p className="service-template__body">
-                        Encuentro personal, de pareja o familiar, que requiera la intervención psicoterapéutica con la finalidad de corregir la causa y naturalizar los efectos en el cuerpo, en la conducta y en las relaciones, a través de prácticas guiadas.
+                        Asesoría profesional  sistemática para corregir  la causa del malestar psicológico, emocional, conductual y relacional.
                     </p>
-                    <div className="service-template__prices">
-                        <h4 className="service-template__prices-text"><strong>US $70</strong></h4>
+                    <div className="service-template__row" style={{ transform: 'scale(.85)' }}>
+                        <h4 className="service-template__open-hours" style={{ margin: 0 }}>Sesión de 1 hora</h4>
+                        <div className="service-template__prices">
+                            <h4 className="service-template__prices-text"><strong>US $50</strong></h4>
+                        </div>
+                    </div>
+                    <div className="service-template__row" style={{ transform: 'scale(.85)' }}>
+                        <h4 className="service-template__open-hours" style={{ margin: 0 }}>Sesión de 2 horas</h4>
+                        <div className="service-template__prices">
+                            <h4 className="service-template__prices-text"><strong>US $70</strong></h4>
+                        </div>
                     </div>
                     <button className="service-template__btn" onClick={() => checkout(32)}>Reservar</button>
                 </div>

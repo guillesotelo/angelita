@@ -6,10 +6,10 @@ type Props = {
     checkout: (value: number) => void
 }
 
-export default function CharlaParticipativa({ checkout }: Props) {
+export default function MenteDivina({ checkout }: Props) {
     return (
         <div className="service-template__container">
-            <h2 className="service-template__title">Charla Participativa</h2>
+            <h2 className="service-template__title">Mente Divina</h2>
             <div className="service-template__section">
                 <div className="service-template__col1">
                     <img src={Image1} alt="Charla Participativa" loading="lazy" className="service-template__image" />
