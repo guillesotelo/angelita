@@ -18,7 +18,10 @@ import ImageEvent2 from '../../assets/images/coffee/image35.png'
 import ImageEvent3 from '../../assets/images/coffee/image24.png'
 import AngelitaIsoLogo from '../../assets/logos/isologo.svg'
 import PresentationImage from '../../assets/illustrations/presentation.svg'
+import SymptomsImage from '../../assets/illustrations/symptoms.svg'
 import Calendar from 'react-calendar'
+import WhatsAppButton from '../../components/WhatsAppButton/WhatsAppButton'
+import { whatsappMessage } from '../../constants/misc'
 // import 'react-calendar/dist/Calendar.css'
 
 type Props = {
@@ -27,6 +30,7 @@ type Props = {
 export default function Home({ }: Props) {
     const [loading, setLoading] = useState(false)
     const [renderPresentacion, setRenderPresentacion] = useState(false)
+    const [renderSymptoms, setRenderSymptoms] = useState(false)
     const [renderSectionAbout, setRenderSectionAbout] = useState(false)
     const [renderProfesionYServicio, setRenderProfesionYServicio] = useState(false)
     const [renderServices, setRenderServices] = useState(false)
@@ -55,6 +59,7 @@ export default function Home({ }: Props) {
     useEffect(() => {
         setRenderServices(renderAll)
         setRenderPresentacion(renderAll)
+        setRenderSymptoms(renderAll)
         setRenderSectionAbout(renderAll)
         setRenderProfesionYServicio(renderAll)
         setRenderEvents(renderAll)
@@ -75,6 +80,7 @@ export default function Home({ }: Props) {
         const activateHeaderPosition = () => {
             window.addEventListener('scroll', function () {
                 const home = document.getElementById('home__container')
+                const wapp = document.querySelector('.whatsapp-btn__container') as HTMLElement
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop
 
                 if (header && home) {
@@ -82,10 +88,12 @@ export default function Home({ }: Props) {
                     if (scrollTop > scrollPosition) {
                         home.style.marginTop = '9vh'
                         header.classList.add('header--fixed')
+                        if (wapp) wapp.style.transform = 'translateX(0%)'
                     }
                     else {
                         home.style.marginTop = '0'
                         header.classList.remove('header--fixed')
+                        if (wapp) wapp.style.transform = 'translateX(200%)'
                     }
                 }
 
@@ -102,6 +110,7 @@ export default function Home({ }: Props) {
                     if (itemPosition < screenHeight) {
                         if (item.classList.contains('home__thrapy-list')) setRenderServices(true)
                         if (item.classList.contains('home__section-pres')) setRenderPresentacion(true)
+                        if (item.classList.contains('home__section-symptoms')) setRenderSymptoms(true)
                         if (item.classList.contains('home__section-about')) setRenderSectionAbout(true)
                         if (item.classList.contains('home__section-prof')) setRenderProfesionYServicio(true)
                         if (item.classList.contains('home__events')) setRenderEvents(true)
@@ -141,6 +150,8 @@ export default function Home({ }: Props) {
 
         <Header setRenderAll={setRenderAll} setService={setService} style={{ filter: service ? 'blur(10px)' : '' }} />
 
+        <WhatsAppButton phoneNumber={34650609282} message={whatsappMessage} />
+
         <div className="home__section-pres scroll-item"></div>
         {renderPresentacion ?
             <div className="home__section" style={{ backgroundColor: '#fff' }}>
@@ -151,19 +162,19 @@ export default function Home({ }: Props) {
                             ¿Quieres superar tus temores, angustias, dependencias, estados depresivos?
                         </p>
                         <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.3s', fontSize: '1.5vw' }}>
-                            ¿Ahora estás listo para un cambio en la manera de ver lo que te sucede?
+                            ¿Estás listo para un cambio en la manera de ver lo que te sucede?
                         </p>
                         <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.5s', fontSize: '1.5vw' }}>
                             ¿Quieres redirigir y hacerte consciente de lo que haces?
                         </p>
                         <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.7s', fontSize: '1.5vw' }}>
-                            ¿Quieres conocerte a ti mismo?
-                        </p>
-                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.9s', fontSize: '1.5vw' }}>
                             ¿Quieres experimentar Fortaleza Interior?
                         </p>
-                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '1.5vw' }}>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.9s', fontSize: '1.5vw' }}>
                             ¿Quieres relacionarte sanamente?
+                        </p>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '1.5vw' }}>
+                            ¿Quieres conocerte a ti mismo?
                         </p>
                     </div>
                     <div className="home__section-col2 scroll-item" style={{ width: '30%', animationDuration: '5s' }} >
@@ -174,9 +185,43 @@ export default function Home({ }: Props) {
             </div>
             : ''}
 
+        <div className="home__section-symptoms scroll-item"></div>
+        {renderSymptoms ?
+            <div className="home__section" style={{ backgroundColor: '#fff9ea' }}>
+                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s', textAlign: 'left' }}>Síntomas de que podrías necesitar asesoría psicológica</h2>
+                <div className="home__section-row">
+                    <div className="home__section-col1" style={{ width: '60%', textAlign: 'justify' }}>
+                        <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
+                            <ul>
+                                <li> Te cuesta dormir</li>
+                                <li> Sufres por una relación rota o por personas especiales para ti</li>
+                                <li> Sufres porque no tienes trabajo</li>
+                                <li> Abusas de personas, sustancias, juegos, actividades</li>
+                                <li> Lo que haces fracasa una y otra vez</li>
+                                <li> Tienes sensaciones desagradables: agitación, inquietud, sudor frío</li>
+                                <li> Tienes dificultad para controlar impulsos</li>
+                                <li> Tus personas cercanas están preocupadas por ti</li>
+                                <li> Tienes problemas para solucionar conflictos</li>
+                                <li> Piensas negativa o críticamente</li>
+                                <li> Solucionas mediante la ira o el aislamiento</li>
+                                <li> Explotas con facilidad</li>
+                                <li> Manipulas y coaccionas</li>
+                                <li> No disfrutas el día a día</li>
+                                <li> No te hace sentido la vida</li>
+                            </ul>
+                        </p>
+                    </div>
+                    <div className="home__section-col2 scroll-item" style={{ width: '30%' }} >
+                        {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Mira dentro de tí</h2> */}
+                        <img src={SymptomsImage} alt="Ilustracion de síntomas" className="home__section-symptoms-image" />
+                    </div>
+                </div>
+            </div>
+            : ''}
+
         <div className="home__section-about scroll-item"></div>
         {renderSectionAbout ?
-            <div className="home__section" style={{ backgroundColor: '#099fea6e' }}>
+            <div className="home__section" style={{ backgroundColor: '#5ab3df6e' }}>
                 <div className="home__section-row">
                     <div className="home__section-col1" style={{ width: '60%', textAlign: 'justify' }}>
                         {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Descúbrete hoy</h2> */}
@@ -201,7 +246,7 @@ export default function Home({ }: Props) {
             </div>
             : ''}
 
-        <div className="home__section" id='servicios' style={{ backgroundColor: '#EBD28D' }}>
+        <div className="home__section" id='servicios' style={{ backgroundColor: '#fff0c7' }}>
             {service ?
                 <div className='home__modal-container'>
                     <h4 className="home__modal-close" onClick={() => {
@@ -223,12 +268,15 @@ export default function Home({ }: Props) {
 
             <div className="home__thrapy-list scroll-item"></div>
             {renderServices ?
-                <div className="home__card-wrapper-container">
+                <div className="home__card-wrapper-container" style={{ filter: service ? 'blur(10px)' : '' }}>
                     <h2 className="home__section-title scroll-item"
-                        style={{ textAlign: 'center', filter: service ? 'blur(10px)' : '' }}>
+                        style={{ textAlign: 'center' }}>
                         Servicios
                     </h2>
-                    <div className="home__card-wrapper" style={{ filter: service ? 'blur(10px)' : '' }}>
+                    <h2 className="home__section-subtitle scroll-item">
+                        Amor . Vocación . Interacción . Comprensión . Expansión
+                    </h2>
+                    <div className="home__card-wrapper">
                         <ItemCard
                             image={Image1}
                             title='Encuentros Grupales'
@@ -288,12 +336,12 @@ export default function Home({ }: Props) {
 
         <div className="home__events scroll-item"></div>
         {renderEvents ?
-            <div className="home__section" id='eventos' style={{ backgroundColor: '#B0BCEB' }}>
+            <div className="home__section" id='eventos' style={{ backgroundColor: '#c8cfec' }}>
                 <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Eventos</h2>
                 <div className="home__section-row">
                     <div className="home__section-col1" style={{ width: '40%', justifyContent: 'flex-start', textAlign: 'justify' }}>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
-                            No te pierdas los últimos eventos donde podrás encontrar reuniones virtuales, talleres y encuentros grupales en distintos lugares.
+                            No te pierdas los próximos eventos donde podrás encontrar reuniones virtuales, talleres y encuentros grupales en distintos lugares.
                             <br />
                         </p>
                         <div className="home__event-calendar scroll-item">

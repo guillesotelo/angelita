@@ -88,9 +88,18 @@
         &-title {
             opacity: 0;
             animation: move-y-up 1s forwards;
-            font-size: 2.5vw;
+            font-size: 3vw;
             font-weight: normal;
             margin: 2vw 0;
+        }
+
+        &-subtitle {
+            opacity: 0;
+            animation: move-y-up 1s forwards;
+            font-size: 1.6vw;
+            font-weight: 200;
+            margin: 1vw 0;
+            text-align: center;
         }
 
         &-text {
@@ -116,6 +125,11 @@
         }
 
         &-pres {
+            &-image {
+                height: 100%;
+            }
+        }
+        &-symptoms {
             &-image {
                 height: 100%;
             }
