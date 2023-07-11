@@ -13,15 +13,18 @@ import Image3 from '../../assets/images/coffee/image9.png'
 import StripePayment from '../../components/Payment/StripePayment'
 import ProfilePicture from '../../assets/images/angela1.jpeg'
 import ProfilePicture2 from '../../assets/images/angela2.png'
+import ProfilePicture3 from '../../assets/images/angela3.png'
+import MissionImage from '../../assets/images/mission.png'
 import ImageEvent1 from '../../assets/images/coffee/image30.png'
 import ImageEvent2 from '../../assets/images/coffee/image35.png'
 import ImageEvent3 from '../../assets/images/coffee/image24.png'
 import AngelitaIsoLogo from '../../assets/logos/isologo.svg'
-import PresentationImage from '../../assets/illustrations/presentation.svg'
+import PresentationImage from '../../assets/images/presentation.png'
 import SymptomsImage from '../../assets/illustrations/symptoms.svg'
 import Calendar from 'react-calendar'
 import WhatsAppButton from '../../components/WhatsAppButton/WhatsAppButton'
 import { whatsappMessage } from '../../constants/misc'
+import Button from '../../components/Button/Button'
 // import 'react-calendar/dist/Calendar.css'
 
 type Props = {
@@ -29,9 +32,10 @@ type Props = {
 
 export default function Home({ }: Props) {
     const [loading, setLoading] = useState(false)
-    const [renderPresentacion, setRenderPresentacion] = useState(false)
-    const [renderSymptoms, setRenderSymptoms] = useState(false)
     const [renderSectionAbout, setRenderSectionAbout] = useState(false)
+    const [renderMission, setRenderMission] = useState(false)
+    const [renderPresentation, setRenderPresentation] = useState(false)
+    const [renderSymptoms, setRenderSymptoms] = useState(false)
     const [renderProfesionYServicio, setRenderProfesionYServicio] = useState(false)
     const [renderServices, setRenderServices] = useState(false)
     const [renderEvents, setRenderEvents] = useState(false)
@@ -58,7 +62,8 @@ export default function Home({ }: Props) {
 
     useEffect(() => {
         setRenderServices(renderAll)
-        setRenderPresentacion(renderAll)
+        setRenderPresentation(renderAll)
+        setRenderMission(renderAll)
         setRenderSymptoms(renderAll)
         setRenderSectionAbout(renderAll)
         setRenderProfesionYServicio(renderAll)
@@ -108,10 +113,11 @@ export default function Home({ }: Props) {
                     const screenHeight = window.innerHeight
 
                     if (itemPosition < screenHeight) {
-                        if (item.classList.contains('home__thrapy-list')) setRenderServices(true)
-                        if (item.classList.contains('home__section-pres')) setRenderPresentacion(true)
-                        if (item.classList.contains('home__section-symptoms')) setRenderSymptoms(true)
                         if (item.classList.contains('home__section-about')) setRenderSectionAbout(true)
+                        if (item.classList.contains('home__section-mission')) setRenderMission(true)
+                        if (item.classList.contains('home__section-pres')) setRenderPresentation(true)
+                        if (item.classList.contains('home__section-symptoms')) setRenderSymptoms(true)
+                        if (item.classList.contains('home__thrapy-list')) setRenderServices(true)
                         if (item.classList.contains('home__section-prof')) setRenderProfesionYServicio(true)
                         if (item.classList.contains('home__events')) setRenderEvents(true)
                         item.classList.remove('disappear')
@@ -152,32 +158,86 @@ export default function Home({ }: Props) {
 
         <WhatsAppButton phoneNumber={34650609282} message={whatsappMessage} />
 
-        <div className="home__section-pres scroll-item"></div>
-        {renderPresentacion ?
+        <div className="home__section-about scroll-item"></div>
+        {renderSectionAbout ?
             <div className="home__section" style={{ backgroundColor: '#fff' }}>
                 <div className="home__section-row">
                     <div className="home__section-col1" style={{ width: '60%', textAlign: 'justify' }}>
-                        {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Descúbrete hoy</h2> */}
-                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.1s', fontSize: '1.5vw' }}>
+                        <h2 className="home__section-title scroll-item" style={{ animationDelay: '.4s', alignSelf: 'flex-start', color: '#EBCE98' }}>Hola, soy <strong>Angelita</strong></h2>
+                        <p className="home__section-text scroll-item" style={{ animationDelay: '.6s' }}>
+                            Me llamo Angela Sanguino y me gusta cuando me llaman de cariño “Angelita”.
+                            <br />
+                            Estudio Psicología Clínica desde hace 28 años y me gradué con una especialización en Psicología Clínica, Organizacional y del Consumidor.
+                            <br />
+                            <br />
+                            Mi tema favorito es el AMOR PERFECTO y esto es lo que he encontrado respecto a ese amor: "Dios es amor... Donde hay amor no hay miedo. Al contrario, el amor perfecto echa fuera el miedo. Pues el miedo supone el castigo. Por eso, si alguien tiene miedo, es que no ha llegado a amar perfectamente." 1 Juan 4:7, 18 DHH
+                            <br />
+                            <br />
+                            Tengo el propósito de perdonarlo todo y amarlo todo; de ser consciente, de hallar mi ser resiliente, de despertar de tantas ilusiones que se refuerzan en el mundo como verdades.
+                            <br />
+                            <br />
+                            Quiero llegar a mirar al otro y a mí misma, más allá de la superficio. Busco la paz interior y la sigo. Me gusta la armonía, el silencio y la sencilléz en las formas. He dejado de valorar muchas cosas como ciertas o significativas. Me gusta sonreír y divertirme, sin ningún motivo en particular. Trabajo en dar lo que me gusta recibir.
+                        </p>
+                    </div>
+                    <div className="home__section-col2 scroll-item" style={{ width: '30%' }} >
+                        {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Mira dentro de tí</h2> */}
+                        <img src={ProfilePicture3} alt="Angela Sanguino" className="home__section-about-image" />
+                    </div>
+                </div>
+            </div>
+            : ''}
+
+        <div className="home__section-mission scroll-item"></div>
+        {renderMission ?
+            <div className="home__section" style={{ backgroundColor: '#B0BCEB', padding: 0 }}>
+                <div className="home__section-row" style={{ justifyContent: 'normal' }}>
+                    <div className="home__section-col1" style={{ width: '55%' }}>
+                        <img src={MissionImage} alt="Mision" className="home__section-mission-image" />
+                    </div>
+                    <div className="home__section-col2" style={{ width: '50%', textAlign: 'justify', padding: '2vw' }}>
+                        <h2 className="home__section-title scroll-item" style={{ animationDelay: '.4s', alignSelf: 'flex-start', color: '#fff' }}>Con una <strong>Misión</strong></h2>
+                        <p className="home__section-text scroll-item" style={{ animationDelay: '.8s' }}>
+                            Quiero promover una <i>psicología afectuosa y divergente</i>, cercana, de igual a igual, asequible en todos los sentidos, donde podamos sanar y expandirnos a través de la experience del ser libre.
+                            <br />
+                            <br />
+                            Busco disfrutar mi labor, vocación y propósito, y encontrar la manera de dignificar esta profesión y quienes la consultan.
+                        </p>
+                        <div className='scroll-item'>
+                            <Button
+                                label='Leer más'
+                                handleClick={() => history.push('/mision')}
+                                bgColor='#fff'
+                                style={{ marginTop: '4vw' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            : ''}
+
+        <div className="home__section-pres scroll-item"></div>
+        {renderPresentation ?
+            <div className="home__section" style={{ backgroundColor: '#fff' }}>
+                <div className="home__section-row">
+                    <div className="home__section-col1" style={{ width: '50%', textAlign: 'justify' }}>
+                        <h2 className="home__section-title scroll-item" style={{ animationDelay: '.1s', color: '#B0BCEB' }}>¿Estás en busca de un <strong>CAMBIO</strong>?</h2>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.1s', fontSize: '1.3vw' }}>
                             ¿Quieres superar tus temores, angustias, dependencias, estados depresivos?
                         </p>
-                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.3s', fontSize: '1.5vw' }}>
-                            ¿Estás listo para un cambio en la manera de ver lo que te sucede?
-                        </p>
-                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.5s', fontSize: '1.5vw' }}>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.5s', fontSize: '1.3vw' }}>
                             ¿Quieres redirigir y hacerte consciente de lo que haces?
                         </p>
-                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.7s', fontSize: '1.5vw' }}>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.7s', fontSize: '1.3vw' }}>
                             ¿Quieres experimentar Fortaleza Interior?
                         </p>
-                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.9s', fontSize: '1.5vw' }}>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.9s', fontSize: '1.3vw' }}>
                             ¿Quieres relacionarte sanamente?
                         </p>
-                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '1.5vw' }}>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '1.3vw' }}>
                             ¿Quieres conocerte a ti mismo?
                         </p>
                     </div>
-                    <div className="home__section-col2 scroll-item" style={{ width: '30%', animationDuration: '5s' }} >
+                    <div className="home__section-col2" style={{ width: '35%' }} >
                         {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Mira dentro de tí</h2> */}
                         <img src={PresentationImage} alt="Presentacion" className="home__section-pres-image" />
                     </div>
@@ -188,9 +248,9 @@ export default function Home({ }: Props) {
         <div className="home__section-symptoms scroll-item"></div>
         {renderSymptoms ?
             <div className="home__section" style={{ backgroundColor: '#fff9ea' }}>
-                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s', textAlign: 'left' }}>Síntomas de que podrías necesitar asesoría psicológica</h2>
-                <div className="home__section-row">
-                    <div className="home__section-col1" style={{ width: '60%', textAlign: 'justify' }}>
+                <h2 className="home__section-symptoms-title scroll-item" style={{ color: '#EBCE98' }}>SÍNTOMAS DE QUE PODRÍAS NECESITAR ASESORÍA PSICOLÓGICA</h2>
+                <div className="home__section-row" style={{ height: 'fit-content' }}>
+                    <div className="home__section-col1" style={{ width: '30%', textAlign: 'justify' }}>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
                             <ul>
                                 <li> Te cuesta dormir</li>
@@ -198,16 +258,8 @@ export default function Home({ }: Props) {
                                 <li> Sufres porque no tienes trabajo</li>
                                 <li> Abusas de personas, sustancias, juegos, actividades</li>
                                 <li> Lo que haces fracasa una y otra vez</li>
-                                <li> Tienes sensaciones desagradables: agitación, inquietud, sudor frío</li>
                                 <li> Tienes dificultad para controlar impulsos</li>
-                                <li> Tus personas cercanas están preocupadas por ti</li>
-                                <li> Tienes problemas para solucionar conflictos</li>
                                 <li> Piensas negativa o críticamente</li>
-                                <li> Solucionas mediante la ira o el aislamiento</li>
-                                <li> Explotas con facilidad</li>
-                                <li> Manipulas y coaccionas</li>
-                                <li> No disfrutas el día a día</li>
-                                <li> No te hace sentido la vida</li>
                             </ul>
                         </p>
                     </div>
@@ -215,38 +267,24 @@ export default function Home({ }: Props) {
                         {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Mira dentro de tí</h2> */}
                         <img src={SymptomsImage} alt="Ilustracion de síntomas" className="home__section-symptoms-image" />
                     </div>
-                </div>
-            </div>
-            : ''}
-
-        <div className="home__section-about scroll-item"></div>
-        {renderSectionAbout ?
-            <div className="home__section" style={{ backgroundColor: '#5ab3df6e' }}>
-                <div className="home__section-row">
-                    <div className="home__section-col1" style={{ width: '60%', textAlign: 'justify' }}>
-                        {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Descúbrete hoy</h2> */}
+                    <div className="home__section-col1" style={{ width: '30%', textAlign: 'justify' }}>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
-                            Me llamo Angela Sanguino y me gusta cuando me llaman de cariño “Angelita”.
-                            <br />
-                            Estudio Psicología Clínica desde hace 28 años y me gradué con una especialización en Psicología Clínica, Organizacional y del Consumidor.
-                            <br />
-                            Me he dedicado a explorar y estudiar técnicas y terapias dentro del marco de las Tres Corrientes Psicológicas existentes: Humanista, Psicodinámica y Comportamental.
-                            <br />
-                            Promuevo la resolución eficiente de conflictos y empodero al consultante en la renovación de su sistema de valores de manera que pueda redirigir el curso, plan y propósito de vida.
-                            <br />
-                            Sigo profundizando en diversos aportes terapéuticos y herramientas psicológicas para encontrar un modelo que satisfaga y colme la necesidad del consultante a sus inquietudes más profundas sin desperdiciar tiempo, energía, ni dinero.
+                            <ul>
+                                <li> Tus personas cercanas están preocupadas por ti</li>
+                                <li> Tienes problemas para solucionar conflictos</li>
+                                <li> Solucionas mediante la ira o el aislamiento</li>
+                                <li> Tienes sensaciones desagradables: agitación, inquietud, sudor frío</li>
+                                <li> Manipulas y coaccionas</li>
+                                <li> No disfrutas el día a día</li>
+                                <li> No te hace sentido la vida</li>
+                            </ul>
                         </p>
                     </div>
-                    <div className="home__section-col2 scroll-item" style={{ width: '30%' }} >
-                        {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Mira dentro de tí</h2> */}
-                        <img src={ProfilePicture2} alt="Angela Sanguino" className="home__section-about-image" />
-                    </div>
                 </div>
-                <h4 className='home__section-about-foot-text scroll-item'>Busco la paz interior y la sigo &nbsp;&nbsp;•&nbsp;&nbsp; Me gusta la armonía, el silencio y la sencillez en las formas &nbsp;&nbsp;•&nbsp;&nbsp; Me gusta sonreír y divertirme, sin ningún motivo en particular</h4>
             </div>
             : ''}
 
-        <div className="home__section" id='servicios' style={{ backgroundColor: '#fff0c7' }}>
+        <div className="home__section" id='servicios' style={{ backgroundColor: '#fff' }}>
             {service ?
                 <div className='home__modal-container'>
                     <h4 className="home__modal-close" onClick={() => {
@@ -273,8 +311,9 @@ export default function Home({ }: Props) {
                         style={{ textAlign: 'center' }}>
                         Servicios
                     </h2>
-                    <h2 className="home__section-subtitle scroll-item">
-                        Amor . Vocación . Interacción . Comprensión . Expansión
+                    <h2 className="home__section-subtitle scroll-item" style={{ fontSize: '1.3vw' }}>
+                        Sesiones grupales o individuales, en tiempo real, asistidas por una psicoterapeuta profesional que desde antes de conocerte
+                        ya te aprecia infinitamente y que te acompañará con su habitual taza de café.
                     </h2>
                     <div className="home__card-wrapper">
                         <ItemCard
