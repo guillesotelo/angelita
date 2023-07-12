@@ -15,6 +15,7 @@ import ProfilePicture from '../../assets/images/angela1.jpeg'
 import ProfilePicture2 from '../../assets/images/angela2.png'
 import ProfilePicture3 from '../../assets/images/angela3.png'
 import MissionImage from '../../assets/images/mission.png'
+import ToolsImage from '../../assets/images/tools.png'
 import ImageEvent1 from '../../assets/images/coffee/image30.png'
 import ImageEvent2 from '../../assets/images/coffee/image35.png'
 import ImageEvent3 from '../../assets/images/coffee/image24.png'
@@ -38,6 +39,7 @@ export default function Home({ }: Props) {
     const [renderSymptoms, setRenderSymptoms] = useState(false)
     const [renderProfesionYServicio, setRenderProfesionYServicio] = useState(false)
     const [renderServices, setRenderServices] = useState(false)
+    const [renderTools, setRenderTools] = useState(false)
     const [renderEvents, setRenderEvents] = useState(false)
     const [successCheckout, setSuccessCheckout] = useState(0)
     const [service, setService] = useState(0)
@@ -65,6 +67,7 @@ export default function Home({ }: Props) {
         setRenderPresentation(renderAll)
         setRenderMission(renderAll)
         setRenderSymptoms(renderAll)
+        setRenderTools(renderAll)
         setRenderSectionAbout(renderAll)
         setRenderProfesionYServicio(renderAll)
         setRenderEvents(renderAll)
@@ -117,8 +120,9 @@ export default function Home({ }: Props) {
                         if (item.classList.contains('home__section-mission')) setRenderMission(true)
                         if (item.classList.contains('home__section-pres')) setRenderPresentation(true)
                         if (item.classList.contains('home__section-symptoms')) setRenderSymptoms(true)
-                        if (item.classList.contains('home__thrapy-list')) setRenderServices(true)
+                        if (item.classList.contains('home__section-services')) setRenderServices(true)
                         if (item.classList.contains('home__section-prof')) setRenderProfesionYServicio(true)
+                        if (item.classList.contains('home__section-tools')) setRenderTools(true)
                         if (item.classList.contains('home__events')) setRenderEvents(true)
                         item.classList.remove('disappear')
                         item.classList.add('appear-down')
@@ -160,7 +164,7 @@ export default function Home({ }: Props) {
 
         <div className="home__section-about scroll-item"></div>
         {renderSectionAbout ?
-            <div className="home__section" style={{ backgroundColor: '#fff' }}>
+            <div className="home__section" style={{ backgroundColor: '#fff', filter: service ? 'blur(10px)' : '' }}>
                 <div className="home__section-row">
                     <div className="home__section-col1" style={{ width: '60%', textAlign: 'justify' }}>
                         <h2 className="home__section-title scroll-item" style={{ animationDelay: '.4s', alignSelf: 'flex-start', color: '#EBCE98' }}>Hola, soy <strong>Angelita</strong></h2>
@@ -189,7 +193,7 @@ export default function Home({ }: Props) {
 
         <div className="home__section-mission scroll-item"></div>
         {renderMission ?
-            <div className="home__section" style={{ backgroundColor: '#B0BCEB', padding: 0 }}>
+            <div className="home__section" style={{ backgroundColor: '#B0BCEB', padding: 0, filter: service ? 'blur(10px)' : '' }}>
                 <div className="home__section-row" style={{ justifyContent: 'normal' }}>
                     <div className="home__section-col1" style={{ width: '55%' }}>
                         <img src={MissionImage} alt="Mision" className="home__section-mission-image" />
@@ -215,11 +219,104 @@ export default function Home({ }: Props) {
             </div>
             : ''}
 
+        {service ?
+            <div className='home__modal-container'>
+                <h4 className="home__modal-close" onClick={() => {
+                    setService(0)
+                    setSubService(0)
+                    setSuccessCheckout(0)
+                }}>X</h4>
+                {!successCheckout ?
+                    <ServiceTemplates
+                        service={service}
+                        subService={subService}
+                        setSubService={setSubService}
+                        checkout={checkout}
+                    />
+                    : <StripePayment />}
+            </div >
+            : ''
+        }
+
+        <div className="home__section-services scroll-item"></div>
+        {renderServices ?
+            <div className="home__section" id='servicios' style={{ filter: service ? 'blur(10px)' : '' }}>
+                <h2 className="home__section-title scroll-item" style={{ alignSelf: 'flex-start', color: '#B0BCEB', fontSize: '3vw', margin: 0 }}>
+                    SERVICIOS
+                </h2>
+                <div className="home__section-row" style={{ height: 'fit-content' }}>
+                    <div className="home__section-col1" style={{ width: '30%' }}>
+                        <h2 className="home__section-subtitle scroll-item" style={{ fontSize: '1.4vw', textAlign: 'justify' }}>
+                            Sesiones grupales o individuales, en tiempo real, asistidas por una psicoterapeuta profesional que desde antes de conocerte
+                            ya te aprecia infinitamente y que te acompañará con su habitual taza de café.
+                        </h2>
+                    </div>
+                    <div className="home__section-col2" style={{ width: '65%' }}>
+                        <div className="home__card-wrapper" style={{ transform: 'scale(.75)' }}>
+                            <ItemCard
+                                image={Image1}
+                                title='Encuentros Grupales'
+                                // price='US $15'
+                                onClick={() => setService(1)}
+                                style={{ animationDelay: '.5s' }}
+                            />
+                            <ItemCard
+                                image={Image2}
+                                title='Psicoterapia en Grupo'
+                                // price='US $25'
+                                onClick={() => setService(2)}
+                                style={{ animationDelay: '.9s' }}
+                            />
+                            <ItemCard
+                                image={Image3}
+                                title='Psicoterapia Privada'
+                                // price='US $50'
+                                onClick={() => setService(3)}
+                                style={{ animationDelay: '1.2s' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            : ''}
+
+        <div className="home__section-prof scroll-item"></div>
+        {renderProfesionYServicio ?
+            <div className="home__section">
+                <div className="home__section-row" style={{ alignItems: 'center' }}>
+                    <div className="home__section-col1" style={{ textAlign: 'justify', width: '100%' }}>
+                        <h2 className="home__section-title scroll-item" style={{ animationDelay: '.3s', color: '#B0BCEB', fontSize: '2vw' }}>Amor. Vocación. Interacción. Comprensión. Expansión</h2>
+                        <p className="home__section-text scroll-item" style={{ animationDelay: '.4s', width: '90%' }}>
+                            Ofrezco asesoría psicológica profesional, afectuosa, pedagógica y práctica, enmarcada dentro del modelo humanista transpersonal, el cual ofrece un <i>escalonamiento en fuerza, poder y dominio mental</i> a medida que se deconstruye el autoconcepto e interpretaciones parciales y distorcionadas acerca de los demás, el mundo y sus elementos.
+                            <br />
+                            <br />
+                            Promuevo la <i>resolución eficiente de conflictos y empodero al consultante en la renovación de su sistema de valores</i> de manera que pueda redirigir el curso, plan y propósito de vida. La persona se extiende a la experiencia de sanidad y libertad una vez que encuentra su núcleo esencial o identidad libre.
+                            <br />
+                            <br />
+                            Para mí es un gusto asesorar y asistir en este proceso de descubrimiento y fortalecimiento psicológico, cuya natural disolución de causas inconscientes, acabarán con el desgaste emocional, físico y relacional innecesario. El resultado humanos adultos, conscientes, maduros y resilientes.
+                        </p>
+                        <div className='scroll-item'>
+                            <Button
+                                label='Leer más'
+                                handleClick={() => history.push('/profesion-servicio')}
+                                bgColor='#B0BCEB'
+                                textColor='#fff'
+                                style={{ marginTop: '4vw' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            : ''}
+
         <div className="home__section-pres scroll-item"></div>
         {renderPresentation ?
             <div className="home__section" style={{ backgroundColor: '#fff' }}>
                 <div className="home__section-row">
-                    <div className="home__section-col1" style={{ width: '50%', textAlign: 'justify' }}>
+                    <div className="home__section-col2" style={{ width: '30%' }} >
+                        <img src={PresentationImage} alt="Presentacion" className="home__section-pres-image" />
+                    </div>
+                    <div className="home__section-col1" style={{ width: '100%', textAlign: 'justify' }}>
                         <h2 className="home__section-title scroll-item" style={{ animationDelay: '.1s', color: '#B0BCEB' }}>¿Estás en busca de un <strong>CAMBIO</strong>?</h2>
                         <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.1s', fontSize: '1.3vw' }}>
                             ¿Quieres superar tus temores, angustias, dependencias, estados depresivos?
@@ -227,19 +324,15 @@ export default function Home({ }: Props) {
                         <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.5s', fontSize: '1.3vw' }}>
                             ¿Quieres redirigir y hacerte consciente de lo que haces?
                         </p>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '1.3vw' }}>
+                            ¿Quieres conocerte a ti mismo?
+                        </p>
                         <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.7s', fontSize: '1.3vw' }}>
                             ¿Quieres experimentar Fortaleza Interior?
                         </p>
                         <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.9s', fontSize: '1.3vw' }}>
                             ¿Quieres relacionarte sanamente?
                         </p>
-                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '1.3vw' }}>
-                            ¿Quieres conocerte a ti mismo?
-                        </p>
-                    </div>
-                    <div className="home__section-col2" style={{ width: '35%' }} >
-                        {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Mira dentro de tí</h2> */}
-                        <img src={PresentationImage} alt="Presentacion" className="home__section-pres-image" />
                     </div>
                 </div>
             </div>
@@ -247,7 +340,7 @@ export default function Home({ }: Props) {
 
         <div className="home__section-symptoms scroll-item"></div>
         {renderSymptoms ?
-            <div className="home__section" style={{ backgroundColor: '#fff9ea' }}>
+            <div className="home__section" style={{ backgroundColor: '#fff' }}>
                 <h2 className="home__section-symptoms-title scroll-item" style={{ color: '#EBCE98' }}>SÍNTOMAS DE QUE PODRÍAS NECESITAR ASESORÍA PSICOLÓGICA</h2>
                 <div className="home__section-row" style={{ height: 'fit-content' }}>
                     <div className="home__section-col1" style={{ width: '30%', textAlign: 'justify' }}>
@@ -284,101 +377,90 @@ export default function Home({ }: Props) {
             </div>
             : ''}
 
-        <div className="home__section" id='servicios' style={{ backgroundColor: '#fff' }}>
-            {service ?
-                <div className='home__modal-container'>
-                    <h4 className="home__modal-close" onClick={() => {
-                        setService(0)
-                        setSubService(0)
-                        setSuccessCheckout(0)
-                    }}>X</h4>
-                    {!successCheckout ?
-                        <ServiceTemplates
-                            service={service}
-                            subService={subService}
-                            setSubService={setSubService}
-                            checkout={checkout}
-                        />
-                        : <StripePayment />}
-                </div >
-                : ''
-            }
-
-            <div className="home__thrapy-list scroll-item"></div>
-            {renderServices ?
-                <div className="home__card-wrapper-container" style={{ filter: service ? 'blur(10px)' : '' }}>
-                    <h2 className="home__section-title scroll-item"
-                        style={{ textAlign: 'center' }}>
-                        Servicios
-                    </h2>
-                    <h2 className="home__section-subtitle scroll-item" style={{ fontSize: '1.3vw' }}>
-                        Sesiones grupales o individuales, en tiempo real, asistidas por una psicoterapeuta profesional que desde antes de conocerte
-                        ya te aprecia infinitamente y que te acompañará con su habitual taza de café.
-                    </h2>
-                    <div className="home__card-wrapper">
-                        <ItemCard
-                            image={Image1}
-                            title='Encuentros Grupales'
-                            // price='US $15'
-                            onClick={() => setService(1)}
-                            style={{ animationDelay: '.5s' }}
-                        />
-                        <ItemCard
-                            image={Image2}
-                            title='Psicoterapia en Grupo'
-                            // price='US $25'
-                            onClick={() => setService(2)}
-                            style={{ animationDelay: '.9s' }}
-                        />
-                        <ItemCard
-                            image={Image3}
-                            title='Psicoterapia Privada'
-                            // price='US $50'
-                            onClick={() => setService(3)}
-                            style={{ animationDelay: '1.2s' }}
-                        />
-                    </div>
-                </div>
-                : ''}
-        </div>
-
-
-        <div className="home__section-prof scroll-item"></div>
-        {renderProfesionYServicio ?
-            <div className="home__section">
-                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Profesión y Servicio</h2>
-                <div className="home__section-row" style={{ alignItems: 'flex-start' }}>
-                    <div className="home__section-col1" style={{ textAlign: 'justify' }}>
+        <div className="home__section-tools scroll-item"></div>
+        {renderTools ?
+            <div className="home__section" style={{ backgroundColor: '#fff' }}>
+                <div className="home__section-row" style={{ height: 'fit-content', alignItems: 'flex-start' }}>
+                    <div className="home__section-col1" style={{ width: '35%', alignItems: 'flex-start' }}>
+                        <h2 className="home__section-tools-title scroll-item" style={{ color: '#B0BCEB', alignSelf: 'flex-start' }}>Herramientas Terapéuticas</h2>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
-                            Me gradué con una especialización en Psicología Clínica, Organizacional y del Consumidor en el año 2000, con registro Profesional en Colombia (001565 FUKL).
+                            Entrenamiento autógeno en la Calma
                             <br />
-                            En lo sucesivo, he seguido profundizando en diversos aportes terapéuticos y herramientas psicológicas hasta encontrar un modelo que satisface y colma la necesidad del consultante a sus inquietudes más profundas, sin desperdiciar tiempo, energía, ni dinero.
+                            Divergencia
                             <br />
-                            Ofrezco asesoría psicológica profesional, afectuosa, comprometida, interactiva, práctica y expansiva.
+                            Regulación Emocional
                             <br />
-                            Como seres humanos percibimos experiencias inquietantes y desafiantes que si nos superan o nos llevan a estados de mucho dolor, temor o búsqueda de placer, revelan una alteración psicológica inconsciente, que es digna de comprender para hallar la solución y desarrollarte libre, dichoso y en paz.
+                            EMDR
+                            <br />
+                            EFT
+                            <br />
+                            Experiencia Somática
+                            <br />
+                            Hearth Math
+                            <br />
+                            Desensibilización hipnótica
+                            <br />
+                            Visualización
+                            <br />
+                            Test del Apego
+                            <br />
+                            Test de Temperamento
+                            <br />
+                            Análisis Transaccional
+                            <br />
+                            Técnicas estóicas
                         </p>
                     </div>
-                    <div className="home__section-col2" >
-                        <p className="home__section-text scroll-item" style={{ animationDelay: '.6s' }}>
-                            En mi comprensión actual, toda distorsión en la identidad propia y ajena, en el concepto del mundo y sus elementos, así como los conceptos de  existencia, propósito, relaciones, servicio y trascendencia, es la responsable del sufrimiento y desgaste inter e intra personal.
+                    <div className="home__section-col2 scroll-item" style={{ width: '30%', alignItems: 'flex-start', borderRight: '5vw solid #B0BCEB' }} >
+                        <h2 className="home__section-tools-title scroll-item" style={{ color: '#B0BCEB', alignSelf: 'flex-start' }}>Enfoque Terapéutico</h2>
+                        <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
+                            Terapia de Aceptación y Compromiso
                             <br />
-                            Para mí es un gusto asesorar y asistir en el proceso de descubrimiento y fortalecimiento psicológico del núcleo esencial o SER del consultante con el fin de que desde allí, él mismo, provoque a voluntad, la  disolución de la causa inconsciente de esos sentimientos, conductas y experiencias destructivas que ocasionan desgaste emocional, físico y relacional innecesario.
+                            Terapia Cognitivo - Conductual
                             <br />
-                            Promuevo la resolución eficiente de conflictos y  empodero al consultante en la renovación de su sistema de valores de manera que pueda redirigir el curso, plan y propósito de vida.
+                            Psiconeurobiología
+                            <br />
+                            Psicología Sistémica
+                            <br />
+                            Psicología Integrativa
+                            <br />
+                            Psicología del Desarrollo
                         </p>
+                        <img src={ToolsImage} alt="Ilustracion de síntomas" className="home__section-tools-image" />
+                    </div>
+                    <div className="home__section-col1" style={{ width: '20%' }}>
+                        <h2 className="home__section-tools-title scroll-item" style={{ color: '#B0BCEB', alignSelf: 'flex-start' }}>Metodología en Sesión</h2>
+                        <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
+                            1. Afecto
+                            <br />
+                            2. Formación
+                            <br />
+                            3. Reflexión
+                            <br />
+                            4. Interactividad
+                            <br />
+                            5. Práctica
+                        </p>
+                        <div className='scroll-item'>
+                            <Button
+                                label='Leer más'
+                                handleClick={() => history.push('/herramientas')}
+                                bgColor='#B0BCEB'
+                                textColor='#fff'
+                                style={{ marginTop: '4vw' }}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
             : ''}
 
-
         <div className="home__events scroll-item"></div>
         {renderEvents ?
             <div className="home__section" id='eventos' style={{ backgroundColor: '#c8cfec' }}>
-                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Eventos</h2>
                 <div className="home__section-row">
-                    <div className="home__section-col1" style={{ width: '40%', justifyContent: 'flex-start', textAlign: 'justify' }}>
+                    <div className="home__section-col1" style={{ width: '40%', textAlign: 'justify' }}>
+                        <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s', alignSelf: 'flex-start', margin: 0 }}>Eventos</h2>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
                             No te pierdas los próximos eventos donde podrás encontrar reuniones virtuales, talleres y encuentros grupales en distintos lugares.
                             <br />

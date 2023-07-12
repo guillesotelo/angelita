@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { CSSProperties, StyleHTMLAttributes } from 'react'
 import WhatsAppIcon from '../../assets/icons/whatsapp.svg'
 
 type Props = {
     phoneNumber: number
     message?: string
+    style?: CSSProperties
 }
 
-export default function WhatsAppButton({ phoneNumber, message }: Props) {
+export default function WhatsAppButton({ phoneNumber, message, style }: Props) {
 
     const parseMessage = (msg: string) => {
         if (msg) return encodeURIComponent(msg)
@@ -14,7 +15,7 @@ export default function WhatsAppButton({ phoneNumber, message }: Props) {
     }
 
     return (
-        <div className='whatsapp-btn__container'>
+        <div className='whatsapp-btn__container' style={style}>
             <a
                 aria-label="Chat on WhatsApp"
                 href={`https://wa.me/${phoneNumber}?text=${parseMessage(message || '')}`}
