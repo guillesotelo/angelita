@@ -14,12 +14,14 @@ import StripePayment from '../../components/Payment/StripePayment'
 import ProfilePicture from '../../assets/images/angela1.jpeg'
 import ProfilePicture2 from '../../assets/images/angela2.png'
 import ProfilePicture3 from '../../assets/images/angela3.png'
+import ProfilePicture4 from '../../assets/images/angela4.png'
 import MissionImage from '../../assets/images/mission.png'
 import ToolsImage from '../../assets/images/tools.png'
 import ImageEvent1 from '../../assets/images/coffee/image30.png'
 import ImageEvent2 from '../../assets/images/coffee/image35.png'
 import ImageEvent3 from '../../assets/images/coffee/image24.png'
 import AngelitaIsoLogo from '../../assets/logos/isologo.svg'
+import AngelitaLogo from '../../assets/logos/angelita_logo.png'
 import PresentationImage from '../../assets/images/presentation.png'
 import SymptomsImage from '../../assets/illustrations/symptoms.svg'
 import Calendar from 'react-calendar'
@@ -185,7 +187,7 @@ export default function Home({ }: Props) {
                     </div>
                     <div className="home__section-col2 scroll-item" style={{ width: '30%' }} >
                         {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Mira dentro de tí</h2> */}
-                        <img src={ProfilePicture3} alt="Angela Sanguino" className="home__section-about-image" />
+                        <img src={ProfilePicture4} alt="Angela Sanguino" className="home__section-about-image" />
                     </div>
                 </div>
             </div>
@@ -529,5 +531,11 @@ export default function Home({ }: Props) {
                 </div>
             </div>
             : ''}
+
+
+        <div className="home__section-logo" style={{ backgroundColor: '#fff' }}>
+            <img src={AngelitaLogo} alt="Angelita" className="home__section-logo-image" />
+        </div>
+
     </div>
 }
