@@ -16,4 +16,15 @@
         font-weight: normal;
         text-align: center;
     }
+
+    &__message {
+        font-size: 1.2vw;
+        font-weight: normal;
+        text-align: center;
+        margin: 0;
+        background-color: #ffeded;
+        padding: 1vw;
+        border-radius: .5vw;
+        border: 1px solid #ac0000;
+    }
 }

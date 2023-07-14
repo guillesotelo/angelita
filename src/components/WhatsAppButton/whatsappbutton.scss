@@ -8,6 +8,7 @@
         z-index: 1;
         transition: .5s;
         transform: translateX(200%);
+        z-index: 6;
 
         &:hover .whatsapp-btn__image {
             filter: invert(92%) sepia(20%) hue-rotate(324deg) brightness(102%) contrast(84%);

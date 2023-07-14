@@ -1,10 +1,10 @@
 .button {
     &__default {
         // margin: .5vw;
-        font-size: .9vw;
+        font-size: 1rem;
         background-color: #D3AFAF;
-        width: fit-content;
-        padding: .5vw;
+        width: 100%;
+        padding: .7rem .8rem;
         border-radius: .5vw;
         cursor: pointer;
         font-weight: normal;

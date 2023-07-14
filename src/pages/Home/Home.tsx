@@ -43,7 +43,7 @@ export default function Home({ }: Props) {
     const [renderServices, setRenderServices] = useState(false)
     const [renderTools, setRenderTools] = useState(false)
     const [renderEvents, setRenderEvents] = useState(false)
-    const [successCheckout, setSuccessCheckout] = useState(0)
+    const [checkout, setCheckout] = useState(0)
     const [service, setService] = useState(0)
     const [subService, setSubService] = useState(0)
     const [renderAll, setRenderAll] = useState(false)
@@ -74,6 +74,13 @@ export default function Home({ }: Props) {
         setRenderProfesionYServicio(renderAll)
         setRenderEvents(renderAll)
     }, [renderAll])
+
+    useEffect(() => {
+        if (service) {
+            const body = document.querySelector('body')
+            if (body) body.style.overflow = 'hidden'
+        }
+    }, [service])
 
     const scrollToSection = (section: string) => {
         if (setRenderAll) setRenderAll(true)
@@ -141,10 +148,6 @@ export default function Home({ }: Props) {
 
         activateScrollingBehaviour()
         activateHeaderPosition()
-    }
-
-    const checkout = (item: number) => {
-        setSuccessCheckout(item)
     }
 
     return <div className="home__container" id='home__container'>
@@ -222,20 +225,22 @@ export default function Home({ }: Props) {
             : ''}
 
         {service ?
-            <div className='home__modal-container'>
-                <h4 className="home__modal-close" onClick={() => {
-                    setService(0)
-                    setSubService(0)
-                    setSuccessCheckout(0)
-                }}>X</h4>
-                {!successCheckout ?
-                    <ServiceTemplates
-                        service={service}
-                        subService={subService}
-                        setSubService={setSubService}
-                        checkout={checkout}
-                    />
-                    : <StripePayment />}
+            <div className='home__modal-wrapper'>
+                <div className='home__modal-container'>
+                    <h4 className="home__modal-close" onClick={() => {
+                        setService(0)
+                        setSubService(0)
+                        setCheckout(0)
+                    }}>X</h4>
+                    {!checkout ?
+                        <ServiceTemplates
+                            service={service}
+                            subService={subService}
+                            setSubService={setSubService}
+                            checkout={(val) => setCheckout(val)}
+                        />
+                        : <StripePayment checkout={checkout} />}
+                </div >
             </div >
             : ''
         }

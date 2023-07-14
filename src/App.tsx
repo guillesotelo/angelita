@@ -10,6 +10,7 @@ import Contact from './pages/Contact/Contact';
 import Login from './pages/Login/Login';
 import Subscribe from './pages/Subscribe/Subscribe';
 import { AppProvider } from './AppContext';
+import SuccessPayment from './pages/SuccessPayment/SuccessPayment';
 
 const App: React.FC = () => {
   const preferedLang = localStorage.getItem('preferedLang')
@@ -60,11 +61,19 @@ const App: React.FC = () => {
             <Footer />
           </div>
         </Route>
-        
+
         <Route path="/subscribe">
           <div className='page__wrapper'>
             <Header />
             <Subscribe />
+            <Footer />
+          </div>
+        </Route>
+
+        <Route path="/successPayment">
+          <div className='page__wrapper'>
+            <Header />
+            <SuccessPayment />
             <Footer />
           </div>
         </Route>

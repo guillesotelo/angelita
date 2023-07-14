@@ -4,7 +4,8 @@
 @import '../pages/Contact/contact.scss';
 @import '../pages/Login/login.scss';
 @import '../pages/Subscribe/subscribe.scss';
-@import '../pages/Home/templates.scss';
+@import '../constants/templates/templates.scss';
+@import '../pages/SuccessPayment/successpayment.scss';
 
 .page {
     &__header {

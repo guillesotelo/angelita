@@ -1,0 +1,42 @@
+.success-payment {
+    &__container {
+        display: flex;
+        flex-direction: column;
+        margin: 16vh 3vw;
+        position: relative;
+        align-items: center;
+        gap: 3vw;
+    }
+
+    &__success-check {
+        height: 12vh;
+        filter: invert(59%) sepia(77%) saturate(357%) hue-rotate(73deg) brightness(99%) contrast(91%);
+    }
+
+    &__title {
+        font-weight: normal;
+        font-size: 2vw;
+        text-align: center;
+        margin: 0;
+    }
+
+    &__subtitle {
+        font-weight: normal;
+        font-size: 1.5vw;
+        margin: 0 0 1vw 0;
+    }
+
+    &__book {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid gray;
+        border-radius: .5vw;
+        padding: 2vw;
+        width: fit-content;
+
+        &-label {
+            margin: .3vw 0;
+            font-weight: normal;
+        }
+    }
+}

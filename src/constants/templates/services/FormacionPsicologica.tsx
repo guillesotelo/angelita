@@ -30,7 +30,7 @@ export default function FormacionPsicologica({ checkout }: Props) {
                     <div className="service-template__prices">
                         <h4 className="service-template__prices-text"><strong>US $60</strong></h4>
                     </div>
-                    <button className="service-template__btn" onClick={() => checkout(11)}>Reservar</button>
+                    <button className="service-template__btn" onClick={() => checkout(13)}>Reservar</button>
                 </div>
             </div>
         </div>
