@@ -302,9 +302,9 @@
             left: 50%;
             transform: translate(-50%, -50%);
             padding: 2vw;
-            overflow: hidden;
-            min-width: 55vw;
-            // min-height: 70vh;
+            overflow: auto;
+            max-width: 90vw;
+            max-height: 85vh;
         }
 
         &-close {

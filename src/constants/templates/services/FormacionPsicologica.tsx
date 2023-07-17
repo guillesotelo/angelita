@@ -28,7 +28,7 @@ export default function FormacionPsicologica({ checkout }: Props) {
                         Causas y efectos de las alteraciones psicológicas, Identidad, propósito, valores, regulación emocional, sentimientos y afectos, relacionamiento,  pareja, traumas, herramientas terapéuticas.
                     </p>
                     <div className="service-template__prices">
-                        <h4 className="service-template__prices-text"><strong>US $60</strong></h4>
+                        <h4 className="service-template__prices-text"><strong>US $50</strong></h4>
                     </div>
                     <button className="service-template__btn" onClick={() => checkout(13)}>Reservar</button>
                 </div>

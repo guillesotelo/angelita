@@ -47,7 +47,7 @@ export default function EncuentrosGrupales({ checkout, setSubService }: Props) {
                             <h4 className="service-template__subservice-open-hours">4 horas, 1er sábado del mes - 16 - 20 hs UTC/GMT+2 (Berlin)</h4>
                         </div>
                         <div className="service-template__subservice-price">
-                            <h4 className="service-template__subservice-price-text">US $60</h4>
+                            <h4 className="service-template__subservice-price-text">US $50</h4>
                         </div>
                     </div>
                     {/* <p className="service-template__body">

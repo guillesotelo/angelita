@@ -2,15 +2,54 @@
     &__container {
         display: flex;
         flex-direction: column;
-        gap: 2vw;
+        gap: 1.2rem;
+        width: 50vw;
     }
+
+    &__contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: .7rem;
+
+        &-row {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        &-title {
+            font-size: 1.2vw;
+            margin: 0;
+        }
+    }
+
     &__form {
         display: flex;
         flex-direction: column;
         // align-items: center;
-        gap: 2vw;
+        gap: 1vw;
         width: 100%;
     }
+
+    &__total-amount {
+        font-size: 2.5vw;
+        width: 100%;
+        color: #EBAA59;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 2vw;
+        align-items: flex-end;
+        margin: .2rem 1rem;
+    }
+
+    &__total-text {
+        font-size: 1.5vw;
+        margin: .2vw 0;
+    }
+
     &__loading-methods {
         font-size: 1.2vw;
         font-weight: normal;
@@ -22,9 +61,9 @@
         font-weight: normal;
         text-align: center;
         margin: 0;
-        background-color: #ffeded;
-        padding: 1vw;
+        background-color: #ffdede;
+        padding: .6rem;
         border-radius: .5vw;
-        border: 1px solid #ac0000;
+        border: 1px solid #dbb1b1;
     }
 }

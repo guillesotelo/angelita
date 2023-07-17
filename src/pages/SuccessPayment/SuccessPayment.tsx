@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { dataObj } from '../../types'
-import { SERVICES } from '../../constants/templates/services/services'
+import { SERVICES } from '../../constants/services'
 import CheckIcon from '../../assets/icons/check-icon.svg'
 import Button from '../../components/Button/Button'
 import { useHistory } from 'react-router-dom'
