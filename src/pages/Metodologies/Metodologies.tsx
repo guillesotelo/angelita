@@ -6,7 +6,7 @@ export default function Metodologies({ }: Props) {
     window.scrollTo({ top: 0, behavior: 'smooth' })
     return (
         <div className="page__container">
-            <h1 className="page__title">Metodolohgía en Sesión</h1>
+            <h1 className="page__title">Metodología en Sesión</h1>
             <p className="page__text">
                 <strong>Afecto - Formación – Reflexión - Interactividad – Práctica</strong>
             </p>

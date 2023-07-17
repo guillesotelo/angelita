@@ -45,58 +45,6 @@ export default function Profession({ }: Props) {
                 <br />
                 En definitiva hasta la fecha, me satisface profundamente la solución concisa, expansiva y liberadora  que ofrece el modelo Transpersonal a través del cual he podido direccionar personas en estados alterados, trastornados o enfermos, a una solución absoluta y radical que no tiene opuestos ni contradictorios y en cuyo encuentro solo hay fuerza, poder, paz, dicha y descanso que se puede sostener a voluntad en el tiempo.
             </p>
-            <br />
-            <br />
-            <table>
-                <tr>
-                    <th>ENFOQUE TERAPÉUTICO</th>
-                    <th>HERRAMIENTAS  TERAPÉUTICAS A DISPOSICIÓN</th>
-                </tr>
-                <tr>
-                    <td>
-                        <ul>
-                            <li>Terapia de Aceptación y Compromiso</li>
-                            <br />
-                            <li>Terapia Cognitivo - Conductual</li>
-                            <br />
-                            <li>Psiconeurobiología</li>
-                            <br />
-                            <li>Psicología  Sistémica</li>
-                            <br />
-                            <li>Psicología Integrativa</li>
-                            <br />
-                            <li>Psicología del Desarrollo</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <ul>
-                            <li>Entrenamiento autógeno en la Calma</li>
-                            <br />
-                            <li>Divergencia</li>
-                            <br />
-                            <li>Regulación Emocional</li>
-                            <br />
-                            <li>EMDR</li>
-                            <br />
-                            <li>EFT</li>
-                            <br />
-                            <li>Experiencia Somática</li>
-                            <br />
-                            <li>Hearth Math</li>
-                            <br />
-                            <li>Desensibilización hipnótica</li>
-                            <br />
-                            <li>Test del Apego</li>
-                            <br />
-                            <li>Test de Temperamento</li>
-                            <br />
-                            <li>Análisis Transaccional</li>
-                            <br />
-                            <li>Técnicas Estóicas</li>
-                        </ul>
-                    </td>
-                </tr>
-            </table>
         </div>
     )
 }
