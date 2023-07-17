@@ -50,6 +50,26 @@
         margin: .2vw 0;
     }
 
+    &__various-dates {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        &-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid lightgray;
+            border-radius: .5rem;
+            padding: 1rem;
+        }
+    }
+
+    &__date-col {
+        font-weight: normal;
+        margin: 0;
+    }
+
     &__loading-methods {
         font-size: 1.2vw;
         font-weight: normal;

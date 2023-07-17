@@ -141,31 +141,33 @@ function Payment({ checkout }: Props) {
                         <Elements stripe={stripePromise} options={{ clientSecret }}>
                             <PaymentForm checkout={checkout} data={data} updateInfo={updateInfo} />
                         </Elements>
-                        : ''}
-                    <div className="payment__contact-info-row">
-                        {openCalendar ?
-                            <Calendar
-                                locale='es'
-                                onChange={setDate}
-                                value={date}
-                                tileDisabled={tileDisabled}
-                            />
-                            : ''}
-                        <Button
-                            label={date ? getDate(date) : 'Seleccionar fecha'}
-                            handleClick={() => setOpenCalendar(true)}
-                            style={{ alignSelf: 'center' }}
-                            bgColor="#B0BCEB"
-                        />
-                        {SERVICES[checkout || -1]?.price !== 0 ? '' :
-                            <Button
-                                label='Anotarme'
-                                handleClick={reserveService}
-                                disabled={checkData()}
-                                style={{ alignSelf: 'center' }}
-                            />
-                        }
-                    </div>
+                        :
+                        <div className="payment__contact-info-row">
+                            {openCalendar ?
+                                <Calendar
+                                    locale='es'
+                                    onChange={setDate}
+                                    value={date}
+                                    tileDisabled={tileDisabled}
+                                />
+                                :
+                                <Button
+                                    label={date ? getDate(date) : 'Seleccionar fecha'}
+                                    handleClick={() => setOpenCalendar(true)}
+                                    style={{ alignSelf: 'center' }}
+                                    bgColor="#B0BCEB"
+                                />
+                            }
+                            {SERVICES[checkout || -1]?.price !== 0 ? '' :
+                                <Button
+                                    label='Anotarme'
+                                    handleClick={reserveService}
+                                    disabled={checkData()}
+                                    style={{ alignSelf: 'center' }}
+                                />
+                            }
+                        </div>
+                    }
                 </>
                 :
                 <h4 className="payment__loading-methods">Cargando medios de pago...</h4>

@@ -21,7 +21,9 @@ export default function CheckoutForm({ checkout, data, updateInfo }: Props) {
     const [discount, setDiscount] = useState<string>('')
     const [isProcessing, setIsProcessing] = useState(false)
     const [date, setDate] = useState<any>(null)
+    const [selectedDates, setSelectedDates] = useState<any>([])
     const [openCalendar, setOpenCalendar] = useState(false)
+    const [openCalendars, setOpenCalendars] = useState<dataObj>({})
     const stripe = useStripe()
     const elements = useElements()
 
@@ -32,6 +34,10 @@ export default function CheckoutForm({ checkout, data, updateInfo }: Props) {
     useEffect(() => {
         setOpenCalendar(false)
     }, [date])
+
+    useEffect(() => {
+        setOpenCalendars({})
+    }, [selectedDates])
 
     useEffect(() => {
         setTotal(getPrice())
@@ -99,7 +105,9 @@ export default function CheckoutForm({ checkout, data, updateInfo }: Props) {
     }
 
     const getDate = (date: Date) => {
-        return new Date(date).toLocaleDateString()
+        return Array.isArray(date) ?
+            date.map((d: Date) => new Date(d).toLocaleDateString()).join(', ') :
+            new Date(date).toLocaleDateString()
     }
 
     const tileDisabled: TileDisabledFunc = ({ activeStartDate, date, view }): boolean => {
@@ -122,6 +130,16 @@ export default function CheckoutForm({ checkout, data, updateInfo }: Props) {
         return firstDayOfMonth.getDay() === 6 && date.getDate() <= 7
     }
 
+    const handleDateChange = (value: any): void => {
+        if (value instanceof Date) {
+            const updatedDates = [...selectedDates]
+            const dateIndex = selectedDates.findIndex((d: any) => value.toDateString() === d.toDateString())
+            if (dateIndex > -1) updatedDates.splice(dateIndex, 1)
+            else updatedDates.push(value)
+            setSelectedDates(updatedDates)
+        }
+    }
+
     return (
         <div className="payment__form" >
             <h4 className="payment__contact-info-title">Información del pago</h4>
@@ -140,14 +158,38 @@ export default function CheckoutForm({ checkout, data, updateInfo }: Props) {
                         value={date}
                         tileDisabled={tileDisabled}
                     />
-                    :
-                    <Button
-                        label={date ? getDate(date) : 'Seleccionar fecha'}
-                        handleClick={() => setOpenCalendar(true)}
-                        bgColor="#B0BCEB"
-                    />
+                    : Number(quantity.split(' ')[0]) === 1 ?
+                        <Button
+                            label={date ? getDate(date) : 'Seleccionar fecha'}
+                            handleClick={() => setOpenCalendar(true)}
+                            bgColor="#B0BCEB"
+                        />
+                        : ''
                 }
                 <h1 className="payment__total-amount"><span className="payment__total-text">Total</span> ${total}</h1>
+            </div>
+            <div className="payment__various-dates">
+                {Number(quantity.split(' ')[0]) > 1 ?
+                    Array.from({ length: Number(quantity.split(' ')[0]) }).map((_, i) =>
+                        <div className="payment__various-dates-item">
+                            <h4 className="payment__date-col">Sesión {i + 1}</h4>
+                            {openCalendars[i] ?
+                                <Calendar
+                                    locale='es'
+                                    onChange={handleDateChange}
+                                    value={selectedDates[i]}
+                                    tileDisabled={tileDisabled}
+                                />
+                                :
+                                <Button
+                                    label={selectedDates[i] ? getDate(selectedDates[i]) : 'Seleccionar fecha'}
+                                    handleClick={() => setOpenCalendars({ ...openCalendars, [i]: true })}
+                                    bgColor="#B0BCEB"
+                                    style={{ width: 'fit-content' }}
+                                />
+                            }
+                        </div>)
+                    : ''}
             </div>
             <PaymentElement id="payment-element" />
             {message && <h4 className="payment__message">{message}</h4>}
