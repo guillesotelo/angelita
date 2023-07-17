@@ -13,6 +13,7 @@ export default function Subscribe({ }: Props) {
     const [data, setData] = useState({ email: '', fullname: '' })
     const history = useHistory()
     const { lang, isMobile } = useContext(AppContext)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
 
     const updateData = (key: string, e: { [key: string | number]: any }) => {
         const value = e.target.value

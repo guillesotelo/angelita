@@ -305,7 +305,7 @@ export default function Home({ }: Props) {
                         <div className='scroll-item'>
                             <Button
                                 label='Leer más'
-                                handleClick={() => history.push('/profesion-servicio')}
+                                handleClick={() => history.push('/profesion-y-servicio')}
                                 bgColor='#B0BCEB'
                                 textColor='#fff'
                                 style={{ marginTop: '4vw' }}
@@ -451,7 +451,7 @@ export default function Home({ }: Props) {
                         <div className='scroll-item'>
                             <Button
                                 label='Leer más'
-                                handleClick={() => history.push('/herramientas')}
+                                handleClick={() => history.push('/metodologias')}
                                 bgColor='#B0BCEB'
                                 textColor='#fff'
                                 style={{ marginTop: '4vw' }}

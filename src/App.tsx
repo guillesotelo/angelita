@@ -11,6 +11,9 @@ import Login from './pages/Login/Login';
 import Subscribe from './pages/Subscribe/Subscribe';
 import { AppProvider } from './AppContext';
 import SuccessPayment from './pages/SuccessPayment/SuccessPayment';
+import Mission from './pages/Mission/Mission';
+import Profession from './pages/Profession/Profession';
+import Metodologies from './pages/Metodologies/Metodologies';
 
 const App: React.FC = () => {
   const preferedLang = localStorage.getItem('preferedLang')
@@ -30,7 +33,7 @@ const App: React.FC = () => {
           </div>
         </Route>
 
-        <Route path="/privacyPolicy">
+        <Route path="/politicas-de-privacidad">
           <div className='page__wrapper'>
             <Header />
             <PrivacyPolicy />
@@ -38,7 +41,7 @@ const App: React.FC = () => {
           </div>
         </Route>
 
-        <Route path="/about">
+        <Route path="/sobre-mi">
           <div className='page__wrapper'>
             <Header />
             <About />
@@ -46,7 +49,7 @@ const App: React.FC = () => {
           </div>
         </Route>
 
-        <Route path="/contact">
+        <Route path="/contacto">
           <div className='page__wrapper'>
             <Header />
             <Contact />
@@ -62,10 +65,34 @@ const App: React.FC = () => {
           </div>
         </Route>
 
-        <Route path="/subscribe">
+        <Route path="/suscribirme">
           <div className='page__wrapper'>
             <Header />
             <Subscribe />
+            <Footer />
+          </div>
+        </Route>
+
+        <Route path="/mision">
+          <div className='page__wrapper'>
+            <Header />
+            <Mission />
+            <Footer />
+          </div>
+        </Route>
+
+        <Route path="/profesion-y-servicio">
+          <div className='page__wrapper'>
+            <Header />
+            <Profession />
+            <Footer />
+          </div>
+        </Route>
+
+        <Route path="/metodologias">
+          <div className='page__wrapper'>
+            <Header />
+            <Metodologies />
             <Footer />
           </div>
         </Route>

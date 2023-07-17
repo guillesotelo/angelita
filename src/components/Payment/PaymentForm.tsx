@@ -15,7 +15,7 @@ type Props = {
 }
 
 export default function CheckoutForm({ checkout, data, updateInfo }: Props) {
-    const [message, setMessage] = useState<string | null>('Error al pagar')
+    const [message, setMessage] = useState<string | null>('')
     const [quantity, setQuantity] = useState<string>('1 sesión')
     const [total, setTotal] = useState<string>('0')
     const [discount, setDiscount] = useState<string>('')
