@@ -259,7 +259,7 @@ export default function Home({ }: Props) {
                             Sesiones grupales o individuales, en tiempo real, asistidas por una psicoterapeuta profesional que desde antes de conocerte
                             ya te aprecia infinitamente y que te acompañará con su habitual taza de café.
                         </h2>
-                        <div className="home__card-wrapper" >
+                        <div className="home__card-wrapper" style={{ transform: 'scale(.9)' }}>
                             <ItemCard
                                 image={Image1}
                                 title='Encuentros Grupales'

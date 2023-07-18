@@ -24,7 +24,6 @@ export default function CheckoutForm({ checkout, data, updateInfo }: Props) {
     const [openCalendar, setOpenCalendar] = useState(false)
     const [dataOk, setDataOk] = useState(true)
     const [openCalendars, setOpenCalendars] = useState<dataObj>({})
-    const [paymentData, setPaymentData] = useState<dataObj>({})
 
     useEffect(() => {
         setQuantity(`1 sesión (${getHours(1)})`)
