@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&family=Montserrat&family=Open+Sans&family=PT+Serif&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&family=Montserrat&family=Open+Sans&family=PT+Serif&family=Belleza&display=swap');
 
 html {
   scroll-behavior: smooth;
@@ -10,6 +10,7 @@ body {
   font-family: 'PT Serif', serif;
   font-family: 'Fira Sans', sans-serif; */
   font-family: 'Open Sans', sans-serif;
+  /* font-family: 'Belleza', sans-serif; */
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

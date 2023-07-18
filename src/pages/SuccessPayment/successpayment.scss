@@ -5,6 +5,13 @@
         margin: 16vh 3vw;
         position: relative;
         align-items: center;
+    }
+
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        align-items: center;
         gap: 3vw;
     }
 

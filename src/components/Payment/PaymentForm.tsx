@@ -1,12 +1,11 @@
-import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { useEffect, useState } from "react"
 import Button from "../Button/Button"
 import { dataObj } from "../../types"
-import InputField from "../InputField/InputField"
 import Dropdown from "../Dropdown/Dropdown"
 import { SERVICES } from "../../constants/services"
 import { TileDisabledFunc } from "react-calendar/dist/cjs/shared/types"
 import Calendar from "react-calendar"
+import { createCheckoutSession } from "../../handlers"
 
 type Props = {
     checkout?: number
@@ -23,13 +22,17 @@ export default function CheckoutForm({ checkout, data, updateInfo }: Props) {
     const [date, setDate] = useState<any>(null)
     const [selectedDates, setSelectedDates] = useState<any>([])
     const [openCalendar, setOpenCalendar] = useState(false)
+    const [dataOk, setDataOk] = useState(true)
     const [openCalendars, setOpenCalendars] = useState<dataObj>({})
-    const stripe = useStripe()
-    const elements = useElements()
+    const [paymentData, setPaymentData] = useState<dataObj>({})
 
     useEffect(() => {
         setQuantity(`1 sesión (${getHours(1)})`)
     }, [])
+
+    useEffect(() => {
+        setDataOk(checkData())
+    }, [data, date, selectedDates])
 
     useEffect(() => {
         setOpenCalendar(false)
@@ -43,36 +46,40 @@ export default function CheckoutForm({ checkout, data, updateInfo }: Props) {
         setTotal(getPrice())
     }, [quantity])
 
-    const buyCart = async () => {
-        localStorage.setItem('checkout', String(checkout))
-        if (!stripe || !elements) {
-            // Stripe.js has not yet loaded.
-            // Make sure to disable form submission until Stripe.js has loaded.
-            return
-        }
-
+    const checkoutStripe = async () => {
         setIsProcessing(true)
-
-        const { error } = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                // Make sure to change this to your payment completion page
-                return_url: `${window.location.origin}/successPayment`,
-            },
-        })
-
-        if (error && (error.type === "card_error" || error.type === "validation_error")) {
-            setMessage(error.message || 'Ha ocurrido un error con el pago. Prueba nuevamente')
-        } else {
-            setMessage("Ha ocurrido un error inesperado. Prueba nuevamente.")
+        localStorage.setItem('checkout', String(checkout))
+        try {
+            await createCheckoutSession({
+                items: [{
+                    ...data,
+                    date,
+                    selectedDates,
+                    checkout,
+                    name: SERVICES[checkout || -1].name,
+                    quantity: Number(quantity.split(' ')[0]),
+                    priceInCents: Number(getPrice().replace('.', ''))
+                    // PASAR TODA LA DATA DEL SERVICIO CON PRECIO, CANTIDAD, NOMBRE CON CANTIDAD...
+                }]
+            })
+        } catch (err) {
+            console.error(err)
+            setMessage('Ha ocurrido un error. Inténtalo nuevamente.')
+        } finally {
+            setIsProcessing(false)
         }
-
-        setIsProcessing(false)
     }
 
     const checkData = () => {
-        if (isProcessing || !stripe || !elements || !data.name || !data.email) return true
+        const qty = Number(quantity.split(' ')[0])
+        console.log('data', data)
+        console.log('qty', qty)
+        console.log('date', date)
+        console.log('selectedDates', selectedDates)
+        if (isProcessing || !data.name || !data.email) return true
         if (data.name.split(' ').length < 2 || !data.email.includes('@') || !data.email.includes('.')) return true
+        if (Number(getPrice()) > 0 && !date) return true
+        if (qty > 1 && (!selectedDates.length || selectedDates.length !== qty)) return true
         return false
     }
 
@@ -157,6 +164,7 @@ export default function CheckoutForm({ checkout, data, updateInfo }: Props) {
                         onChange={setDate}
                         value={date}
                         tileDisabled={tileDisabled}
+                        className='react-calendar calendar-fixed'
                     />
                     : Number(quantity.split(' ')[0]) === 1 ?
                         <Button
@@ -171,7 +179,7 @@ export default function CheckoutForm({ checkout, data, updateInfo }: Props) {
             <div className="payment__various-dates">
                 {Number(quantity.split(' ')[0]) > 1 ?
                     Array.from({ length: Number(quantity.split(' ')[0]) }).map((_, i) =>
-                        <div className="payment__various-dates-item">
+                        <div key={i} className="payment__various-dates-item">
                             <h4 className="payment__date-col">Sesión {i + 1}</h4>
                             {openCalendars[i] ?
                                 <Calendar
@@ -179,6 +187,7 @@ export default function CheckoutForm({ checkout, data, updateInfo }: Props) {
                                     onChange={handleDateChange}
                                     value={selectedDates[i]}
                                     tileDisabled={tileDisabled}
+                                    className='react-calendar calendar-fixed'
                                 />
                                 :
                                 <Button
@@ -191,12 +200,11 @@ export default function CheckoutForm({ checkout, data, updateInfo }: Props) {
                         </div>)
                     : ''}
             </div>
-            <PaymentElement id="payment-element" />
             {message && <h4 className="payment__message">{message}</h4>}
             <Button
-                label={isProcessing ? "Procesando pago ..." : "Pagar ahora"}
-                handleClick={buyCart}
-                disabled={checkData()}
+                label='Pagar ahora'
+                handleClick={checkoutStripe}
+                disabled={dataOk}
                 style={{ alignSelf: 'center' }}
                 bgColor=""
             />

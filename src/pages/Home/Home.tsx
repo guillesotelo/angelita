@@ -41,6 +41,7 @@ export default function Home({ }: Props) {
     const [renderSymptoms, setRenderSymptoms] = useState(false)
     const [renderProfesionYServicio, setRenderProfesionYServicio] = useState(false)
     const [renderServices, setRenderServices] = useState(false)
+    const [renderDiscounts, setRenderDiscounts] = useState(false)
     const [renderTools, setRenderTools] = useState(false)
     const [renderEvents, setRenderEvents] = useState(false)
     const [checkout, setCheckout] = useState(0)
@@ -73,6 +74,7 @@ export default function Home({ }: Props) {
         setRenderSectionAbout(renderAll)
         setRenderProfesionYServicio(renderAll)
         setRenderEvents(renderAll)
+        setRenderDiscounts(renderAll)
     }, [renderAll])
 
     useEffect(() => {
@@ -99,10 +101,11 @@ export default function Home({ }: Props) {
                 const home = document.getElementById('home__container')
                 const wapp = document.querySelector('.whatsapp-btn__container') as HTMLElement
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+                const scrollHeight = document.documentElement.scrollHeight
 
                 if (header && home) {
                     scrollPosition = scrollPosition || header.offsetTop
-                    if (scrollTop > scrollPosition) {
+                    if (scrollTop > scrollPosition && scrollPosition + scrollTop + 100 < scrollHeight) {
                         home.style.marginTop = '9vh'
                         header.classList.add('header--fixed')
                         if (wapp) wapp.style.transform = 'translateX(0%)'
@@ -113,8 +116,6 @@ export default function Home({ }: Props) {
                         if (wapp) wapp.style.transform = 'translateX(200%)'
                     }
                 }
-
-
             })
         }
         const activateScrollingBehaviour = () => {
@@ -130,6 +131,7 @@ export default function Home({ }: Props) {
                         if (item.classList.contains('home__section-pres')) setRenderPresentation(true)
                         if (item.classList.contains('home__section-symptoms')) setRenderSymptoms(true)
                         if (item.classList.contains('home__section-services')) setRenderServices(true)
+                        if (item.classList.contains('home__section-discounts')) setRenderDiscounts(true)
                         if (item.classList.contains('home__section-prof')) setRenderProfesionYServicio(true)
                         if (item.classList.contains('home__section-tools')) setRenderTools(true)
                         if (item.classList.contains('home__events')) setRenderEvents(true)
@@ -169,10 +171,10 @@ export default function Home({ }: Props) {
 
         <div className="home__section-about scroll-item"></div>
         {renderSectionAbout ?
-            <div className="home__section" style={{ backgroundColor: '#fff', filter: service ? 'blur(10px)' : '' }}>
+            <div className="home__section" id='sobre-mi' style={{ backgroundColor: '#fff', filter: service ? 'blur(10px)' : '' }}>
                 <div className="home__section-row">
                     <div className="home__section-col1" style={{ width: '60%', textAlign: 'justify' }}>
-                        <h2 className="home__section-title scroll-item" style={{ animationDelay: '.4s', alignSelf: 'flex-start', color: '#EBCE98' }}>Hola, soy <strong>Angelita</strong></h2>
+                        <h2 className="home__section-title scroll-item" style={{ animationDelay: '.4s', alignSelf: 'flex-start', color: '#EBAA59' }}>Hola, soy <strong>Angelita</strong></h2>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.6s' }}>
                             Me llamo Angela Sanguino y me gusta cuando me llaman de cariño “Angelita”.
                             <br />
@@ -248,18 +250,16 @@ export default function Home({ }: Props) {
         <div className="home__section-services scroll-item"></div>
         {renderServices ?
             <div className="home__section" id='servicios' style={{ filter: service ? 'blur(10px)' : '' }}>
-                <h2 className="home__section-title scroll-item" style={{ alignSelf: 'flex-start', color: '#B0BCEB', fontSize: '3vw', margin: 0 }}>
+                <h2 className="home__section-title scroll-item" style={{ alignSelf: 'center', color: '#B0BCEB', fontSize: '3vw', margin: 0 }}>
                     SERVICIOS
                 </h2>
                 <div className="home__section-row" style={{ height: 'fit-content' }}>
-                    <div className="home__section-col1" style={{ width: '30%' }}>
-                        <h2 className="home__section-subtitle scroll-item" style={{ fontSize: '1.4vw', textAlign: 'justify' }}>
+                    <div className="home__section-col1" style={{ width: '100%' }}>
+                        <h2 className="home__section-subtitle scroll-item" style={{ fontSize: '1.4vw', textAlign: 'center' }}>
                             Sesiones grupales o individuales, en tiempo real, asistidas por una psicoterapeuta profesional que desde antes de conocerte
                             ya te aprecia infinitamente y que te acompañará con su habitual taza de café.
                         </h2>
-                    </div>
-                    <div className="home__section-col2" style={{ width: '65%' }}>
-                        <div className="home__card-wrapper" style={{ transform: 'scale(.75)' }}>
+                        <div className="home__card-wrapper" >
                             <ItemCard
                                 image={Image1}
                                 title='Encuentros Grupales'
@@ -287,12 +287,57 @@ export default function Home({ }: Props) {
             </div>
             : ''}
 
+        <div className="home__section-discounts scroll-item"></div>
+        {renderDiscounts ?
+            <div className="home__section">
+                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.3s', color: '#EBAA59', fontSize: '2.2vw', textAlign: 'center' }}>DESCUENTOS ESPECIALES</h2>
+                <div className="home__section-row" style={{ alignItems: 'center', height: '20%', margin: '2rem 0' }}>
+                    <div className="home__section-col1 scroll-item" style={{ textAlign: 'justify', boxShadow: '0 .5rem 1rem rgba(0, 0, 0, 0.417)', padding: '1.5rem', borderRadius: '1rem' }}>
+                        <p className="home__section-text" style={{ animationDelay: '.4s', textAlign: 'center', fontSize: '1.2rem' }}>
+                            <strong style={{ fontSize: '1.5rem' }}>20%</strong>
+                            <br />
+                            En todos los servicios a residentes en Sudamérica
+                        </p>
+                    </div>
+                    <div className="home__section-col1 scroll-item" style={{ textAlign: 'justify', boxShadow: '0 .5rem 1rem rgba(0, 0, 0, 0.417)', padding: '1.5rem', borderRadius: '1rem' }}>
+                        <p className="home__section-text" style={{ animationDelay: '.4s', textAlign: 'center', fontSize: '1.2rem' }}>
+                            <strong style={{ fontSize: '1.5rem' }}>10%</strong>
+                            <br />
+                            En paquetes de 4 a 6 sesiones consecutivas en cualquier servicio
+                        </p>
+                    </div>
+                </div>
+                <div className="home__section-row" style={{ alignItems: 'center', height: '20%' }}>
+                    <div className="home__section-col1 scroll-item" style={{ textAlign: 'justify', boxShadow: '0 .5rem 1rem rgba(0, 0, 0, 0.417)', padding: '1.5rem', borderRadius: '1rem' }}>
+                        <p className="home__section-text" style={{ animationDelay: '.4s', textAlign: 'center', fontSize: '1.2rem' }}>
+                            <strong style={{ fontSize: '1.5rem' }}>15%</strong>
+                            <br />
+                            En la primer compra de paquete de 4 a 6 sesiones consecutivas en cualquier servicio
+                        </p>
+                    </div>
+                    <div className="home__section-col1 scroll-item" style={{ textAlign: 'justify', boxShadow: '0 .5rem 1rem rgba(0, 0, 0, 0.417)', padding: '1.5rem', borderRadius: '1rem' }}>
+                        <p className="home__section-text" style={{ animationDelay: '.4s', textAlign: 'center', fontSize: '1.2rem' }}>
+                            <strong style={{ fontSize: '1.5rem' }}>Casos de Insolvencia</strong>
+                            <br />
+                            <Button
+                                label='Leer más'
+                                handleClick={() => history.push('/descuentos')}
+                                bgColor='#B0BCEB'
+                                textColor='#fff'
+                                style={{ marginTop: '1rem', width: 'fit-content' }}
+                            />
+                        </p>
+                    </div>
+                </div>
+            </div>
+            : ''}
+
         <div className="home__section-prof scroll-item"></div>
         {renderProfesionYServicio ?
             <div className="home__section">
                 <div className="home__section-row" style={{ alignItems: 'center' }}>
                     <div className="home__section-col1" style={{ textAlign: 'justify', width: '100%' }}>
-                        <h2 className="home__section-title scroll-item" style={{ animationDelay: '.3s', color: '#B0BCEB', fontSize: '2vw' }}>Amor. Vocación. Interacción. Comprensión. Expansión</h2>
+                        <h2 className="home__section-title scroll-item" style={{ animationDelay: '.3s', color: '#B0BCEB', fontSize: '2.2vw' }}>Amor. Vocación. Interacción. Comprensión. Expansión</h2>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.4s', width: '90%' }}>
                             Ofrezco asesoría psicológica profesional, afectuosa, pedagógica y práctica, enmarcada dentro del modelo humanista transpersonal, el cual ofrece un <i>escalonamiento en fuerza, poder y dominio mental</i> a medida que se deconstruye el autoconcepto e interpretaciones parciales y distorcionadas acerca de los demás, el mundo y sus elementos.
                             <br />
@@ -320,7 +365,7 @@ export default function Home({ }: Props) {
         {renderPresentation ?
             <div className="home__section" style={{ backgroundColor: '#fff' }}>
                 <div className="home__section-row">
-                    <div className="home__section-col2" style={{ width: '30%' }} >
+                    <div className="home__section-col2 scroll-item" style={{ width: '30%' }} >
                         <img src={PresentationImage} alt="Presentacion" className="home__section-pres-image" />
                     </div>
                     <div className="home__section-col1" style={{ width: '100%', textAlign: 'justify' }}>
@@ -348,36 +393,40 @@ export default function Home({ }: Props) {
         <div className="home__section-symptoms scroll-item"></div>
         {renderSymptoms ?
             <div className="home__section" style={{ backgroundColor: '#fff' }}>
-                <h2 className="home__section-symptoms-title scroll-item" style={{ color: '#EBCE98' }}>SÍNTOMAS DE QUE PODRÍAS NECESITAR ASESORÍA PSICOLÓGICA</h2>
-                <div className="home__section-row" style={{ height: 'fit-content' }}>
-                    <div className="home__section-col1" style={{ width: '30%', textAlign: 'justify' }}>
+                <h2 className="home__section-symptoms-title scroll-item" style={{ color: '#EBCE98', textAlign: 'center', fontSize: '1.6rem' }}>SÍNTOMAS DE QUE PODRÍAS NECESITAR ASESORÍA PSICOLÓGICA</h2>
+                <div className="home__section-row" style={{ height: 'fit-content', justifyContent: 'center', marginTop: '4rem' }}>
+                    <div className="home__section-col1" style={{ width: '45%', textAlign: 'justify' }}>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
-                            <ul>
-                                <li> Te cuesta dormir</li>
-                                <li> Sufres por una relación rota o por personas especiales para ti</li>
-                                <li> Sufres porque no tienes trabajo</li>
-                                <li> Abusas de personas, sustancias, juegos, actividades</li>
-                                <li> Lo que haces fracasa una y otra vez</li>
-                                <li> Tienes dificultad para controlar impulsos</li>
-                                <li> Piensas negativa o críticamente</li>
-                            </ul>
+                            Te cuesta dormir
+                            <br />
+                            Sufres por una relación rota o por personas especiales para ti
+                            <br />
+                            Sufres porque no tienes trabajo
+                            <br />
+                            Abusas de personas, sustancias, juegos, actividades
+                            <br />
+                            Lo que haces fracasa una y otra vez
+                            <br />
+                            Tienes dificultad para controlar impulsos
+                            <br />
+                            Piensas negativa o críticamente
                         </p>
                     </div>
-                    <div className="home__section-col2 scroll-item" style={{ width: '30%' }} >
-                        {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Mira dentro de tí</h2> */}
-                        <img src={SymptomsImage} alt="Ilustracion de síntomas" className="home__section-symptoms-image" />
-                    </div>
-                    <div className="home__section-col1" style={{ width: '30%', textAlign: 'justify' }}>
+                    <div className="home__section-col1" style={{ width: '45%', textAlign: 'justify' }}>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
-                            <ul>
-                                <li> Tus personas cercanas están preocupadas por ti</li>
-                                <li> Tienes problemas para solucionar conflictos</li>
-                                <li> Solucionas mediante la ira o el aislamiento</li>
-                                <li> Tienes sensaciones desagradables: agitación, inquietud, sudor frío</li>
-                                <li> Manipulas y coaccionas</li>
-                                <li> No disfrutas el día a día</li>
-                                <li> No te hace sentido la vida</li>
-                            </ul>
+                            Tus personas cercanas están preocupadas por ti
+                            <br />
+                            Tienes problemas para solucionar conflictos
+                            <br />
+                            Solucionas mediante la ira o el aislamiento
+                            <br />
+                            Tienes sensaciones desagradables: agitación, inquietud, sudor frío
+                            <br />
+                            Manipulas y coaccionas
+                            <br />
+                            No disfrutas el día a día
+                            <br />
+                            No te hace sentido la vida
                         </p>
                     </div>
                 </div>

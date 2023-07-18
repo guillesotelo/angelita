@@ -5,7 +5,6 @@ import './scss/app.scss'
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
-import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import Login from './pages/Login/Login';
 import Subscribe from './pages/Subscribe/Subscribe';
@@ -37,14 +36,6 @@ const App: React.FC = () => {
           <div className='page__wrapper'>
             <Header />
             <PrivacyPolicy />
-            <Footer />
-          </div>
-        </Route>
-
-        <Route path="/sobre-mi">
-          <div className='page__wrapper'>
-            <Header />
-            <About />
             <Footer />
           </div>
         </Route>

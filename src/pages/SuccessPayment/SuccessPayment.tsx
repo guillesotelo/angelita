@@ -36,19 +36,21 @@ export default function SuccessPayment({ }: Props) {
 
     return (
         <div className="success-payment__container">
-            <h4 className="success-payment__title">Gracias por tu compra!</h4>
-            <img alt="Compra exitosa" src={CheckIcon} className='success-payment__success-check' />
-            <div className="success-payment__book">
-                <h4 className="success-payment__subtitle">Información sobre tu reserva</h4>
-                <h4 className="success-payment__book-label">Servicio: <strong>{serviceInfo.name || ''}</strong></h4>
-                <h4 className="success-payment__book-label">Cuándo: <strong>xxxx/xx/xx xx:xx</strong></h4>
-            </div>
+            <div className='success-payment__wrapper'>
+                <h4 className="success-payment__title">Gracias por tu compra!</h4>
+                <img alt="Compra exitosa" src={CheckIcon} className='success-payment__success-check' />
+                <div className="success-payment__book">
+                    <h4 className="success-payment__subtitle">Información sobre tu reserva</h4>
+                    <h4 className="success-payment__book-label">Servicio: <strong>{serviceInfo.name || ''}</strong></h4>
+                    <h4 className="success-payment__book-label">Cuándo: <strong>xxxx/xx/xx xx:xx</strong></h4>
+                </div>
 
-            <Button
-                label='Volver'
-                handleClick={() => history.push('/')}
-                bgColor=""
-            />
+                <Button
+                    label='Volver'
+                    handleClick={() => history.push('/')}
+                    bgColor=""
+                />
+            </div>
         </div>
     )
 }
