@@ -78,9 +78,11 @@ export default function Home({ }: Props) {
     }, [renderAll])
 
     useEffect(() => {
+        const body = document.querySelector('body')
         if (service) {
-            const body = document.querySelector('body')
             if (body) body.style.overflow = 'hidden'
+        } else {
+            if (body) body.style.overflow = 'unset'
         }
     }, [service])
 
@@ -233,6 +235,7 @@ export default function Home({ }: Props) {
                         setService(0)
                         setSubService(0)
                         setCheckout(0)
+                        setTimeout(() => scrollToSection('servicios'), 100)
                     }}>X</h4>
                     {!checkout ?
                         <ServiceTemplates
