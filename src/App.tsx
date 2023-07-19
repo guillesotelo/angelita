@@ -13,6 +13,8 @@ import SuccessPayment from './pages/SuccessPayment/SuccessPayment';
 import Mission from './pages/Mission/Mission';
 import Profession from './pages/Profession/Profession';
 import Metodologies from './pages/Metodologies/Metodologies';
+import Discounts from './pages/Discounts/Discounts';
+import CheckoutError from './pages/CheckoutError/CheckoutError';
 
 const App: React.FC = () => {
   const preferedLang = localStorage.getItem('preferedLang')
@@ -88,10 +90,26 @@ const App: React.FC = () => {
           </div>
         </Route>
 
+        <Route path="/descuentos">
+          <div className='page__wrapper'>
+            <Header />
+            <Discounts />
+            <Footer />
+          </div>
+        </Route>
+
         <Route path="/successPayment">
           <div className='page__wrapper'>
             <Header />
             <SuccessPayment />
+            <Footer />
+          </div>
+        </Route>
+
+        <Route path="/checkoutError">
+          <div className='page__wrapper'>
+            <Header />
+            <CheckoutError />
             <Footer />
           </div>
         </Route>

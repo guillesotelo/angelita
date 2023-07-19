@@ -22,7 +22,7 @@ export default function EncuentrosGrupales({ checkout, setSubService }: Props) {
                             <h2 className="service-template__subservice-title">Mente Divina</h2>
                             <h3 className="service-template__subservice-subtitle">Fortalecimiento Psicológico</h3>
                             <h3 className="service-template__subservice-pacients">Pareja, relaciones, familia y más.</h3>
-                            <h4 className="service-template__subservice-open-hours">1 hora, miércoles - 18 hs UTC/GMT+2 (Berlin)</h4>
+                            <h4 className="service-template__subservice-open-hours">1 hora, martes - 16 hs UTC/GMT+2 (Berlin)</h4>
                         </div>
                         <div className="service-template__subservice-price">
                             <h4 className="service-template__subservice-price-text">US $15</h4>
@@ -33,7 +33,7 @@ export default function EncuentrosGrupales({ checkout, setSubService }: Props) {
                             <h2 className="service-template__subservice-title">Pedacito de Cielo</h2>
                             {/* <h3 className="service-template__subservice-subtitle"></h3> */}
                             <h3 className="service-template__subservice-pacients">Entendemos la psicología desde el discernimiento espiritual</h3>
-                            <h4 className="service-template__subservice-open-hours">2 horas, domingo - 16 hs UTC/GMT+2 (Berlin)</h4>
+                            <h4 className="service-template__subservice-open-hours">1 hora, miércoles - 16 hs UTC/GMT+2 (Berlin)</h4>
                         </div>
                         <div className="service-template__subservice-price">
                             <h4 className="service-template__subservice-price-text-voluntary">$<br />Aporte<br />voluntario</h4>
@@ -44,7 +44,7 @@ export default function EncuentrosGrupales({ checkout, setSubService }: Props) {
                             <h2 className="service-template__subservice-title">Formación Psicológica</h2>
                             <h3 className="service-template__subservice-subtitle">Taller mensual</h3>
                             {/* <h3 className="service-template__subservice-pacients"></h3> */}
-                            <h4 className="service-template__subservice-open-hours">4 horas, 1er sábado del mes - 16 - 20 hs UTC/GMT+2 (Berlin)</h4>
+                            <h4 className="service-template__subservice-open-hours">4 horas, 1er sábado del mes - 16 a 20 hs UTC/GMT+2 (Berlin)</h4>
                         </div>
                         <div className="service-template__subservice-price">
                             <h4 className="service-template__subservice-price-text">US $50</h4>

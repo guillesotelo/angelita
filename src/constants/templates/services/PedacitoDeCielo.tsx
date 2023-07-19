@@ -15,9 +15,9 @@ export default function PedacitoDeCielo({ checkout }: Props) {
                 <div className="service-template__col1">
                     <img src={Image1} alt="Charla Participativa" loading="lazy" className="service-template__image" />
                     <h4 className="service-template__open-hours">
-                        Domingo 16 hs UTC/GMT+2 (Berlin)
+                        Miércoles 16 hs UTC/GMT+2 (Berlin)
                         <br />
-                        Sesión de 2 horas
+                        Sesión de 1 hora
                     </h4>
                 </div>
                 <div className="service-template__col2">

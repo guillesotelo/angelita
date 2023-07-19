@@ -18,7 +18,7 @@ export default function Consejeria({ checkout }: Props) {
                 <div className="service-template__col2">
                     <h4 className="service-template__open-hours" style={{ margin: 0 }}>
                         <br />
-                        Lunes a jueves & sábados.
+                        Lunes a sábados.
                         <br />
                         Entre 11 - 19 hs UTC/GMT+2 (Berlin).
                     </h4>

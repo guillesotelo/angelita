@@ -20,6 +20,11 @@
         filter: invert(59%) sepia(77%) saturate(357%) hue-rotate(73deg) brightness(99%) contrast(91%);
     }
 
+    &__success-error {
+        height: 12vh;
+        filter: invert(15%) sepia(52%) saturate(5378%) hue-rotate(353deg) brightness(91%) contrast(96%);
+    }
+
     &__title {
         font-weight: normal;
         font-size: 2vw;

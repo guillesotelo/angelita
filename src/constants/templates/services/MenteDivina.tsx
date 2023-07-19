@@ -16,7 +16,7 @@ export default function MenteDivina({ checkout }: Props) {
                     <h4 className="service-template__open-hours">
                         Pareja, relaciones, familia y más
                         <br />
-                        Miércoles 18 hs UTC/GMT+2 (Berlin)
+                        Martes 16 hs UTC/GMT+2 (Berlin)
                         <br />
                         Sesión de 1 hora
                     </h4>

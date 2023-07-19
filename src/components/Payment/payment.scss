@@ -50,6 +50,14 @@
         margin: .2vw 0;
     }
 
+    &__btns {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+
     &__various-dates {
         display: flex;
         flex-wrap: wrap;

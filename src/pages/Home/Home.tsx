@@ -10,7 +10,7 @@ import ServiceTemplates from '../../constants/templates/ServiceTemplates'
 import Image1 from '../../assets/images/coffee/image14.png'
 import Image2 from '../../assets/images/coffee/image42.png'
 import Image3 from '../../assets/images/coffee/image9.png'
-import StripePayment from '../../components/Payment/StripePayment'
+import Payment from '../../components/Payment/Payment'
 import ProfilePicture from '../../assets/images/angela1.jpeg'
 import ProfilePicture2 from '../../assets/images/angela2.png'
 import ProfilePicture3 from '../../assets/images/angela3.png'
@@ -244,7 +244,7 @@ export default function Home({ }: Props) {
                             setSubService={setSubService}
                             checkout={(val) => setCheckout(val)}
                         />
-                        : <StripePayment checkout={checkout} />}
+                        : <Payment checkout={checkout} />}
                 </div >
             </div >
             : ''

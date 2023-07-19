@@ -16,9 +16,9 @@ export default function PsicoterapiaEnGrupo({ checkout, setSubService }: Props) 
                 <div className="service-template__col1">
                     <img src={Image2} alt="Consejería Virtual (sin continuidad)" loading="lazy" className="service-template__image" />
                     <h4 className="service-template__open-hours">
-                        Miércoles Y Sábado.
+                        Jueves Y Sábado.
                         <br />
-                        21 hs UTC/GMT+2 (Berlin). Sesión de 1 hora.
+                        16 hs UTC/GMT+2 (Berlin). Sesión de 1 hora.
                     </h4>
                 </div>
                 <div className="service-template__col2">
