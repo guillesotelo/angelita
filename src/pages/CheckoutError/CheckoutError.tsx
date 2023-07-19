@@ -36,9 +36,15 @@ export default function CheckoutError({ }: Props) {
 
     return (
         <div className="success-payment__container">
-            <div className='success-payment__wrapper'>
+            <div className='success-payment__wrapper' style={{ width: '40%' }}>
                 <h4 className="success-payment__title">Ocurrió un error al procesar la reserva</h4>
                 <img alt="Compra exitosa" src={ErrorIcon} className='success-payment__success-error' />
+                <p>
+                    Lamentablemente, no hemos podido procesar tu reserva y, por lo tanto, el pago no se ha realizado.
+                    <br />
+                    <br />
+                    Te recomendamos intentarlo nuevamente, y si el error persiste, por favor contáctame para que pueda ayudarte a resolverlo.
+                </p>
                 <Button
                     label='Volver'
                     handleClick={() => history.push('/')}
