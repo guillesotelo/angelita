@@ -59,25 +59,25 @@ function Payment({ checkout }: Props) {
         setIsProcessing(true)
         localStorage.setItem('checkout', String(checkout))
         const dates = selectedDates.length ? selectedDates : date
+
+        const paymentData = {
+            ...data,
+            date: getDate(dates),
+            rawData: SERVICES[checkout || -1],
+            selectedDates,
+            checkout,
+            name: getServiceData('name'),
+            quantity: 1, // We pass the total amount with discounts if any
+            realQty: getQuantity(),
+            realPrice: getPrice(),
+            priceInCents: Number(getPrice().replace('.', '')),
+            image: 'https://www.naturallydating.com/wp-content/uploads/2021/01/first-date-ideas-scaled.jpg',
+            description: getDescription(),
+            // PASAR TODA LA DATA DEL SERVICIO CON PRECIO, CANTIDAD, NOMBRE CON CANTIDAD...
+        }
+
         try {
-            await createCheckoutSession({
-                items: [{
-                    ...data,
-                    date: getDate(dates),
-                    rawData: SERVICES[checkout || -1],
-                    selectedDates,
-                    checkout,
-                    name: getServiceData('name'),
-                    quantity: 1, // We pass the total amount with discounts if any
-                    realQty: getQuantity(),
-                    realPrice: getPrice(),
-                    priceInCents: Number(getPrice().replace('.', '')),
-                    image: 'https://www.naturallydating.com/wp-content/uploads/2021/01/first-date-ideas-scaled.jpg',
-                    description: getDescription(),
-                    // PASAR TODA LA DATA DEL SERVICIO CON PRECIO, CANTIDAD, NOMBRE CON CANTIDAD...
-                }],
-                locale: 'es'
-            })
+            await createCheckoutSession({ items: [paymentData], locale: 'es' })
         } catch (err) {
             console.error(err)
             setMessage('Ha ocurrido un error. Inténtalo nuevamente.')
@@ -97,7 +97,7 @@ function Payment({ checkout }: Props) {
             const dsc = Number(discount.split('=')[1].replace('%', ''))
             return `Descuento del ${100 - dsc}% desde la segunda sesión consecutiva - Precio ordinario: $${price}.00`
         }
-        return ''
+        return 'Precio sin descuento'
     }
 
     const getQuantity = () => {

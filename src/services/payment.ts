@@ -25,7 +25,15 @@ const createPayment = async (data: { [key: string | number]: any }) => {
     } catch (error) { console.error(error) }
 }
 
+const confirmPayment = async (_id: string) => {
+    try {
+        const res = await axios.post(`${API_URL}/api/payment/confirmPayment`, { _id })
+        return res.data
+    } catch (error) { console.error(error) }
+}
+
 export {
     getPublicKey,
-    createPayment
+    createPayment,
+    confirmPayment
 }

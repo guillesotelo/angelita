@@ -7,6 +7,7 @@ import {
 import {
     getPublicKey,
     createPayment,
+    confirmPayment,
 } from './payment'
 
 export {
@@ -15,4 +16,5 @@ export {
     updateUser,
     getPublicKey,
     createPayment,
+    confirmPayment,
 }
