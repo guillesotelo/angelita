@@ -5,7 +5,7 @@ import Dropdown from "../Dropdown/Dropdown"
 import { SERVICES } from "../../constants/services"
 import { TileDisabledFunc } from "react-calendar/dist/cjs/shared/types"
 import Calendar from "react-calendar"
-import { createCheckoutSession } from "../../handlers"
+import { createCheckoutSession } from "../../services/"
 import InputField from "../InputField/InputField"
 
 type Props = {

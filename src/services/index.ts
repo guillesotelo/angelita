@@ -8,6 +8,7 @@ import {
     getPublicKey,
     createPayment,
     confirmPayment,
+    createCheckoutSession,
 } from './payment'
 
 export {
@@ -17,4 +18,5 @@ export {
     getPublicKey,
     createPayment,
     confirmPayment,
+    createCheckoutSession,
 }
