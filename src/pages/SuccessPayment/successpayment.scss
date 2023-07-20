@@ -2,7 +2,7 @@
     &__container {
         display: flex;
         flex-direction: column;
-        margin: 16vh 3vw;
+        margin: 16vh 3vw 25vh 3vw;
         position: relative;
         align-items: center;
     }
@@ -13,6 +13,7 @@
         position: relative;
         align-items: center;
         gap: 3vw;
+        width: 40%;
     }
 
     &__success-check {
@@ -44,11 +45,11 @@
         border: 1px solid gray;
         border-radius: .5vw;
         padding: 2vw;
-        width: fit-content;
 
         &-label {
             margin: .3vw 0;
             font-weight: normal;
+            font-size: 1.2rem;
         }
     }
 }

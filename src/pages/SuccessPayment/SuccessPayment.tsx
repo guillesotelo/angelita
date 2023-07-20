@@ -9,37 +9,26 @@ import { confirmPayment } from '../../services'
 type Props = {}
 
 export default function SuccessPayment({ }: Props) {
-    const [checkout, setCheckout] = useState<number>(-1)
     const [paymentInfo, setPaymentInfo] = useState<dataObj>({})
-    const [serviceInfo, setServiceInfo] = useState<dataObj>({})
     const [message, setMessage] = useState<string | null>('')
     const history = useHistory()
 
+    console.log('paymentInfo', paymentInfo)
+
     useEffect(() => {
-        const payment_intent = new URLSearchParams(document.location.search).get('payment_intent')
-        const payment_intent_client_secret = new URLSearchParams(document.location.search).get('payment_intent_client_secret')
-        const redirect_status = new URLSearchParams(document.location.search).get('redirect_status')
         const orderId = new URLSearchParams(document.location.search).get('orderId')
-        const _checkout = localStorage.getItem('checkout') || ''
 
-        setPaymentInfo({
-            payment_intent,
-            payment_intent_client_secret,
-            redirect_status
-        })
+        if (!orderId) history.push('/')
+        else confirmCurrentPayment(String(orderId))
 
-        if (!orderId || !_checkout) history.push('/')
-        else {
-            setCheckout(parseInt(_checkout))
-            setServiceInfo(getService(_checkout))
-            confirmCurrentPayment(orderId)
-        }
         localStorage.clear()
     }, [])
 
     const confirmCurrentPayment = async (id: string) => {
         const confirmed = await confirmPayment(id)
-        if(!confirmed) setMessage('Recibimos tu pago, pero no pudimos enviar la confirmación. Ponte en contacto conmigo para confirmar tu reserva.')
+        console.log('confirmed', confirmed)
+        if (!confirmed) return setMessage('Recibimos tu pago, pero no pudimos enviar la confirmación. Ponte en contacto conmigo para confirmar tu reserva.')
+        setPaymentInfo(confirmed)
     }
 
     const getService = (service: number | string, key?: string | number) => {
@@ -58,15 +47,16 @@ export default function SuccessPayment({ }: Props) {
                     <h4 className="success-payment__book-label">Cuándo: <strong>{paymentInfo.date}</strong></h4>
                     <br />
                     <h4 className="success-payment__book-label">Total: <strong>US ${paymentInfo.realPrice}</strong></h4>
+                    <br />
+                    {message ? <h4 className="payment__message">{message}</h4>
+                        :
+                        <p>
+                            Hemos enviado un correo electrónico con todos los detalles sobre tu reserva y pago.
+                            <br />
+                            Si necesitas aclarar algo o tienes alguna consulta, por favor no dudes en contactarme. Estoy aquí para ayudarte en todo lo que necesites.
+                        </p>}
                 </div>
 
-                {message ? <h4 className="payment__message">{message}</h4>
-:
-                <p>
-                    Hemos enviado un correo electrónico con todos los detalles sobre tu reserva y pago.
-                    <br />
-                    Si necesitas aclarar algo o tienes alguna consulta, por favor no dudes en contactarme. Estoy aquí para ayudarte en todo lo que necesites.
-                </p>}
 
                 <Button
                     label='Volver'

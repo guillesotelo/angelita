@@ -30,7 +30,7 @@ const createCheckoutSession = async (data: dataObj) => {
     axios.post(`${API_URL}/api/payment/create-checkout-session`, data, getConfig())
         .then((response) => {
             const { url } = response.data
-            window.location.href = url
+            window.location.href = url || 'https://angelita.vercel.app/checkoutError'
         })
         .catch((error) => {
             console.error(error)
@@ -39,7 +39,7 @@ const createCheckoutSession = async (data: dataObj) => {
 
 const confirmPayment = async (_id: string) => {
     try {
-        const res = await axios.post(`${API_URL}/api/payment/confirmPayment`, { _id })
+        const res = await axios.post(`${API_URL}/api/payment/confirmPayment`, { _id }, getConfig())
         return res.data
     } catch (error) { console.error(error) }
 }
