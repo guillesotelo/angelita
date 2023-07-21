@@ -1,7 +1,7 @@
 import {
     loginUser,
     registerUser,
-    updateUser
+    updateUser,
 } from './user'
 
 import {
@@ -11,6 +11,14 @@ import {
     createCheckoutSession,
 } from './payment'
 
+import {
+    getAllBookings,
+    createBooking,
+    getBookingById,
+    updateBooking,
+    deleteBooking,
+} from './booking'
+
 export {
     loginUser,
     registerUser,
@@ -19,4 +27,9 @@ export {
     createPayment,
     confirmPayment,
     createCheckoutSession,
+    getAllBookings,
+    createBooking,
+    getBookingById,
+    updateBooking,
+    deleteBooking,
 }

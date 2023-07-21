@@ -1,4 +1,15 @@
 .inputfield {
+    &__container {
+        width: 100%;
+    }
+
+    &__label {
+        margin: 0 0 .5vh 0;
+        font-size: .8rem;
+        font-weight: normal;
+        width: 100%;
+    }
+
     &__default {
         border: 1px solid lightgray;
         border-radius: .5vw;

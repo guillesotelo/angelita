@@ -15,6 +15,7 @@ import Profession from './pages/Profession/Profession';
 import Metodologies from './pages/Metodologies/Metodologies';
 import Discounts from './pages/Discounts/Discounts';
 import CheckoutError from './pages/CheckoutError/CheckoutError';
+import Booking from './pages/Booking/Booking';
 
 const App: React.FC = () => {
   const preferedLang = localStorage.getItem('preferedLang')
@@ -110,6 +111,14 @@ const App: React.FC = () => {
           <div className='page__wrapper'>
             <Header />
             <CheckoutError />
+            <Footer />
+          </div>
+        </Route>
+
+        <Route path="/booking">
+          <div className='page__wrapper'>
+            <Header />
+            <Booking />
             <Footer />
           </div>
         </Route>
