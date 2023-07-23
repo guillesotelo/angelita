@@ -8,16 +8,21 @@
         font-size: .8rem;
         font-weight: normal;
         width: 100%;
+        color: #696869;
     }
 
     &__default {
         border: 1px solid lightgray;
-        border-radius: .5vw;
-        font-size: 1.2vw;
-        padding: .5vw .7vw;
-        font-weight: normal;
         font-family: 'Open Sans', sans-serif;
-        width: 100%;
+        width: -webkit-fill-available;
+
+        margin: 0;
+        font-size: 1rem;
+        border-radius: 0.5rem;
+        min-height: 1.3rem;
+        width: -webkit-fill-available;
+        font-weight: normal;
+        padding: 0.5rem;
 
         &:focus {
             border: 1px solid #EBAA59;

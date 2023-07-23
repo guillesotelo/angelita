@@ -7,6 +7,10 @@ import { deleteBooking, getAllBookings, updateBooking } from '../../services'
 import InputField from '../../components/InputField/InputField'
 import Button from '../../components/Button/Button'
 import { toast } from 'react-hot-toast'
+import Dropdown from '../../components/Dropdown/Dropdown'
+import { SERVICES } from '../../constants/services'
+import Calendar from 'react-calendar'
+import { TileDisabledFunc } from 'react-calendar/dist/cjs/shared/types'
 
 type Props = {}
 
@@ -14,21 +18,82 @@ export default function Booking({ }: Props) {
     const [bookings, setBookings] = useState<dataObj[]>([])
     const [selected, setSelected] = useState<number>(-1)
     const [data, setData] = useState<dataObj>({})
+    const [loading, setLoading] = useState<boolean>(false)
     const [tryToRemove, setTryToRemove] = useState<boolean>(false)
+    const [isNew, setIsNew] = useState<boolean>(false)
+    const [isPaid, setIsPaid] = useState<string>('')
+    const [serviceSelected, setServiceSelected] = useState<dataObj>({})
+    const [discount, setDiscount] = useState<string>('')
+    const [quantity, setQuantity] = useState<string>('1 sesión')
+    const [totalPrice, setTotalPrice] = useState<string>('')
+    const [openCalendar, setOpenCalendar] = useState(false)
+    const [openCalendars, setOpenCalendars] = useState<dataObj>({})
+    const [date, setDate] = useState<any>(null)
+    const [selectedDates, setSelectedDates] = useState<any>([])
+    const [selectedTime, setSelectedTime] = useState<any>(null)
     const history = useHistory()
+
+    console.log('data', data)
 
     useEffect(() => {
         getBookings()
     }, [])
 
     useEffect(() => {
-        if (selected !== -1) setData(bookings[selected])
+        if (selected !== -1) {
+            setData(bookings[selected])
+            setServiceSelected(bookings[selected])
+            setDate(bookings[selected].dateObject ? JSON.parse(bookings[selected].dateObject) : null)
+            setSelectedDates(bookings[selected].dateObjects ? JSON.parse(bookings[selected].dateObjects) : [])
+        }
     }, [selected])
 
+    useEffect(() => {
+        setTotalPrice(getPrice())
+    }, [serviceSelected, quantity])
+
+    useEffect(() => {
+        if (isNew) setData(serviceSelected)
+    }, [serviceSelected])
+
+    useEffect(() => {
+        setOpenCalendar(false)
+    }, [date])
+
+    useEffect(() => {
+        setOpenCalendars({})
+    }, [selectedDates])
+
+    useEffect(() => {
+        const body = document.querySelector('body')
+        const header = document.querySelector('.header__container') as HTMLElement
+        if (selected !== -1) {
+            if (body) body.classList.add('overflow-hidden')
+            if (header) header.style.filter = 'blur(10px)'
+        } else {
+            if (body) body.classList.remove('overflow-hidden')
+            if (header) header.style.filter = 'unset'
+        }
+    }, [selected])
 
     const getBookings = async () => {
-        const _bookings = await getAllBookings()
-        if (_bookings && _bookings.length) setBookings(_bookings)
+        setLoading(true)
+        try {
+            const _bookings = await getAllBookings()
+            if (_bookings && _bookings.length) setBookings(_bookings)
+            setLoading(false)
+        } catch (error) {
+            console.error(error)
+            setLoading(false)
+        }
+    }
+
+    const getAllServices = () => {
+        const services: dataObj[] = []
+        Object.keys(SERVICES).forEach(index => {
+            if (String(index).length > 1) services.push(SERVICES[index])
+        })
+        return services
     }
 
     const updateData = (key: string, e: { [key: string | number]: any }) => {
@@ -38,50 +103,177 @@ export default function Booking({ }: Props) {
 
     const discardChanges = () => {
         setSelected(-1)
-        setData({})
+        setData({ ...{} })
         setTryToRemove(false)
+        setIsNew(false)
+        setQuantity('1 sesión')
+        setTotalPrice('')
+        setIsPaid('')
+        setDiscount('')
+        setOpenCalendar(false)
+        setOpenCalendars({ ...{} })
+        setDate(null)
+        setSelectedDates({ ...{} })
     }
 
     const saveChanges = async () => {
+        setLoading(true)
         try {
             const updated = await updateBooking(data)
             if (updated) {
                 toast.success('Cambios guardados')
                 discardChanges()
+                setLoading(false)
                 return getBookings()
             }
             toast.error('Ocurrió un error al guardar')
+            setLoading(false)
         } catch (err) {
             toast.error('Ocurrió un error al guardar')
             console.error(err)
+            setLoading(false)
         }
     }
 
     const removeBooking = async () => {
+        setLoading(true)
         try {
             const updated = await deleteBooking(data)
             if (updated) {
                 toast.success('Reserva eliminada')
                 discardChanges()
+                setLoading(false)
                 return getBookings()
             }
             toast.error('Ocurrió un error al guardar los cambios')
+            setLoading(false)
         } catch (err) {
             toast.error('Ocurrió un error al guardar los cambios')
             console.error(err)
+            setLoading(false)
         }
     }
     const onTryToRemove = () => setTryToRemove(true)
 
+    const createBooking = () => {
+        const _bookings = [...bookings].concat({})
+        setBookings(_bookings)
+        setSelected(_bookings.length - 1)
+        setIsNew(true)
+    }
+
+    const getQuantityOptions = () => {
+        return Array.from({ length: 20 })
+            .map((_, i) => i === 0 ?
+                `${i + 1} sesión (${getHours(i + 1)})` :
+                `${i + 1} sesiones (${getHours(i + 1)}) ${discount}`)
+    }
+
+    const getHours = (session: number) => {
+        return getServiceData('duration') * session > 1 ?
+            `${getServiceData('duration') * session} horas` :
+            `${session} hora`
+    }
+
+    const getServiceData = (data: string | number) => {
+        return serviceSelected[data]
+    }
+
+    const getPrice = () => {
+        if (serviceSelected.price) {
+            const { price, discount } = serviceSelected
+            const hours = getQuantity()
+            if (discount) {
+                if (discount == '>2=70%') {
+                    setDiscount('30% OFF')
+                    const hasDiscount = hours > 1
+                    return hasDiscount ?
+                        (price * .7 * hours).toFixed(2) :
+                        (price * hours).toFixed(2)
+                }
+            }
+            return (price * hours).toFixed(2)
+        }
+        return ''
+    }
+
+    const getQuantity = () => {
+        return Number(quantity.split(' ')[0]) || 1
+    }
+
+    const tileDisabled: TileDisabledFunc = ({ activeStartDate, date, view }): boolean => {
+        const day = date.getDay()
+        const today = new Date()
+        const isTodayOrBefore = date <= today
+        const serviceDay = getServiceData('day') || ''
+        if (serviceDay) {
+            if (serviceDay === 'Martes') return day !== 2 || isTodayOrBefore
+            if (serviceDay === 'Miércoles') return day !== 3 || isTodayOrBefore
+            if (serviceDay === '1er sábado del mes') return !isFirstSaturdayOfMonth(date) || isTodayOrBefore
+            if (serviceDay === 'Lunes a sábados') return day !== 0 || isTodayOrBefore
+            if (serviceDay === 'Jueves y sábados') return day !== 4 && day !== 6 || isTodayOrBefore
+        }
+        return false
+    }
+
+    const isFirstSaturdayOfMonth = (date: Date) => {
+        const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1)
+        return firstDayOfMonth.getDay() === 6 && date.getDate() <= 7
+    }
+
+    const getDate = (date: Date) => {
+        return Array.isArray(date) ?
+            date.map((d: Date) => new Date(d).toLocaleDateString("es-ES")).join(', ') :
+            new Date(date).toLocaleDateString("es-ES")
+    }
+
+    const handleDateChange = (value: any): void => {
+        if (value instanceof Date) {
+            const updatedDates = [...selectedDates]
+            const dateIndex = selectedDates.findIndex((d: any) => value.toDateString() === d.toDateString())
+            if (dateIndex > -1) updatedDates.splice(dateIndex, 1)
+            else updatedDates.push(value)
+            setSelectedDates(updatedDates)
+        }
+    }
+
+    const getBookinSlots = (date: Date) => {
+        const timeSlots = []
+        const startTime = new Date(date)
+        const endTime = new Date(date)
+        startTime.setHours(9, 0, 0, 0)
+        endTime.setHours(18, 0, 0, 0)
+        const step = 60 * 60 * 1000
+
+        for (let currentTime = startTime; currentTime <= endTime;
+            currentTime.setTime(currentTime.getTime() + step)) {
+            timeSlots.push(new Date(currentTime))
+        }
+        return timeSlots
+    }
+
     return (
         <div className="booking__container">
             <h1 className='page__title' style={{ marginTop: 0, filter: selected !== -1 ? 'blur(10px)' : '' }}>Reservas</h1>
+            <Button
+                label='Crear'
+                handleClick={createBooking}
+                bgColor="#87d18d"
+                style={{
+                    width: 'fit-content',
+                    alignSelf: 'flex-end',
+                    filter: selected !== -1 ? 'blur(10px)' : ''
+                }}
+            />
             {selected !== -1 ?
                 <div className='home__modal-wrapper'>
-                    <div className='home__modal-container'>
-                        <h4 className="home__modal-close" onClick={() => setSelected(-1)}>X</h4>
+                    <div className='home__modal-container' style={{ overflow: 'auto ' }}>
+                        <h4 className="home__modal-close" onClick={discardChanges}>X</h4>
                         <div className="booking__row">
-                            <h1 className='booking__title'>{data.name} - {data.username}</h1>
+                            {isNew && !data.name && !data.username ?
+                                <h1 className='booking__title'>Nueva reserva</h1>
+                                :
+                                <h1 className='booking__title'>{data.name} - {data.username}</h1>}
                         </div>
                         {tryToRemove ?
                             <div className="booking__col" style={{ width: '100%' }}>
@@ -102,13 +294,23 @@ export default function Booking({ }: Props) {
                             :
                             <div className="booking__row">
                                 <div className="booking__col">
-                                    <div className="booking__data">
-                                        <h2 className="booking__data-label">Servicio</h2>
-                                        <h2 className="booking__data-value">{data.name}</h2>
-                                    </div>
+                                    {isNew ?
+                                        <Dropdown
+                                            label='Servicio'
+                                            options={getAllServices()}
+                                            selected={serviceSelected}
+                                            setSelected={setServiceSelected}
+                                            value={serviceSelected.name}
+                                            objKey='name'
+                                        />
+                                        :
+                                        <div className="booking__data">
+                                            <h2 className="booking__data-label">Servicio</h2>
+                                            <h2 className="booking__data-value">{data.name}</h2>
+                                        </div>}
                                     <div className="booking__no-edit-data">
                                         <h2 className="booking__data-label">Precio</h2>
-                                        <h2 className="booking__data-value">{data.price}</h2>
+                                        <h2 className="booking__data-value">{data.currency || 'USD'} ${data.price}</h2>
                                     </div>
                                     <InputField
                                         label='Nombre completo'
@@ -122,28 +324,97 @@ export default function Booking({ }: Props) {
                                         updateData={updateData}
                                         value={data.country}
                                     />
-                                    <InputField
-                                        label='Cantidad'
-                                        name="realQty"
-                                        updateData={updateData}
-                                        value={data.realQty}
-                                    />
-                                    <InputField
-                                        label='Día de reserva'
-                                        name="date"
-                                        updateData={updateData}
-                                        value={data.date}
-                                    />
+                                    {isNew ?
+                                        <Dropdown
+                                            label='Cantidad'
+                                            options={getQuantityOptions()}
+                                            setSelected={setQuantity}
+                                            selected={quantity}
+                                            value={quantity}
+                                        />
+                                        :
+                                        <div className="booking__no-edit-data">
+                                            <h2 className="booking__data-label">Cantidad</h2>
+                                            <h2 className="booking__data-value">{data.realQty}</h2>
+                                        </div>}
+                                    {/* {isNew ?
+                                        <> */}
+                                    <div className="payment__contact-info-row">
+                                        <Dropdown
+                                            label="Seleccioná la cantidad"
+                                            setSelected={setQuantity}
+                                            selected={quantity}
+                                            value={quantity}
+                                            options={getQuantityOptions()}
+                                        />
+                                        {openCalendar ?
+                                            <Calendar
+                                                locale='es'
+                                                onChange={setDate}
+                                                value={date}
+                                                tileDisabled={tileDisabled}
+                                                className='react-calendar calendar-fixed'
+                                            />
+                                            : getQuantity() === 1 ?
+                                                <Button
+                                                    label={date ? getDate(date) : 'Seleccionar fecha'}
+                                                    handleClick={() => setOpenCalendar(true)}
+                                                    bgColor="#B0BCEB"
+                                                />
+                                                : ''
+                                        }
+                                    </div>
+                                    <div className="payment__various-dates">
+                                        {Number(quantity.split(' ')[0]) > 1 ?
+                                            Array.from({ length: getQuantity() }).map((_, i) =>
+                                                <div key={i} className="payment__various-dates-item">
+                                                    <h4 className="payment__date-col">Sesión {i + 1}</h4>
+                                                    {openCalendars[i] ?
+                                                        <Calendar
+                                                            locale='es'
+                                                            onChange={handleDateChange}
+                                                            value={selectedDates[i]}
+                                                            tileDisabled={tileDisabled}
+                                                            className='react-calendar calendar-fixed'
+                                                        />
+                                                        :
+                                                        <Button
+                                                            label={selectedDates[i] ? getDate(selectedDates[i]) : 'Seleccionar fecha'}
+                                                            handleClick={() => setOpenCalendars({ ...openCalendars, [i]: true })}
+                                                            bgColor="#B0BCEB"
+                                                            style={{ width: 'fit-content' }}
+                                                        />
+                                                    }
+                                                </div>)
+                                            : ''}
+                                    </div>
+                                    {/* </>
+                                        :
+                                        <InputField
+                                            label={data.date && data.date.includes(',') ? 'Dias de reserva' : 'Dia de reserva'}
+                                            name="date"
+                                            updateData={updateData}
+                                            value={data.date}
+                                        />} */}
                                 </div>
                                 <div className="booking__col">
                                     <div className="booking__no-edit-data">
                                         <h2 className="booking__data-label">Agenda</h2>
                                         <h2 className="booking__data-value">{data.day} - {data.time}</h2>
                                     </div>
-                                    <div className="booking__no-edit-data">
-                                        <h2 className="booking__data-label">Pago confirmado</h2>
-                                        <h2 className="booking__data-value">{data.isPaid ? 'Si' : 'No'}</h2>
-                                    </div>
+                                    {isNew ?
+                                        <Dropdown
+                                            label='Pago confirmado'
+                                            options={['Si', 'No']}
+                                            selected={isPaid}
+                                            setSelected={setIsPaid}
+                                            value={isPaid}
+                                        />
+                                        :
+                                        <div className="booking__no-edit-data">
+                                            <h2 className="booking__data-label">Pago confirmado</h2>
+                                            <h2 className="booking__data-value">{data.isPaid ? 'Si' : 'No'}</h2>
+                                        </div>}
                                     <InputField
                                         label='Correo electrónico'
                                         name="email"
@@ -156,35 +427,42 @@ export default function Booking({ }: Props) {
                                         updateData={updateData}
                                         value={data.phone}
                                     />
-                                    <InputField
-                                        label='Precio total'
-                                        name="realPrice"
-                                        updateData={updateData}
-                                        value={data.realPrice}
-                                    />
-                                    <InputField
-                                        label='Hora de reserva'
-                                        name="selectedTime"
-                                        updateData={updateData}
-                                        value={data.selectedTime}
-                                    />
+                                    <div className="booking__no-edit-data">
+                                        <h2 className="booking__data-label">Precio total</h2>
+                                        <h2 className="booking__data-value">US $ {isNew ? totalPrice : data.realPrice}</h2>
+                                    </div>
+                                    {!data.selectedTime ?
+                                        <Dropdown
+                                            label='Hora de reserva'
+                                            options={getBookinSlots(data.date || new Date())}
+                                            selected={selectedTime && selectedTime.toLocaleDateString('es-ES')}
+                                            setSelected={setSelectedTime}
+                                            value={selectedTime && selectedTime.toLocaleDateString('es-ES')}
+                                        />
+                                        :
+                                        <div className="booking__no-edit-data">
+                                            <h2 className="booking__data-label">Hora de reserva</h2>
+                                            <h2 className="booking__data-value">{data.time}</h2>
+                                        </div>}
                                 </div>
                             </div>
                         }
                         {!tryToRemove ?
                             <div className="booking__btns">
-                                <Button
-                                    label='Eliminar reserva'
-                                    handleClick={onTryToRemove}
-                                    bgColor="#ffacac"
-                                />
+                                {!isNew ?
+                                    <Button
+                                        label='Eliminar reserva'
+                                        handleClick={onTryToRemove}
+                                        bgColor="#ffacac"
+                                    /> : ''}
                                 <Button
                                     label='Descartar cambios'
                                     handleClick={discardChanges}
                                     bgColor="lightgray"
+                                    disabled={data === bookings[selected]}
                                 />
                                 <Button
-                                    label='Guardar'
+                                    label={isNew ? 'Crear' : 'Guardar'}
                                     handleClick={saveChanges}
                                     disabled={data === bookings[selected]}
                                 />
@@ -201,6 +479,7 @@ export default function Booking({ }: Props) {
                     tableHeaders={bookingHeaders}
                     selected={selected}
                     setSelected={setSelected}
+                    loading={loading}
                 />
             </div>
         </div>

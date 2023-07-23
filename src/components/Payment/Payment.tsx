@@ -63,6 +63,8 @@ function Payment({ checkout }: Props) {
         const paymentData = {
             ...data,
             date: getDate(dates),
+            dateObject: JSON.stringify(date),
+            dateObjects: JSON.stringify(selectedDates),
             rawData: SERVICES[checkout || -1],
             selectedDates,
             checkout,
@@ -73,7 +75,6 @@ function Payment({ checkout }: Props) {
             priceInCents: Number(getPrice().replace('.', '')),
             image: 'https://www.naturallydating.com/wp-content/uploads/2021/01/first-date-ideas-scaled.jpg',
             description: getDescription(),
-            // PASAR TODA LA DATA DEL SERVICIO CON PRECIO, CANTIDAD, NOMBRE CON CANTIDAD...
         }
 
         try {

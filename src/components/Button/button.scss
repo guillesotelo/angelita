@@ -1,10 +1,10 @@
 .button {
     &__default {
         // margin: .5vw;
-        font-size: 1.2rem;
+        font-size: 1rem;
         background-color: #D3AFAF;
         width: 100%;
-        padding: .8rem;
+        padding: .6rem .8rem;
         border-radius: .5vw;
         cursor: pointer;
         font-weight: normal;
@@ -14,7 +14,7 @@
 
         &:hover {
             filter: brightness(110%);
-            border: 1px solid #EBCE98;
+            // border: 1px solid #EBCE98;
             transition: .4s;
         }
 

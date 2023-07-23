@@ -5,6 +5,7 @@ type Props = {
     label: string
     options: any[]
     value: string | number
+    objKey?: string | number
     selected: any
     setSelected: (value: any) => void
 }
@@ -17,7 +18,8 @@ export default function Dropdown(props: Props) {
         selected,
         setSelected,
         options,
-        value
+        value,
+        objKey
     } = props
 
     useEffect(() => {
@@ -34,7 +36,7 @@ export default function Dropdown(props: Props) {
             style={{ border: openDrop ? '1px solid #EBAA59' : '1px solid lightgray' }}
             onClick={() => setOpenDrop(!openDrop)}>
             <h4 className='dropdown__selected'>
-                {value ? value : selected.name ? selected.name : 'Select'}
+                {value ? value : objKey && selected[objKey] ? selected[objKey] : 'Select'}
             </h4>
             < h4 className='dropdown__selected'>▾</h4>
         </div>
@@ -53,7 +55,7 @@ export default function Dropdown(props: Props) {
                         onClick={() => {
                             setSelected(option)
                             setOpenDrop(false)
-                        }}>{option.name || option}</h4>)
+                        }}>{objKey ? option[objKey] : option}</h4>)
                 :
                 <h4 className='dropdown__option' style={{ borderTop: 'none' }}>Loading...</h4>
             }

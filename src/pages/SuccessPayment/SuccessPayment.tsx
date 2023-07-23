@@ -13,8 +13,6 @@ export default function SuccessPayment({ }: Props) {
     const [message, setMessage] = useState<string | null>('')
     const history = useHistory()
 
-    console.log('paymentInfo', paymentInfo)
-
     useEffect(() => {
         const orderId = new URLSearchParams(document.location.search).get('orderId')
 
@@ -26,13 +24,18 @@ export default function SuccessPayment({ }: Props) {
 
     const confirmCurrentPayment = async (id: string) => {
         const confirmed = await confirmPayment(id)
-        console.log('confirmed', confirmed)
-        if (!confirmed) return setMessage('Recibimos tu pago, pero no pudimos enviar la confirmación. Ponte en contacto conmigo para confirmar tu reserva.')
-        setPaymentInfo(confirmed)
+        if (!confirmed) return setMessage('Recibimos tu pago, pero no pudimos confirmar tu reserva debido a un error del sistema. Por favor, ponte en contacto conmigo para confirmar tu reserva manualmente.')
+        setPaymentInfo({ ...confirmed })
     }
 
     const getService = (service: number | string, key?: string | number) => {
         return key ? SERVICES[service][key] : SERVICES[service] || {}
+    }
+
+    const getDate = (date: Date) => {
+        return Array.isArray(date) ?
+            date.map((d: Date) => new Date(d).toLocaleDateString("es-ES")).join(', ') :
+            new Date(date).toLocaleDateString("es-ES")
     }
 
     return (
@@ -43,7 +46,7 @@ export default function SuccessPayment({ }: Props) {
                 <div className="success-payment__book">
                     <h4 className="success-payment__subtitle">Información sobre tu reserva</h4>
                     <h4 className="success-payment__book-label">Servicio: <strong>{paymentInfo.name || ''}</strong></h4>
-                    <h4 className="success-payment__book-label">Cantidad: <strong>{paymentInfo.realQty}</strong></h4>
+                    <h4 className="success-payment__book-label">Cantidad: <strong>US ${paymentInfo.realQty}</strong></h4>
                     <h4 className="success-payment__book-label">Cuándo: <strong>{paymentInfo.date}</strong></h4>
                     <br />
                     <h4 className="success-payment__book-label">Total: <strong>US ${paymentInfo.realPrice}</strong></h4>

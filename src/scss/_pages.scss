@@ -59,6 +59,10 @@ tr:nth-child(even) {
     // background-color: #efefef;
 }
 
+.overflow-hidden {
+    overflow: hidden;
+}
+
 @media only screen and (max-width: 640px) {
     .page {
         &__header {
