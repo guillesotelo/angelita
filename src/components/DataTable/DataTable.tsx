@@ -94,7 +94,7 @@ export default function DataTable({ tableData, setTableData, tableHeaders, title
                             style={{ width: `${100 / tableHeaders.length}%` }}
                         >
                             {header.value === 'createdAt' || header.value === 'updatedAt' ? `${new Date(row[header.value]).toLocaleDateString('es-ES')} ${new Date(row[header.value]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` :
-                                header.value === 'articles' ? row[header.value].length :
+                                header.value === 'isPaid' ? row[header.value] ? 'Si' : 'No' :
                                     row && row[header.value] ? String(row[header.value])
                                         : '--'}
                         </h4>

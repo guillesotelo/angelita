@@ -57,7 +57,7 @@ export default function Dropdown(props: Props) {
                             setOpenDrop(false)
                         }}>{objKey ? option[objKey] : option}</h4>)
                 :
-                <h4 className='dropdown__option' style={{ borderTop: 'none' }}>Loading...</h4>
+                <h4 className='dropdown__option' style={{ borderTop: 'none' }}>Cargando...</h4>
             }
         </div>
     }

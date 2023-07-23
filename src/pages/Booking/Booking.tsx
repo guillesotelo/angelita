@@ -28,12 +28,15 @@ export default function Booking({ }: Props) {
     const [totalPrice, setTotalPrice] = useState<string>('')
     const [openCalendar, setOpenCalendar] = useState(false)
     const [openCalendars, setOpenCalendars] = useState<dataObj>({})
+    const [selectedTimes, setSelectedTimes] = useState<dataObj>({})
     const [date, setDate] = useState<any>(null)
     const [selectedDates, setSelectedDates] = useState<any>([])
     const [selectedTime, setSelectedTime] = useState<any>(null)
     const history = useHistory()
 
-    console.log('data', data)
+    // console.log('data', data)
+    console.log('date', date)
+    // console.log('selectedDates', selectedDates)
 
     useEffect(() => {
         getBookings()
@@ -45,11 +48,19 @@ export default function Booking({ }: Props) {
             setServiceSelected(bookings[selected])
             setDate(bookings[selected].dateObject ? JSON.parse(bookings[selected].dateObject) : null)
             setSelectedDates(bookings[selected].dateObjects ? JSON.parse(bookings[selected].dateObjects) : [])
+            setSelectedTimes(bookings[selected].dateObjects ? JSON.parse(bookings[selected].dateObjects).map((date: Date) => localTime(date)) : [])
+            setQuantity(`${bookings[selected].realQty} ${bookings[selected].realQty === 1 ? 'sesión' : 'sesiones'}`)
         }
+        modalBehaviour()
     }, [selected])
 
     useEffect(() => {
-        setTotalPrice(getPrice())
+        if (isNew) {
+            setTotalPrice(getPrice())
+            setSelectedDates([])
+            setDate(null)
+            modalBehaviour()
+        }
     }, [serviceSelected, quantity])
 
     useEffect(() => {
@@ -67,7 +78,7 @@ export default function Booking({ }: Props) {
     useEffect(() => {
         const body = document.querySelector('body')
         const header = document.querySelector('.header__container') as HTMLElement
-        if (selected !== -1) {
+        if (selected !== -1 || isNew) {
             if (body) body.classList.add('overflow-hidden')
             if (header) header.style.filter = 'blur(10px)'
         } else {
@@ -75,6 +86,15 @@ export default function Booking({ }: Props) {
             if (header) header.style.filter = 'unset'
         }
     }, [selected])
+
+    const modalBehaviour = () => {
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                setOpenCalendar(false)
+                setOpenCalendars({})
+            }
+        })
+    }
 
     const getBookings = async () => {
         setLoading(true)
@@ -113,7 +133,7 @@ export default function Booking({ }: Props) {
         setOpenCalendar(false)
         setOpenCalendars({ ...{} })
         setDate(null)
-        setSelectedDates({ ...{} })
+        setSelectedDates([])
     }
 
     const saveChanges = async () => {
@@ -152,14 +172,6 @@ export default function Booking({ }: Props) {
             console.error(err)
             setLoading(false)
         }
-    }
-    const onTryToRemove = () => setTryToRemove(true)
-
-    const createBooking = () => {
-        const _bookings = [...bookings].concat({})
-        setBookings(_bookings)
-        setSelected(_bookings.length - 1)
-        setIsNew(true)
     }
 
     const getQuantityOptions = () => {
@@ -217,8 +229,7 @@ export default function Booking({ }: Props) {
     }
 
     const isFirstSaturdayOfMonth = (date: Date) => {
-        const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1)
-        return firstDayOfMonth.getDay() === 6 && date.getDate() <= 7
+        return date.getDay() === 6 && date.getDate() <= 7
     }
 
     const getDate = (date: Date) => {
@@ -247,25 +258,29 @@ export default function Booking({ }: Props) {
 
         for (let currentTime = startTime; currentTime <= endTime;
             currentTime.setTime(currentTime.getTime() + step)) {
-            timeSlots.push(new Date(currentTime))
+            timeSlots.push(localTime(currentTime))
         }
         return timeSlots
     }
 
+    const localTime = (date: Date) => {
+        return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    }
+
     return (
         <div className="booking__container">
-            <h1 className='page__title' style={{ marginTop: 0, filter: selected !== -1 ? 'blur(10px)' : '' }}>Reservas</h1>
+            <h1 className='page__title' style={{ marginTop: 0, filter: selected !== -1 || isNew ? 'blur(10px)' : '' }}>Reservas</h1>
             <Button
                 label='Crear'
-                handleClick={createBooking}
+                handleClick={() => setIsNew(true)}
                 bgColor="#87d18d"
                 style={{
                     width: 'fit-content',
                     alignSelf: 'flex-end',
-                    filter: selected !== -1 ? 'blur(10px)' : ''
+                    filter: selected !== -1 || isNew ? 'blur(10px)' : ''
                 }}
             />
-            {selected !== -1 ?
+            {selected !== -1 || isNew ?
                 <div className='home__modal-wrapper'>
                     <div className='home__modal-container' style={{ overflow: 'auto ' }}>
                         <h4 className="home__modal-close" onClick={discardChanges}>X</h4>
@@ -324,29 +339,14 @@ export default function Booking({ }: Props) {
                                         updateData={updateData}
                                         value={data.country}
                                     />
-                                    {isNew ?
-                                        <Dropdown
-                                            label='Cantidad'
-                                            options={getQuantityOptions()}
-                                            setSelected={setQuantity}
-                                            selected={quantity}
-                                            value={quantity}
-                                        />
-                                        :
-                                        <div className="booking__no-edit-data">
-                                            <h2 className="booking__data-label">Cantidad</h2>
-                                            <h2 className="booking__data-value">{data.realQty}</h2>
-                                        </div>}
-                                    {/* {isNew ?
-                                        <> */}
+                                    <Dropdown
+                                        label='Cantidad'
+                                        options={getQuantityOptions()}
+                                        setSelected={setQuantity}
+                                        selected={quantity}
+                                        value={quantity}
+                                    />
                                     <div className="payment__contact-info-row">
-                                        <Dropdown
-                                            label="Seleccioná la cantidad"
-                                            setSelected={setQuantity}
-                                            selected={quantity}
-                                            value={quantity}
-                                            options={getQuantityOptions()}
-                                        />
                                         {openCalendar ?
                                             <Calendar
                                                 locale='es'
@@ -360,6 +360,7 @@ export default function Booking({ }: Props) {
                                                     label={date ? getDate(date) : 'Seleccionar fecha'}
                                                     handleClick={() => setOpenCalendar(true)}
                                                     bgColor="#B0BCEB"
+                                                    style={{ marginTop: '1rem' }}
                                                 />
                                                 : ''
                                         }
@@ -378,24 +379,25 @@ export default function Booking({ }: Props) {
                                                             className='react-calendar calendar-fixed'
                                                         />
                                                         :
-                                                        <Button
-                                                            label={selectedDates[i] ? getDate(selectedDates[i]) : 'Seleccionar fecha'}
-                                                            handleClick={() => setOpenCalendars({ ...openCalendars, [i]: true })}
-                                                            bgColor="#B0BCEB"
-                                                            style={{ width: 'fit-content' }}
-                                                        />
+                                                        <>
+                                                            <Button
+                                                                label={selectedDates[i] ? getDate(selectedDates[i]) : 'Seleccionar fecha'}
+                                                                handleClick={() => setOpenCalendars({ ...openCalendars, [i]: true })}
+                                                                bgColor="#B0BCEB"
+                                                                style={{ width: 'fit-content' }}
+                                                            />
+                                                            <Dropdown
+                                                                label='Seleccionar hora'
+                                                                options={getBookinSlots(selectedDates[i] || new Date())}
+                                                                selected={selectedTimes[i]}
+                                                                setSelected={(op) => setSelectedTimes({ ...selectedTimes, [i]: op })}
+                                                                value={selectedTimes[i]}
+                                                            />
+                                                        </>
                                                     }
                                                 </div>)
                                             : ''}
                                     </div>
-                                    {/* </>
-                                        :
-                                        <InputField
-                                            label={data.date && data.date.includes(',') ? 'Dias de reserva' : 'Dia de reserva'}
-                                            name="date"
-                                            updateData={updateData}
-                                            value={data.date}
-                                        />} */}
                                 </div>
                                 <div className="booking__col">
                                     <div className="booking__no-edit-data">
@@ -431,19 +433,15 @@ export default function Booking({ }: Props) {
                                         <h2 className="booking__data-label">Precio total</h2>
                                         <h2 className="booking__data-value">US $ {isNew ? totalPrice : data.realPrice}</h2>
                                     </div>
-                                    {!data.selectedTime ?
+                                    {!selectedDates.length ?
                                         <Dropdown
                                             label='Hora de reserva'
                                             options={getBookinSlots(data.date || new Date())}
-                                            selected={selectedTime && selectedTime.toLocaleDateString('es-ES')}
+                                            selected={selectedTime}
                                             setSelected={setSelectedTime}
-                                            value={selectedTime && selectedTime.toLocaleDateString('es-ES')}
+                                            value={selectedTime}
                                         />
-                                        :
-                                        <div className="booking__no-edit-data">
-                                            <h2 className="booking__data-label">Hora de reserva</h2>
-                                            <h2 className="booking__data-value">{data.time}</h2>
-                                        </div>}
+                                        : ''}
                                 </div>
                             </div>
                         }
@@ -452,26 +450,24 @@ export default function Booking({ }: Props) {
                                 {!isNew ?
                                     <Button
                                         label='Eliminar reserva'
-                                        handleClick={onTryToRemove}
+                                        handleClick={() => setTryToRemove(true)}
                                         bgColor="#ffacac"
                                     /> : ''}
                                 <Button
                                     label='Descartar cambios'
                                     handleClick={discardChanges}
                                     bgColor="lightgray"
-                                    disabled={data === bookings[selected]}
                                 />
                                 <Button
                                     label={isNew ? 'Crear' : 'Guardar'}
                                     handleClick={saveChanges}
-                                    disabled={data === bookings[selected]}
                                 />
                             </div>
                             : ''}
                     </div >
                 </div >
                 : ''}
-            <div style={{ width: '100%', filter: selected !== -1 ? 'blur(10px)' : '' }}>
+            <div style={{ width: '100%', filter: selected !== -1 || isNew ? 'blur(10px)' : '' }}>
                 <DataTable
                     name='reservas'
                     tableData={bookings}
