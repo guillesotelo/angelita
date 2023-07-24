@@ -26,6 +26,8 @@ function Payment({ checkout }: Props) {
     const [contribute, setContribute] = useState('')
     const [openCalendars, setOpenCalendars] = useState<dataObj>({})
 
+    console.log('SEL 1', selectedDates)
+
     useEffect(() => {
         setQuantity(`1 sesión (${getHours(1)})`)
     }, [])
@@ -175,12 +177,13 @@ function Payment({ checkout }: Props) {
         return firstDayOfMonth.getDay() === 6 && date.getDate() <= 7
     }
 
-    const handleDateChange = (value: any): void => {
+    const handleDateChange = (value: any, index: number): void => {
         if (value instanceof Date) {
             const updatedDates = [...selectedDates]
-            const dateIndex = selectedDates.findIndex((d: any) => value.toDateString() === d.toDateString())
-            if (dateIndex > -1) updatedDates.splice(dateIndex, 1)
-            else updatedDates.push(value)
+            const mapDates = updatedDates.map(date => date.toLocaleDateString())
+            const dateVal = value.toLocaleDateString()
+
+            if (!mapDates.includes(dateVal) || mapDates.indexOf(dateVal) === index) updatedDates[index] = value
             setSelectedDates(updatedDates)
         }
     }
@@ -191,6 +194,20 @@ function Payment({ checkout }: Props) {
         } catch (err) {
             console.error(err)
         }
+    }
+
+    const getBookingSlots = (date: Date) => {
+        const timeSlots = []
+        const startTime = new Date(date)
+        const endTime = new Date(date)
+        startTime.setHours(9, 0, 0, 0)
+        endTime.setHours(18, 0, 0, 0)
+        const step = 60 * 60 * 1000
+
+        for (let currentTime = startTime; currentTime <= endTime; currentTime.setTime(currentTime.getTime() + step)) {
+            timeSlots.push(new Date(currentTime))
+        }
+        return timeSlots
     }
 
     return (
@@ -246,11 +263,21 @@ function Payment({ checkout }: Props) {
                             className='react-calendar calendar-fixed'
                         />
                         : getQuantity() === 1 ?
-                            <Button
-                                label={date ? getDate(date) : 'Seleccionar fecha'}
-                                handleClick={() => setOpenCalendar(true)}
-                                bgColor="#B0BCEB"
-                            />
+                            <>
+                                <Button
+                                    label={date ? getDate(date) : 'Seleccionar fecha'}
+                                    handleClick={() => setOpenCalendar(true)}
+                                    bgColor="#B0BCEB"
+                                />
+                                <Dropdown
+                                    label='Seleccionar hora'
+                                    options={getBookingSlots(date)}
+                                    selected={date}
+                                    setSelected={setDate}
+                                    value={date}
+                                    isTime={true}
+                                />
+                            </>
                             : ''
                     }
                     <h1 className="payment__total-amount"><span className="payment__total-text">Total</span> ${total}</h1>
@@ -259,22 +286,32 @@ function Payment({ checkout }: Props) {
                     {Number(quantity.split(' ')[0]) > 1 ?
                         Array.from({ length: getQuantity() }).map((_, i) =>
                             <div key={i} className="payment__various-dates-item">
-                                <h4 className="payment__date-col">Sesión {i + 1}</h4>
+                                <h4 className="payment__various-dates-item-label">{i + 1}</h4>
                                 {openCalendars[i] ?
                                     <Calendar
                                         locale='es'
-                                        onChange={handleDateChange}
+                                        onChange={(date) => handleDateChange(date, i)}
                                         value={selectedDates[i]}
                                         tileDisabled={tileDisabled}
                                         className='react-calendar calendar-fixed'
                                     />
                                     :
-                                    <Button
-                                        label={selectedDates[i] ? getDate(selectedDates[i]) : 'Seleccionar fecha'}
-                                        handleClick={() => setOpenCalendars({ ...openCalendars, [i]: true })}
-                                        bgColor="#B0BCEB"
-                                        style={{ width: 'fit-content' }}
-                                    />
+                                    <>
+                                        <Button
+                                            label={selectedDates[i] ? getDate(selectedDates[i]) : 'Seleccionar fecha'}
+                                            handleClick={() => setOpenCalendars({ ...openCalendars, [i]: true })}
+                                            bgColor="#B0BCEB"
+                                            style={{ width: 'fit-content' }}
+                                        />
+                                        <Dropdown
+                                            label='Seleccionar hora'
+                                            options={getBookingSlots(selectedDates[i])}
+                                            selected={selectedDates[i]}
+                                            setSelected={(date: any) => handleDateChange(date, i)}
+                                            value={selectedDates[i]}
+                                            isTime={true}
+                                        />
+                                    </>
                                 }
                             </div>)
                         : ''}

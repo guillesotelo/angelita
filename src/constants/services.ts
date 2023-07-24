@@ -7,7 +7,8 @@ export const SERVICES: { [key: number | string]: any } = {
         duration: 1,
         mark: 'hour',
         day: 'Martes',
-        time: '16hs (Berlin)'
+        time: '16hs (Berlin)',
+        fixedTime: true
     },
     12: {
         name: 'Pedacito de Cielo',
@@ -17,7 +18,8 @@ export const SERVICES: { [key: number | string]: any } = {
         duration: 1,
         mark: 'hour',
         day: 'Miércoles',
-        time: '16hs (Berlin)'
+        time: '16hs (Berlin)',
+        fixedTime: true
     },
     13: {
         name: 'Formación Psicológica',
@@ -27,7 +29,8 @@ export const SERVICES: { [key: number | string]: any } = {
         duration: 4,
         mark: 'hour',
         day: '1er sábado del mes',
-        time: '16hs (Berlin)'
+        time: '16hs (Berlin)',
+        fixedTime: true
     },
     31: {
         name: 'Consejería',
@@ -38,7 +41,10 @@ export const SERVICES: { [key: number | string]: any } = {
         mark: 'hour',
         day: 'Lunes a sábados',
         time: '11-19hs (Berlin)',
-        discount: '>2=70%'
+        discount: '>2=70%',
+        fixedTime: false,
+        startTime: 9,
+        endTime: 18,
     },
     32: {
         name: 'Psicoterapia',
@@ -49,7 +55,10 @@ export const SERVICES: { [key: number | string]: any } = {
         mark: 'hour',
         day: 'Miércoles',
         time: '16hs (Berlin)',
-        discount: '>2=70%'
+        discount: '>2=70%',
+        fixedTime: false,
+        startTime: 9,
+        endTime: 18,
     },
     1: {
         name: 'Encuentros Grupales',
@@ -62,7 +71,8 @@ export const SERVICES: { [key: number | string]: any } = {
         duration: 1,
         mark: 'hour',
         day: 'Jueves y sábados',
-        time: '16hs (Berlin)'
+        time: '16hs (Berlin)',
+        fixedTime: true
     },
     3: {
         name: 'Psicoterapia Privada',

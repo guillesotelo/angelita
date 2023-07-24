@@ -28,15 +28,13 @@ export default function Booking({ }: Props) {
     const [totalPrice, setTotalPrice] = useState<string>('')
     const [openCalendar, setOpenCalendar] = useState(false)
     const [openCalendars, setOpenCalendars] = useState<dataObj>({})
-    const [selectedTimes, setSelectedTimes] = useState<dataObj>({})
     const [date, setDate] = useState<any>(null)
     const [selectedDates, setSelectedDates] = useState<any>([])
-    const [selectedTime, setSelectedTime] = useState<any>(null)
     const history = useHistory()
 
-    // console.log('data', data)
-    console.log('date', date)
-    // console.log('selectedDates', selectedDates)
+    console.log('data', data)
+    // console.log('date', date)
+    console.log('selectedDates', selectedDates)
 
     useEffect(() => {
         getBookings()
@@ -47,8 +45,7 @@ export default function Booking({ }: Props) {
             setData(bookings[selected])
             setServiceSelected(bookings[selected])
             setDate(bookings[selected].dateObject ? JSON.parse(bookings[selected].dateObject) : null)
-            setSelectedDates(bookings[selected].dateObjects ? JSON.parse(bookings[selected].dateObjects) : [])
-            setSelectedTimes(bookings[selected].dateObjects ? JSON.parse(bookings[selected].dateObjects).map((date: Date) => localTime(date)) : [])
+            setSelectedDates(bookings[selected].dateObjects ? JSON.parse(bookings[selected].dateObjects).map((date: string) => new Date(date)) : [])
             setQuantity(`${bookings[selected].realQty} ${bookings[selected].realQty === 1 ? 'sesión' : 'sesiones'}`)
         }
         modalBehaviour()
@@ -64,7 +61,10 @@ export default function Booking({ }: Props) {
     }, [serviceSelected, quantity])
 
     useEffect(() => {
-        if (isNew) setData(serviceSelected)
+        if (isNew) {
+            setData(serviceSelected)
+            setQuantity('1 sesión')
+        }
     }, [serviceSelected])
 
     useEffect(() => {
@@ -134,13 +134,25 @@ export default function Booking({ }: Props) {
         setOpenCalendars({ ...{} })
         setDate(null)
         setSelectedDates([])
+        setServiceSelected({})
     }
 
     const saveChanges = async () => {
         setLoading(true)
         try {
-            const updated = await updateBooking(data)
-            if (updated) {
+            const dates = selectedDates.length ? selectedDates : date
+            const updated = await updateBooking({
+                ...data,
+                date: getDate(dates),
+                dateObject: JSON.stringify(date),
+                dateObjects: JSON.stringify(selectedDates),
+                name: getServiceData('name'),
+                realQty: getQuantity(),
+                realPrice: getPrice(),
+                priceInCents: Number(getPrice().replace('.', '')),
+                image: 'https://www.naturallydating.com/wp-content/uploads/2021/01/first-date-ideas-scaled.jpg'
+            })
+            if (updated && updated.name) {
                 toast.success('Cambios guardados')
                 discardChanges()
                 setLoading(false)
@@ -203,7 +215,7 @@ export default function Booking({ }: Props) {
                         (price * .7 * hours).toFixed(2) :
                         (price * hours).toFixed(2)
                 }
-            }
+            } else setDiscount('')
             return (price * hours).toFixed(2)
         }
         return ''
@@ -238,27 +250,27 @@ export default function Booking({ }: Props) {
             new Date(date).toLocaleDateString("es-ES")
     }
 
-    const handleDateChange = (value: any): void => {
+    const handleDateChange = (value: any, index: number): void => {
         if (value instanceof Date) {
             const updatedDates = [...selectedDates]
-            const dateIndex = selectedDates.findIndex((d: any) => new Date(value).toDateString() === new Date(d).toDateString())
-            if (dateIndex > -1) updatedDates.splice(dateIndex, 1)
-            else updatedDates.push(value)
+            const mapDates = updatedDates.map(date => date.toLocaleDateString())
+            const dateVal = value.toLocaleDateString()
+
+            if (!mapDates.includes(dateVal) || mapDates.indexOf(dateVal) === index) updatedDates[index] = value
             setSelectedDates(updatedDates)
         }
     }
 
-    const getBookinSlots = (date: Date) => {
+    const getBookingSlots = (date: Date) => {
         const timeSlots = []
         const startTime = new Date(date)
         const endTime = new Date(date)
-        startTime.setHours(9, 0, 0, 0)
-        endTime.setHours(18, 0, 0, 0)
+        startTime.setHours(data.startTime || 9, 0, 0, 0)
+        endTime.setHours(data.endTime || 18, 0, 0, 0)
         const step = 60 * 60 * 1000
 
-        for (let currentTime = startTime; currentTime <= endTime;
-            currentTime.setTime(currentTime.getTime() + step)) {
-            timeSlots.push(localTime(currentTime))
+        for (let currentTime = startTime; currentTime <= endTime; currentTime.setTime(currentTime.getTime() + step)) {
+            timeSlots.push(new Date(currentTime))
         }
         return timeSlots
     }
@@ -356,24 +368,36 @@ export default function Booking({ }: Props) {
                                                 className='react-calendar calendar-fixed'
                                             />
                                             : getQuantity() === 1 ?
-                                                <Button
-                                                    label={date ? getDate(date) : 'Seleccionar fecha'}
-                                                    handleClick={() => setOpenCalendar(true)}
-                                                    bgColor="#B0BCEB"
-                                                    style={{ marginTop: '1rem' }}
-                                                />
+                                                <>
+                                                    <Button
+                                                        label={date ? getDate(date) : 'Seleccionar fecha'}
+                                                        handleClick={() => setOpenCalendar(true)}
+                                                        bgColor="#B0BCEB"
+                                                        style={{ marginTop: '1rem' }}
+                                                    />
+                                                    {data.startTime ?
+                                                        <Dropdown
+                                                            label='Seleccionar hora'
+                                                            options={getBookingSlots(date)}
+                                                            selected={date}
+                                                            setSelected={setDate}
+                                                            value={date}
+                                                            isTime={true}
+                                                        />
+                                                        : ''}
+                                                </>
                                                 : ''
                                         }
                                     </div>
                                     <div className="payment__various-dates">
                                         {Number(quantity.split(' ')[0]) > 1 ?
                                             Array.from({ length: getQuantity() }).map((_, i) =>
-                                                <div key={i} className="payment__various-dates-item">
-                                                    <h4 className="payment__date-col">Sesión {i + 1}</h4>
+                                                <div key={i} className="payment__various-dates-item" style={{ width: '100%' }}>
+                                                    <h4 className="payment__various-dates-item-label">{i + 1}</h4>
                                                     {openCalendars[i] ?
                                                         <Calendar
                                                             locale='es'
-                                                            onChange={handleDateChange}
+                                                            onChange={(date) => handleDateChange(date, i)}
                                                             value={selectedDates[i]}
                                                             tileDisabled={tileDisabled}
                                                             className='react-calendar calendar-fixed'
@@ -386,13 +410,16 @@ export default function Booking({ }: Props) {
                                                                 bgColor="#B0BCEB"
                                                                 style={{ width: 'fit-content' }}
                                                             />
-                                                            <Dropdown
-                                                                label='Seleccionar hora'
-                                                                options={getBookinSlots(selectedDates[i] || new Date())}
-                                                                selected={selectedTimes[i]}
-                                                                setSelected={(op) => setSelectedTimes({ ...selectedTimes, [i]: op })}
-                                                                value={selectedTimes[i]}
-                                                            />
+                                                            {data.startTime ?
+                                                                <Dropdown
+                                                                    label='Seleccionar hora'
+                                                                    options={getBookingSlots(selectedDates[i])}
+                                                                    selected={selectedDates[i]}
+                                                                    setSelected={(date: any) => handleDateChange(date, i)}
+                                                                    value={selectedDates[i]}
+                                                                    isTime={true}
+                                                                />
+                                                                : ''}
                                                         </>
                                                     }
                                                 </div>)
@@ -433,14 +460,11 @@ export default function Booking({ }: Props) {
                                         <h2 className="booking__data-label">Precio total</h2>
                                         <h2 className="booking__data-value">US $ {isNew ? totalPrice : data.realPrice}</h2>
                                     </div>
-                                    {!selectedDates.length ?
-                                        <Dropdown
-                                            label='Hora de reserva'
-                                            options={getBookinSlots(data.date || new Date())}
-                                            selected={selectedTime}
-                                            setSelected={setSelectedTime}
-                                            value={selectedTime}
-                                        />
+                                    {!data.startTime ?
+                                        <div className="booking__no-edit-data">
+                                            <h2 className="booking__data-label">Horario</h2>
+                                            <h2 className="booking__data-value">{data.time}</h2>
+                                        </div>
                                         : ''}
                                 </div>
                             </div>

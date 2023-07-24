@@ -8,6 +8,9 @@ type Props = {
     objKey?: string | number
     selected: any
     setSelected: (value: any) => void
+    isTime?: boolean
+    isDate?: boolean
+    locale?: string
 }
 
 export default function Dropdown(props: Props) {
@@ -19,7 +22,10 @@ export default function Dropdown(props: Props) {
         setSelected,
         options,
         value,
-        objKey
+        objKey,
+        isTime,
+        isDate,
+        locale
     } = props
 
     useEffect(() => {
@@ -30,13 +36,22 @@ export default function Dropdown(props: Props) {
         })
     }, [])
 
+    const getSelectValue = () => {
+        if (value) {
+            if (isDate) return value ? new Date(value).toLocaleDateString(locale || 'en-US') : 'Select'
+            if (isTime) return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            else return value
+        }
+        return objKey && selected[objKey] ? selected[objKey] : 'Selecciona'
+    }
+
     const renderSelectedItem = () => {
         return <div
             className='dropdown__select'
             style={{ border: openDrop ? '1px solid #EBAA59' : '1px solid lightgray' }}
             onClick={() => setOpenDrop(!openDrop)}>
             <h4 className='dropdown__selected'>
-                {value ? value : objKey && selected[objKey] ? selected[objKey] : 'Select'}
+                {getSelectValue()}
             </h4>
             < h4 className='dropdown__selected'>▾</h4>
         </div>
@@ -55,7 +70,11 @@ export default function Dropdown(props: Props) {
                         onClick={() => {
                             setSelected(option)
                             setOpenDrop(false)
-                        }}>{objKey ? option[objKey] : option}</h4>)
+                        }}>
+                        {isDate ? new Date(option).toLocaleDateString(locale || 'en-US') :
+                            isTime ? new Date(option).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) :
+                                objKey ? option[objKey] : option}
+                    </h4>)
                 :
                 <h4 className='dropdown__option' style={{ borderTop: 'none' }}>Cargando...</h4>
             }

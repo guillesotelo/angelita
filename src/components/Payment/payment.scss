@@ -73,6 +73,15 @@
             border-radius: .5rem;
             padding: .7rem;
             position: relative;
+
+            &-label {
+                font-size: 2rem;
+                color: #B0BCEB;
+                margin: 0;
+                width: 30%;
+                font-weight: normal;
+                white-space: nowrap;
+            }
         }
     }
 
