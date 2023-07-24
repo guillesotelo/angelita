@@ -241,7 +241,7 @@ export default function Booking({ }: Props) {
     const handleDateChange = (value: any): void => {
         if (value instanceof Date) {
             const updatedDates = [...selectedDates]
-            const dateIndex = selectedDates.findIndex((d: any) => value.toDateString() === d.toDateString())
+            const dateIndex = selectedDates.findIndex((d: any) => new Date(value).toDateString() === new Date(d).toDateString())
             if (dateIndex > -1) updatedDates.splice(dateIndex, 1)
             else updatedDates.push(value)
             setSelectedDates(updatedDates)
