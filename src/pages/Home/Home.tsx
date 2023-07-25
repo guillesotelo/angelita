@@ -79,10 +79,9 @@ export default function Home({ }: Props) {
 
     useEffect(() => {
         const body = document.querySelector('body')
-        if (service) {
-            if (body) body.style.overflow = 'hidden'
-        } else {
-            if (body) body.style.overflow = 'unset'
+        if (body) {
+            if (service) body.style.overflow = 'hidden'
+            else body.style.overflow = 'unset'
         }
     }, [service])
 

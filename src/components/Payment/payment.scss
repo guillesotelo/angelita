@@ -2,8 +2,8 @@
     &__container {
         display: flex;
         flex-direction: column;
-        gap: 1.2rem;
-        width: 50vw;
+        gap: 1.5vw;
+        min-width: 40vw;
     }
 
     &__contact-info {
@@ -42,7 +42,7 @@
         justify-content: flex-end;
         gap: 2vw;
         align-items: flex-end;
-        margin: .2rem 1rem;
+        margin: .2rem 0;
     }
 
     &__total-text {
@@ -53,7 +53,7 @@
     &__btns {
         display: flex;
         flex-direction: row;
-        gap: 2rem;
+        gap: 1rem;
         align-items: flex-end;
         justify-content: space-between;
     }

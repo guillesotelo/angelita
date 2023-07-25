@@ -5,8 +5,9 @@ import Dropdown from "../Dropdown/Dropdown"
 import { SERVICES } from "../../constants/services"
 import { TileDisabledFunc } from "react-calendar/dist/cjs/shared/types"
 import Calendar from "react-calendar"
-import { createCheckoutSession } from "../../services/"
+import { createBooking, createCheckoutSession } from "../../services/"
 import InputField from "../InputField/InputField"
+import { useHistory } from "react-router-dom"
 
 type Props = {
     checkout?: number
@@ -25,8 +26,8 @@ function Payment({ checkout }: Props) {
     const [dataOk, setDataOk] = useState(true)
     const [contribute, setContribute] = useState('')
     const [openCalendars, setOpenCalendars] = useState<dataObj>({})
+    const history = useHistory()
 
-    console.log('SEL 1', selectedDates)
 
     useEffect(() => {
         setQuantity(`1 sesión (${getHours(1)})`)
@@ -64,7 +65,7 @@ function Payment({ checkout }: Props) {
 
         const paymentData = {
             ...data,
-            date: getDate(dates),
+            date: getDateAndTime(dates),
             dateObject: JSON.stringify(date),
             dateObjects: JSON.stringify(selectedDates),
             rawData: SERVICES[checkout || -1],
@@ -89,9 +90,7 @@ function Payment({ checkout }: Props) {
     }
 
     const getDescription = () => {
-        const dates = selectedDates.length ? selectedDates : date
-        return getServiceData('description') ||
-            `${getServiceData('day')} ${getDate(dates)} - ${discountText()}`
+        return getServiceData('description') || discountText()
     }
 
     const discountText = () => {
@@ -99,8 +98,8 @@ function Payment({ checkout }: Props) {
         if (discount) {
             const dsc = Number(discount.split('=')[1].replace('%', ''))
             return `Descuento del ${100 - dsc}% desde la segunda sesión consecutiva - Precio ordinario: $${price}.00`
-        }
-        return 'Precio sin descuento'
+        } else if (price) return 'Precio sin descuento'
+        return ''
     }
 
     const getQuantity = () => {
@@ -151,11 +150,20 @@ function Payment({ checkout }: Props) {
             .map((_, i) => i === 0 ? `US $${5}` : `US $${(i + 1) * 5}`)
     }
 
+    const getDateAndTime = (date: Date) => {
+        return Array.isArray(date) ?
+            date.map((d: Date) => new Date(d).toLocaleString([], { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })).join(' - ') :
+            new Date(date).toLocaleString([], { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })
+    }
+
     const getDate = (date: Date) => {
         return Array.isArray(date) ?
-            date.map((d: Date) => new Date(d).toLocaleDateString("es-ES")).join(', ') :
+            date.map((d: Date) => {
+                new Date(d).toLocaleDateString("es-ES")
+            }).join(', ') :
             new Date(date).toLocaleDateString("es-ES")
     }
+
 
     const tileDisabled: TileDisabledFunc = ({ activeStartDate, date, view }): boolean => {
         const day = date.getDay()
@@ -189,22 +197,45 @@ function Payment({ checkout }: Props) {
     }
 
     const reserveService = async () => {
+        setIsProcessing(true)
         try {
-            const reserved = {}
+            localStorage.setItem('checkout', String(checkout))
+            const dates = selectedDates.length ? selectedDates : date
+            const reserved = await createBooking({
+                ...data,
+                date: getDateAndTime(dates),
+                dateObject: JSON.stringify(date),
+                dateObjects: JSON.stringify(selectedDates),
+                rawData: SERVICES[checkout || -1],
+                selectedDates,
+                checkout,
+                name: getServiceData('name'),
+                quantity: 1, // We pass the total amount with discounts if any
+                realQty: getQuantity(),
+                realPrice: getPrice(),
+                priceInCents: Number(getPrice().replace('.', '')),
+                image: 'https://www.naturallydating.com/wp-content/uploads/2021/01/first-date-ideas-scaled.jpg',
+                description: getDescription(),
+            })
+
+            if (reserved && reserved._id) history.push(`/successPayment?orderId=${reserved._id}`)
+            setIsProcessing(false)
         } catch (err) {
             console.error(err)
+            setIsProcessing(false)
         }
     }
 
     const getBookingSlots = (date: Date) => {
+        const { startTime, endTime } = SERVICES[checkout || -1]
         const timeSlots = []
-        const startTime = new Date(date)
-        const endTime = new Date(date)
-        startTime.setHours(9, 0, 0, 0)
-        endTime.setHours(18, 0, 0, 0)
+        const start = new Date(date)
+        const end = new Date(date)
+        start.setHours(startTime || 9, 0, 0, 0)
+        end.setHours(endTime || 18, 0, 0, 0)
         const step = 60 * 60 * 1000
 
-        for (let currentTime = startTime; currentTime <= endTime; currentTime.setTime(currentTime.getTime() + step)) {
+        for (let currentTime = start; currentTime <= end; currentTime.setTime(currentTime.getTime() + step)) {
             timeSlots.push(new Date(currentTime))
         }
         return timeSlots
@@ -253,7 +284,11 @@ function Payment({ checkout }: Props) {
                         selected={quantity}
                         value={quantity}
                         options={getQuantityOptions()}
+                        maxHeight='15rem'
                     />
+                    <h1 className="payment__total-amount"><span className="payment__total-text">Total</span> ${total}</h1>
+                </div>
+                <div className="payment__contact-info-row">
                     {openCalendar ?
                         <Calendar
                             locale='es'
@@ -269,18 +304,20 @@ function Payment({ checkout }: Props) {
                                     handleClick={() => setOpenCalendar(true)}
                                     bgColor="#B0BCEB"
                                 />
-                                <Dropdown
-                                    label='Seleccionar hora'
-                                    options={getBookingSlots(date)}
-                                    selected={date}
-                                    setSelected={setDate}
-                                    value={date}
-                                    isTime={true}
-                                />
+                                {getServiceData('startTime') ?
+                                    <Dropdown
+                                        label='Seleccionar hora'
+                                        options={getBookingSlots(date)}
+                                        selected={date}
+                                        setSelected={setDate}
+                                        value={date}
+                                        isTime={true}
+                                        maxHeight='10rem'
+                                    />
+                                    : <h2 className="booking__data-value">{getServiceData('time')}</h2>}
                             </>
                             : ''
                     }
-                    <h1 className="payment__total-amount"><span className="payment__total-text">Total</span> ${total}</h1>
                 </div>
                 <div className="payment__various-dates">
                     {Number(quantity.split(' ')[0]) > 1 ?
@@ -303,14 +340,17 @@ function Payment({ checkout }: Props) {
                                             bgColor="#B0BCEB"
                                             style={{ width: 'fit-content' }}
                                         />
-                                        <Dropdown
-                                            label='Seleccionar hora'
-                                            options={getBookingSlots(selectedDates[i])}
-                                            selected={selectedDates[i]}
-                                            setSelected={(date: any) => handleDateChange(date, i)}
-                                            value={selectedDates[i]}
-                                            isTime={true}
-                                        />
+                                        {getServiceData('startTime') ?
+                                            <Dropdown
+                                                label='Seleccionar hora'
+                                                options={getBookingSlots(selectedDates[i])}
+                                                selected={selectedDates[i]}
+                                                setSelected={(date: any) => handleDateChange(date, i)}
+                                                value={selectedDates[i]}
+                                                isTime={true}
+                                                maxHeight='10rem'
+                                            />
+                                            : <h2 className="booking__data-value">{getServiceData('time')}</h2>}
                                     </>
                                 }
                             </div>)

@@ -32,9 +32,7 @@ export default function Booking({ }: Props) {
     const [selectedDates, setSelectedDates] = useState<any>([])
     const history = useHistory()
 
-    console.log('data', data)
-    // console.log('date', date)
-    console.log('selectedDates', selectedDates)
+    // console.log('data', data)
 
     useEffect(() => {
         getBookings()
@@ -143,7 +141,7 @@ export default function Booking({ }: Props) {
             const dates = selectedDates.length ? selectedDates : date
             const updated = await updateBooking({
                 ...data,
-                date: getDate(dates),
+                date: getDateAndTime(dates),
                 dateObject: JSON.stringify(date),
                 dateObjects: JSON.stringify(selectedDates),
                 name: getServiceData('name'),
@@ -203,6 +201,14 @@ export default function Booking({ }: Props) {
         return serviceSelected[data]
     }
 
+    const getStaticServiceData = (data: string | number) => {
+        let service: dataObj = {}
+        Object.values(SERVICES).forEach((svc: dataObj) => {
+            if (svc.name === serviceSelected.name) service = svc
+        })
+        return service[data] || ''
+    }
+
     const getPrice = () => {
         if (serviceSelected.price) {
             const { price, discount } = serviceSelected
@@ -248,6 +254,12 @@ export default function Booking({ }: Props) {
         return Array.isArray(date) ?
             date.map((d: Date) => new Date(d).toLocaleDateString("es-ES")).join(', ') :
             new Date(date).toLocaleDateString("es-ES")
+    }
+
+    const getDateAndTime = (date: Date) => {
+        return Array.isArray(date) ?
+            date.map((d: Date) => new Date(d).toLocaleString([], { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })).join(' - ') :
+            new Date(date).toLocaleString([], { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })
     }
 
     const handleDateChange = (value: any, index: number): void => {
@@ -304,7 +316,21 @@ export default function Booking({ }: Props) {
                         </div>
                         {tryToRemove ?
                             <div className="booking__col" style={{ width: '100%' }}>
-                                <h3 style={{ textAlign: 'center' }}>¿Estás segura de que quieres eliminar la reserva?</h3>
+                                <h3 style={{ textAlign: 'center', fontWeight: 'normal', fontSize: '1.5rem' }}>¿Estás segura de que quieres eliminar esta reserva?</h3>
+                                <div className="booking__row">
+                                    <div className="booking__col">
+                                        <div className="booking__no-edit-data">
+                                            <h2 className="booking__data-label">Reserva</h2>
+                                            <h2 className="booking__data-value">{getDateAndTime(selectedDates.length ? selectedDates : date)}</h2>
+                                        </div>
+                                    </div>
+                                    <div className="booking__col">
+                                        <div className="booking__no-edit-data">
+                                            <h2 className="booking__data-label">Total</h2>
+                                            <h2 className="booking__data-value">{serviceSelected.currency || 'USD'} ${serviceSelected.realPrice}</h2>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="booking__btns">
                                     <Button
                                         label='Cancelar'
@@ -336,7 +362,7 @@ export default function Booking({ }: Props) {
                                             <h2 className="booking__data-value">{data.name}</h2>
                                         </div>}
                                     <div className="booking__no-edit-data">
-                                        <h2 className="booking__data-label">Precio</h2>
+                                        <h2 className="booking__data-label">Precio unitario</h2>
                                         <h2 className="booking__data-value">{data.currency || 'USD'} ${data.price}</h2>
                                     </div>
                                     <InputField
@@ -419,7 +445,9 @@ export default function Booking({ }: Props) {
                                                                     value={selectedDates[i]}
                                                                     isTime={true}
                                                                 />
-                                                                : ''}
+                                                                :
+                                                                <h2 className="booking__data-value">{getStaticServiceData('time')}</h2>
+                                                            }
                                                         </>
                                                     }
                                                 </div>)
@@ -429,7 +457,7 @@ export default function Booking({ }: Props) {
                                 <div className="booking__col">
                                     <div className="booking__no-edit-data">
                                         <h2 className="booking__data-label">Agenda</h2>
-                                        <h2 className="booking__data-value">{data.day} - {data.time}</h2>
+                                        <h2 className="booking__data-value">{getStaticServiceData('day')} - {getStaticServiceData('time')}</h2>
                                     </div>
                                     {isNew ?
                                         <Dropdown
@@ -457,15 +485,9 @@ export default function Booking({ }: Props) {
                                         value={data.phone}
                                     />
                                     <div className="booking__no-edit-data">
-                                        <h2 className="booking__data-label">Precio total</h2>
+                                        <h2 className="booking__data-label">{isNew ? 'Precio final' : data.isPaid ? 'Monto recibido' : 'Monto total'}</h2>
                                         <h2 className="booking__data-value">US $ {isNew ? totalPrice : data.realPrice}</h2>
                                     </div>
-                                    {!data.startTime ?
-                                        <div className="booking__no-edit-data">
-                                            <h2 className="booking__data-label">Horario</h2>
-                                            <h2 className="booking__data-value">{data.time}</h2>
-                                        </div>
-                                        : ''}
                                 </div>
                             </div>
                         }

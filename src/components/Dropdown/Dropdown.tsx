@@ -11,6 +11,7 @@ type Props = {
     isTime?: boolean
     isDate?: boolean
     locale?: string
+    maxHeight?:string
 }
 
 export default function Dropdown(props: Props) {
@@ -25,7 +26,8 @@ export default function Dropdown(props: Props) {
         objKey,
         isTime,
         isDate,
-        locale
+        locale,
+        maxHeight
     } = props
 
     useEffect(() => {
@@ -60,7 +62,7 @@ export default function Dropdown(props: Props) {
     const renderDropDownOptions = () => {
         return <div
             className='dropdown__options'
-            style={{ borderTop: 'none' }}>
+            style={{ borderTop: 'none', maxHeight: maxHeight || '' }}>
             {options.length ?
                 options.map((option: any, i: number) =>
                     <h4

@@ -26,13 +26,18 @@ export default function SuccessPayment({ }: Props) {
 
     const confirmCurrentPayment = async (id: string) => {
         setLoading(true)
-        const confirmed = await confirmPayment(id)
-        if (!confirmed) {
+        try {
+            const confirmed = await confirmPayment(id)
+            if (!confirmed) {
+                setLoading(false)
+                return setMessage('Recibimos tu pago, pero no pudimos confirmar tu reserva debido a un error del sistema. Por favor, ponte en contacto conmigo para confirmar tu reserva manualmente.')
+            }
             setLoading(false)
-            return setMessage('Recibimos tu pago, pero no pudimos confirmar tu reserva debido a un error del sistema. Por favor, ponte en contacto conmigo para confirmar tu reserva manualmente.')
+            setPaymentInfo({ ...confirmed })
+        } catch (err) {
+            console.error(err)
+            setLoading(false)
         }
-        setLoading(false)
-        setPaymentInfo({ ...confirmed })
     }
 
     const getService = (service: number | string, key?: string | number) => {
@@ -48,18 +53,21 @@ export default function SuccessPayment({ }: Props) {
     return (
         <div className="success-payment__container">
             <div className='success-payment__wrapper'>
-                <h4 className="success-payment__title">Gracias por tu compra!</h4>
+                <h4 className="success-payment__title">¡Reserva confirmada!</h4>
                 <img alt="Compra exitosa" src={CheckIcon} className='success-payment__success-check' />
                 {loading ?
-                    <MoonLoader color='#0057ad' size={50} />
+                    <>
+                        <MoonLoader color='#0057ad' size={50} />
+                        <p>Cargando datos...</p>
+                    </>
                     :
                     <div className="success-payment__book">
                         <h4 className="success-payment__subtitle">Información sobre tu reserva</h4>
-                        <h4 className="success-payment__book-label">Servicio: <strong>{paymentInfo.name}</strong></h4>
-                        <h4 className="success-payment__book-label">Cantidad: <strong>{paymentInfo.realQty}</strong></h4>
-                        <h4 className="success-payment__book-label">Cuándo: <strong>{paymentInfo.date}</strong></h4>
+                        <h4 className="success-payment__book-label"><strong>Servicio:</strong> {paymentInfo.name}</h4>
+                        <h4 className="success-payment__book-label"><strong>Cantidad:</strong> {paymentInfo.realQty}</h4>
+                        <h4 className="success-payment__book-label"><strong>Cuándo:</strong> {paymentInfo.date}</h4>
                         <br />
-                        <h4 className="success-payment__book-label">Total: <strong>US ${paymentInfo.realPrice}</strong></h4>
+                        <h4 className="success-payment__book-label"><strong>Total: </strong>US ${paymentInfo.realPrice}</h4>
                         <br />
                         {message ? <h4 className="payment__message">{message}</h4>
                             :
