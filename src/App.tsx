@@ -24,9 +24,18 @@ const App: React.FC = () => {
   const isMobile = window.screen.width <= 768
   const [search, setSearch] = useState<string[]>([])
   const [lang, setLang] = useState<string>(localLang)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   return (
-    <AppProvider lang={lang} setLang={setLang} search={search} setSearch={setSearch} isMobile={isMobile}>
+    <AppProvider
+      lang={lang}
+      setLang={setLang}
+      search={search}
+      setSearch={setSearch}
+      isMobile={isMobile}
+      isLoggedIn={isLoggedIn}
+      setIsLoggedIn={setIsLoggedIn}
+    >
       <Switch>
         <Route exact path="/">
           <div className='page__wrapper'>

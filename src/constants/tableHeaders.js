@@ -1,6 +1,6 @@
 export const bookingHeaders = [
     {
-        name: 'ÚLTIMA MODIFICACION',
+        name: 'MODIFICADO',
         value: 'updatedAt'
     },
     {
@@ -8,19 +8,15 @@ export const bookingHeaders = [
         value: 'name'
     },
     {
-        name: 'DÍA DE RESERVA',
+        name: 'DÍA Y HORA',
         value: 'date'
     },
     {
-        name: 'HORA DE RESERVA',
-        value: 'selectedTime'
-    },
-    {
-        name: 'DESCRIPCIÓN',
+        name: 'ADICIONAL',
         value: 'description'
     },
     {
-        name: 'CLIENTE',
+        name: 'NOMBRE',
         value: 'username'
     },
     {
@@ -36,7 +32,7 @@ export const bookingHeaders = [
         value: 'phone'
     },
     {
-        name: 'AGENDA',
+        name: 'DÍAS SERVCIO',
         value: 'day'
     },
     {
@@ -47,14 +43,6 @@ export const bookingHeaders = [
         name: 'TYPO',
         value: 'type'
     },
-    // {
-    //     name: 'DURACIÓN',
-    //     value: 'duration'
-    // },
-    // {
-    //     name: 'MARCA',
-    //     value: 'duration'
-    // },
     {
         name: 'CANTIDAD',
         value: 'realQty'

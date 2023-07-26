@@ -46,6 +46,7 @@
             width: fit-content;
             cursor: pointer;
             transition: .5s;
+
             &:hover {
                 filter: contrast(110%);
                 transform: translateX(2%);
@@ -81,13 +82,13 @@
         }
 
         &-text {
-            font-size: 1.2vw;
+            font-size: 1.2rem;
             font-weight: normal;
-            padding: 1vw 0;
+            padding: 1rem 0;
         }
 
         &-svg {
-            height: 1.5vw;
+            height: 1.5rem;
         }
 
         &-dropdown {
@@ -110,7 +111,7 @@
 
             &-text {
                 margin: .3vw 0;
-                font-size: 1vw;
+                font-size: 1rem;
                 font-weight: normal;
                 position: relative;
                 text-align: center;
@@ -159,6 +160,21 @@
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
+        }
+    }
+
+    &__login {
+        &-icon {
+            height: 2rem;
+            align-self: flex-end;
+            margin: 0 1.5rem;
+            cursor: pointer;
+            transition: .2s;
+            filter: invert(83%) sepia(2%) saturate(10%) hue-rotate(314deg) brightness(94%) contrast(89%);
+
+            &:hover {
+                filter: invert(90%) sepia(97%) saturate(5307%) hue-rotate(313deg) brightness(96%) contrast(93%);
+            }
         }
     }
 }

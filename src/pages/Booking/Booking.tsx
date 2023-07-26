@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import DataTable from '../../components/DataTable/DataTable'
 import { dataObj } from '../../types'
 import { bookingHeaders } from '../../constants/tableHeaders'
-import { deleteBooking, getAllBookings, updateBooking } from '../../services'
+import { deleteBooking, getAllBookings, updateBooking, verifyToken } from '../../services'
 import InputField from '../../components/InputField/InputField'
 import Button from '../../components/Button/Button'
 import { toast } from 'react-hot-toast'
@@ -11,6 +11,11 @@ import Dropdown from '../../components/Dropdown/Dropdown'
 import { SERVICES } from '../../constants/services'
 import Calendar from 'react-calendar'
 import { TileDisabledFunc } from 'react-calendar/dist/cjs/shared/types'
+import { AppContext } from '../../AppContext'
+import { Calendar as EventCalendar, momentLocalizer } from 'react-big-calendar'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
+import moment from 'moment';
+import 'moment/locale/es'
 
 type Props = {}
 
@@ -30,11 +35,14 @@ export default function Booking({ }: Props) {
     const [openCalendars, setOpenCalendars] = useState<dataObj>({})
     const [date, setDate] = useState<any>(null)
     const [selectedDates, setSelectedDates] = useState<any>([])
+    const [showEventCalendar, setShowEventCalendar] = useState(true)
     const history = useHistory()
+    const { isMobile, isLoggedIn } = useContext(AppContext)
 
     // console.log('data', data)
 
     useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
         getBookings()
     }, [])
 
@@ -291,19 +299,114 @@ export default function Booking({ }: Props) {
         return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
 
-    return (
+    const getCalendarEvents = () => {
+        let bookingEvents: dataObj[] = []
+        console.log('bookings', bookings)
+        bookings.forEach(booking => {
+            const dateObj = JSON.parse(booking.dateObject)
+            const dateObjs = JSON.parse(booking.dateObjects)
+            if (dateObjs.length) {
+                dateObjs.forEach((date: any) => {
+                    bookingEvents.push({
+                        ...booking,
+                        id: booking._id,
+                        title: `${booking.name} - ${booking.username}`,
+                        start: moment(date).toDate(),
+                        end: moment(date).add(booking.duration || 1, 'hours').toDate()
+                    })
+                })
+            } else {
+                bookingEvents.push({
+                    ...booking,
+                    id: booking._id,
+                    title: `${booking.name} - ${booking.username}`,
+                    start: moment(dateObj).toDate(),
+                    end: moment(dateObj).add(booking.duration || 1, 'hours').toDate()
+                })
+            }
+        })
+        return bookingEvents
+    }
+
+    const localizer = momentLocalizer(moment);
+
+    const handleSelectSlot = (event: dataObj) => {
+        const { start, end } = event
+        setDate(start)
+        setIsNew(true)
+    }
+
+    const handleSelectEvent = (event: dataObj) => {
+        const { _id } = event
+        setSelected(bookings.findIndex((item) => item._id === _id))
+    }
+
+    const messages = {
+        allDay: 'Todo el día',
+        previous: 'Anterior',
+        next: 'Siguiente',
+        today: 'Hoy',
+        month: 'Mes',
+        week: 'Semana',
+        day: 'Día',
+        date: 'Fecha',
+        time: 'Hora',
+        event: 'Evento',
+        noEventsInRange: 'No hay eventos en este rango',
+    }
+
+    return isLoggedIn ?
         <div className="booking__container">
             <h1 className='page__title' style={{ marginTop: 0, filter: selected !== -1 || isNew ? 'blur(10px)' : '' }}>Reservas</h1>
-            <Button
-                label='Crear'
-                handleClick={() => setIsNew(true)}
-                bgColor="#87d18d"
-                style={{
-                    width: 'fit-content',
-                    alignSelf: 'flex-end',
-                    filter: selected !== -1 || isNew ? 'blur(10px)' : ''
-                }}
-            />
+
+            <div className="booking__cta-btns">
+                <Button
+                    label={showEventCalendar ? 'Ver Base de Datos' : 'Ver Calendario'}
+                    handleClick={() => setShowEventCalendar(!showEventCalendar)}
+                    bgColor="#B0BCEB"
+                    style={{
+                        width: 'fit-content',
+                        alignSelf: 'flex-end',
+                        filter: selected !== -1 || isNew ? 'blur(10px)' : ''
+                    }}
+                />
+                <Button
+                    label='Nueva reserva'
+                    handleClick={() => setIsNew(true)}
+                    bgColor="#87d18d"
+                    style={{
+                        width: 'fit-content',
+                        alignSelf: 'flex-end',
+                        filter: selected !== -1 || isNew ? 'blur(10px)' : ''
+                    }}
+                />
+            </div>
+
+            {showEventCalendar ?
+                <EventCalendar
+                    localizer={localizer}
+                    events={getCalendarEvents()}
+                    startAccessor="start"
+                    endAccessor="end"
+                    defaultDate={new Date()}
+                    views={["day", "agenda", "week", "month"]}
+                    selectable
+                    defaultView="month"
+                    style={{
+                        height: "70vh",
+                        width: '60vw',
+                        // alignSelf: 'flex-start',
+                        zIndex: 0,
+                        filter: selected !== -1 || isNew ? 'blur(10px)' : '',
+                        marginBottom: '5rem'
+                    }}
+                    onSelectEvent={handleSelectEvent}
+                    onSelectSlot={handleSelectSlot}
+                    min={new Date(0, 0, 0, 8, 0, 0)}
+                    max={new Date(0, 0, 0, 21, 0, 0)}
+                    messages={messages}
+                /> : ''}
+
             {selected !== -1 || isNew ?
                 <div className='home__modal-wrapper'>
                     <div className='home__modal-container' style={{ overflow: 'auto ' }}>
@@ -513,17 +616,19 @@ export default function Booking({ }: Props) {
                     </div >
                 </div >
                 : ''}
-            <div style={{ width: '100%', filter: selected !== -1 || isNew ? 'blur(10px)' : '' }}>
-                <DataTable
-                    name='reservas'
-                    tableData={bookings}
-                    setTableData={setBookings}
-                    tableHeaders={bookingHeaders}
-                    selected={selected}
-                    setSelected={setSelected}
-                    loading={loading}
-                />
-            </div>
+            {!showEventCalendar ?
+                <div style={{ width: '100%', filter: selected !== -1 || isNew ? 'blur(10px)' : '' }}>
+                    <DataTable
+                        title='Todas las reservas'
+                        name='reservas'
+                        tableData={bookings}
+                        setTableData={setBookings}
+                        tableHeaders={bookingHeaders}
+                        selected={selected}
+                        setSelected={setSelected}
+                        loading={loading}
+                    />
+                </div> : ''}
         </div>
-    )
+        : null
 }

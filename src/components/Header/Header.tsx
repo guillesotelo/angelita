@@ -12,10 +12,13 @@ import EditIcon from '../../assets/icons/edit.svg'
 import ImageLogo from '../../assets/logos/angelita_logo2.png'
 import ImageLogo2 from '../../assets/logos/angelita_logo.png'
 import ImageLogo3 from '../../assets/logos/angelita_logo3.png'
+import LoginIcon from '../../assets/icons/login-icon.svg'
+import LogoutIcon from '../../assets/icons/logout-icon.svg'
 import { toast } from 'react-hot-toast'
 import { APP_VERSION } from '../../constants/app'
 import { AppContext } from '../../AppContext'
 import { TEXT } from '../../constants/lang'
+import { verifyToken } from '../../services'
 
 type Props = {
     style?: React.CSSProperties
@@ -32,10 +35,11 @@ export default function Header({ style, setRenderAll, setService }: Props) {
     const [searchClicked, setSearchClicked] = useState(false)
     const history = useHistory()
     const location = useLocation()
-    const { lang, isMobile, setLang, search, setSearch } = useContext(AppContext)
+    const { lang, isMobile, setLang, search, setSearch, setIsLoggedIn, isLoggedIn } = useContext(AppContext)
 
     useEffect(() => {
         activateMenuClick()
+        verifyUser()
     }, [])
 
     useEffect(() => {
@@ -59,6 +63,15 @@ export default function Header({ style, setRenderAll, setService }: Props) {
             else postEditor.style.filter = ''
         }
     }, [deleteModal])
+
+    const verifyUser = async () => {
+        try {
+            const isLodded = await verifyToken()
+            if (isLodded) setIsLoggedIn(isLodded)
+        } catch (err) {
+            console.error(err)
+        }
+    }
 
     const activateMenuClick = () => {
         const menu = document.querySelector('.header__menu')
@@ -135,7 +148,14 @@ export default function Header({ style, setRenderAll, setService }: Props) {
         }, 50)
     }
 
+    const logout = () => {
+        localStorage.clear()
+        history.go(0)
+    }
 
+    const login = () => {
+        history.push('/login')
+    }
 
     return (
         <div className='header__container header--fixed' id='header__container' style={style}>
@@ -164,8 +184,16 @@ export default function Header({ style, setRenderAll, setService }: Props) {
                 <div className="header__item">
                     <div className="header__item-text" onClick={() => scrollToSection('eventos')}>Eventos</div>
                 </div>
+                {isLoggedIn ?
+                    <div className="header__item">
+                        <div className="header__item-text" style={{ color: '#EBAA59' }} onClick={() => history.push('/booking')}>Booking</div>
+                    </div> : ''}
             </div>
             <div className="header__logo">
+                {isLoggedIn ?
+                    <img src={LogoutIcon} className="header__login-icon" onClick={logout} />
+                    :
+                    <img src={LoginIcon} className="header__login-icon" onClick={login} />}
             </div>
         </div>
     )

@@ -1,5 +1,6 @@
 import {
     loginUser,
+    verifyToken,
     registerUser,
     updateUser,
 } from './user'
@@ -21,6 +22,7 @@ import {
 
 export {
     loginUser,
+    verifyToken,
     registerUser,
     updateUser,
     getPublicKey,

@@ -63,6 +63,60 @@ tr:nth-child(even) {
     overflow: hidden;
 }
 
+// React Big Calendar (events)
+.rbc-btn-group button {
+    border-color: lightgray !important;
+    border-radius: .5rem !important;
+    margin: .2rem !important;
+    cursor: pointer !important;
+    transition: .3s !important;
+    font-size: 1rem !important;
+    background-color: #e0e5f9 !important;
+    &:hover {
+        filter: contrast(110%) !important;
+    }
+    &.rbc-active {
+        background-color: #efdebd !important;
+        box-shadow: none !important;
+    }
+}
+
+.rbc-toolbar-label {
+    font-size: 1rem !important;
+    border-radius: .5rem !important;
+    background-color: rgb(230, 230, 230);
+    padding: .3rem 0 !important;
+    margin: .2rem !important;
+    cursor: default;
+    font-weight: bold;
+}
+
+.rbc-month-view {
+    border-radius: .5rem !important;
+}
+
+.rbc-off-range-bg {
+    background-color: #f7f2e8 !important;
+}
+
+.rbc-event {
+    background-color: #B0BCEB !important;
+    color: black !important;
+    font-size: .8rem !important;
+    transition: .3s !important;
+    &:hover{
+       filter: brightness(110%) !important;
+    }
+}
+
+.rbc-day-bg {
+    transition: .3s !important;
+    cursor: pointer !important;
+    &:hover {
+        background-color: rgb(247, 247, 247) !important;
+    }
+}
+
 @media only screen and (max-width: 640px) {
     .page {
         &__header {

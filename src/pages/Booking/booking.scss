@@ -65,4 +65,12 @@
         gap: 2rem;
         margin-top: 2rem;
     }
+
+    &__cta-btns {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        align-self: flex-start;
+    }
 }

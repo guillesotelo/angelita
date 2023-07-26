@@ -24,7 +24,7 @@ export default function Login({ }: Props) {
         const logged = await loginUser(data)
         if (logged) {
             toast.success(`Hola, ${logged.username ? logged.username.split(' ')[0] : 'Angelita'}!`)
-            setTimeout(() => history.push('/'), 1500)
+            setTimeout(() => history.push('/booking'), 1000)
         } else toast.error('Error al iniciar sesión. Prueba nuevamente')
 
         return toast.remove(loading)
