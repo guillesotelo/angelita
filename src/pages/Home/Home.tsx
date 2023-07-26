@@ -293,15 +293,15 @@ export default function Home({ }: Props) {
         {renderDiscounts ?
             <div className="home__section">
                 <h2 className="home__section-title scroll-item" style={{ animationDelay: '.3s', color: '#EBAA59', fontSize: '2.2vw', textAlign: 'center' }}>DESCUENTOS ESPECIALES</h2>
-                <div className="home__section-row" style={{ alignItems: 'center', height: '20%', margin: '2rem 0' }}>
-                    <div className="home__section-col1 scroll-item" style={{ textAlign: 'justify', boxShadow: '0 .5rem 1rem rgba(0, 0, 0, 0.417)', padding: '1.5rem', borderRadius: '1rem' }}>
+                <div className="home__discount-row" >
+                    <div className="home__discount-card scroll-item">
                         <p className="home__section-text" style={{ animationDelay: '.4s', textAlign: 'center', fontSize: '1.2rem' }}>
                             <strong style={{ fontSize: '1.5rem' }}>20%</strong>
                             <br />
                             En todos los servicios a residentes en Sudamérica
                         </p>
                     </div>
-                    <div className="home__section-col1 scroll-item" style={{ textAlign: 'justify', boxShadow: '0 .5rem 1rem rgba(0, 0, 0, 0.417)', padding: '1.5rem', borderRadius: '1rem' }}>
+                    <div className="home__discount-card scroll-item">
                         <p className="home__section-text" style={{ animationDelay: '.4s', textAlign: 'center', fontSize: '1.2rem' }}>
                             <strong style={{ fontSize: '1.5rem' }}>10%</strong>
                             <br />
@@ -309,15 +309,15 @@ export default function Home({ }: Props) {
                         </p>
                     </div>
                 </div>
-                <div className="home__section-row" style={{ alignItems: 'center', height: '20%' }}>
-                    <div className="home__section-col1 scroll-item" style={{ textAlign: 'justify', boxShadow: '0 .5rem 1rem rgba(0, 0, 0, 0.417)', padding: '1.5rem', borderRadius: '1rem' }}>
+                <div className="home__discount-row">
+                    <div className="home__discount-card scroll-item">
                         <p className="home__section-text" style={{ animationDelay: '.4s', textAlign: 'center', fontSize: '1.2rem' }}>
                             <strong style={{ fontSize: '1.5rem' }}>15%</strong>
                             <br />
                             En la primer compra de paquete de 4 a 6 sesiones consecutivas en cualquier servicio
                         </p>
                     </div>
-                    <div className="home__section-col1 scroll-item" style={{ textAlign: 'justify', boxShadow: '0 .5rem 1rem rgba(0, 0, 0, 0.417)', padding: '1.5rem', borderRadius: '1rem' }}>
+                    <div className="home__discount-card scroll-item">
                         <p className="home__section-text" style={{ animationDelay: '.4s', textAlign: 'center', fontSize: '1.2rem' }}>
                             <strong style={{ fontSize: '1.5rem' }}>Casos de Insolvencia</strong>
                             <br />

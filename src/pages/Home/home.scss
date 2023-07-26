@@ -191,6 +191,38 @@
         }
     }
 
+    &__discount {
+        &-row {
+            display: flex;
+            flex-direction: row;
+            gap: 3rem;
+            align-items: center;
+            height: 30vh;
+            cursor: default;
+            // max-width: 2rem 0;
+        }
+
+        &-card {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            text-align: justify;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            height: 15vh;
+            background-color: #fff2d2;
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
+            transition: .3s;
+
+            &:hover {
+                box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, .175);
+            }
+        }
+    }
+
     &__event {
         &-calendar {
             width: 100%;
