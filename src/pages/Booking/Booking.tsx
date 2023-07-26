@@ -283,6 +283,7 @@ export default function Booking({ }: Props) {
 
     const getBookingSlots = (date: Date) => {
         const timeSlots = []
+        const unavailableTime = getBookedSlots(bookings, true)
         const startTime = new Date(date)
         const endTime = new Date(date)
         startTime.setHours(data.startTime || 9, 0, 0, 0)
@@ -290,9 +291,25 @@ export default function Booking({ }: Props) {
         const step = 60 * 60 * 1000
 
         for (let currentTime = startTime; currentTime <= endTime; currentTime.setTime(currentTime.getTime() + step)) {
-            timeSlots.push(new Date(currentTime))
+            const freeSlot = new Date(currentTime)
+            if (!unavailableTime.includes(freeSlot.getTime())) timeSlots.push(freeSlot)
         }
         return timeSlots
+    }
+
+    const getBookedSlots = (bookingArray: dataObj[], miliseconds=false) => {
+        let slots: any[] = []
+        bookingArray.forEach((booking: dataObj) => {
+            const dateObj = JSON.parse(booking.dateObject)
+            const dateObjs = JSON.parse(booking.dateObjects)
+            if (dateObjs.length) {
+                dateObjs.forEach((date: any) => {
+                    slots.push(miliseconds ? new Date(date).getTime() : new Date(date))
+                })
+            }
+            else slots.push(miliseconds ? new Date(dateObj).getTime() : new Date(dateObj))
+        })
+        return slots
     }
 
     const localTime = (date: Date) => {
@@ -301,7 +318,6 @@ export default function Booking({ }: Props) {
 
     const getCalendarEvents = () => {
         let bookingEvents: dataObj[] = []
-        console.log('bookings', bookings)
         bookings.forEach(booking => {
             const dateObj = JSON.parse(booking.dateObject)
             const dateObjs = JSON.parse(booking.dateObjects)
@@ -512,6 +528,7 @@ export default function Booking({ }: Props) {
                                                             setSelected={setDate}
                                                             value={date}
                                                             isTime={true}
+                                                            maxHeight='10rem'
                                                         />
                                                         : ''}
                                                 </>
@@ -547,6 +564,7 @@ export default function Booking({ }: Props) {
                                                                     setSelected={(date: any) => handleDateChange(date, i)}
                                                                     value={selectedDates[i]}
                                                                     isTime={true}
+                                                                    maxHeight='10rem'
                                                                 />
                                                                 :
                                                                 <h2 className="booking__data-value">{getStaticServiceData('time')}</h2>

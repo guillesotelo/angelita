@@ -372,19 +372,19 @@ export default function Home({ }: Props) {
                     </div>
                     <div className="home__section-col1" style={{ width: '100%', textAlign: 'justify' }}>
                         <h2 className="home__section-title scroll-item" style={{ animationDelay: '.1s', color: '#B0BCEB' }}>¿Estás en busca de un <strong>CAMBIO</strong>?</h2>
-                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.1s', fontSize: '1.3vw' }}>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.3s', fontSize: '1.3vw' }}>
                             ¿Quieres superar tus temores, angustias, dependencias, estados depresivos?
                         </p>
                         <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.5s', fontSize: '1.3vw' }}>
                             ¿Quieres redirigir y hacerte consciente de lo que haces?
                         </p>
-                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '1.3vw' }}>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.7s', fontSize: '1.3vw' }}>
                             ¿Quieres conocerte a ti mismo?
                         </p>
-                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.7s', fontSize: '1.3vw' }}>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.9s', fontSize: '1.3vw' }}>
                             ¿Quieres experimentar Fortaleza Interior?
                         </p>
-                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.9s', fontSize: '1.3vw' }}>
+                        <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '1.3vw' }}>
                             ¿Quieres relacionarte sanamente?
                         </p>
                     </div>

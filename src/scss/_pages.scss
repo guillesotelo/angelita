@@ -72,9 +72,11 @@ tr:nth-child(even) {
     transition: .3s !important;
     font-size: 1rem !important;
     background-color: #e0e5f9 !important;
+
     &:hover {
         filter: contrast(110%) !important;
     }
+
     &.rbc-active {
         background-color: #efdebd !important;
         box-shadow: none !important;
@@ -96,7 +98,7 @@ tr:nth-child(even) {
 }
 
 .rbc-off-range-bg {
-    background-color: #f7f2e8 !important;
+    background-color: #fffaf1 !important;
 }
 
 .rbc-event {
@@ -104,17 +106,30 @@ tr:nth-child(even) {
     color: black !important;
     font-size: .8rem !important;
     transition: .3s !important;
-    &:hover{
-       filter: brightness(110%) !important;
+
+    &:hover {
+        filter: brightness(110%) !important;
     }
 }
 
 .rbc-day-bg {
     transition: .3s !important;
     cursor: pointer !important;
+
     &:hover {
         background-color: rgb(247, 247, 247) !important;
     }
+}
+
+.rbc-today {
+    background-color: unset !important;
+}
+
+.rbc-current button {
+    background-color: #ffd68a !important;
+    padding: 2px;
+    // color: white !important;
+    border-radius: 50%;
 }
 
 @media only screen and (max-width: 640px) {
