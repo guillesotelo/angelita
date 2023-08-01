@@ -42,6 +42,7 @@ export default function Booking({ }: Props) {
     // console.log('data', data)
 
     useEffect(() => {
+        if (!isLoggedIn) history.push('/')
         window.scrollTo({ top: 0, behavior: 'smooth' })
         getBookings()
     }, [])
@@ -297,7 +298,7 @@ export default function Booking({ }: Props) {
         return timeSlots
     }
 
-    const getBookedSlots = (bookingArray: dataObj[], miliseconds=false) => {
+    const getBookedSlots = (bookingArray: dataObj[], miliseconds = false) => {
         let slots: any[] = []
         bookingArray.forEach((booking: dataObj) => {
             const dateObj = JSON.parse(booking.dateObject)

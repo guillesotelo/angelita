@@ -12,7 +12,7 @@ type Props = {}
 export default function Login({ }: Props) {
     const [data, setData] = useState({ email: '', password: '' })
     const history = useHistory()
-    const { lang, setLang, isMobile } = useContext(AppContext)
+    const { lang, setIsLoggedIn } = useContext(AppContext)
 
     const updateData = (key: string, e: { [key: string | number]: any }) => {
         const value = e.target.value
@@ -23,16 +23,17 @@ export default function Login({ }: Props) {
         const loading = toast.loading('Iniciando sesión...')
         const logged = await loginUser(data)
         if (logged) {
+            setIsLoggedIn(true)
             toast.success(`Hola, ${logged.username ? logged.username.split(' ')[0] : 'Angelita'}!`)
             setTimeout(() => history.push('/booking'), 1000)
         } else toast.error('Error al iniciar sesión. Prueba nuevamente')
-
         return toast.remove(loading)
     }
 
     return (
         <div className="login__container">
             <div className="login__box">
+                <p style={{ textAlign: 'center' }}>Ingresa tus credenciales para comenzar</p>
                 <InputField
                     name='email'
                     updateData={updateData}

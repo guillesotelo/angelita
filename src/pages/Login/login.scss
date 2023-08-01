@@ -6,15 +6,15 @@
 
     &__box {
         position: fixed;
-        top: 50%;
-        width: 20vw;
+        top: 55%;
+        width: 25vw;
         left: 50%;
         transform: translate(-50%, -100%);
         display: flex;
         flex-direction: column;
         gap: 1vw;
         padding: 1vw;
-        box-shadow: 3px 3px 15px lightgray;
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
         border-radius: .5vw;
 
         &button {

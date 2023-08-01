@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import { testImages } from '../../constants/dev'
 import { AppContext } from '../../AppContext'
-import { TEXT } from '../../constants/lang'
 import BGVideo from '../../assets/videos/background_video.mp4'
 import Header from '../../components/Header/Header'
 import ItemCard from '../../components/ItemCard/ItemCard'
@@ -11,9 +9,6 @@ import Image1 from '../../assets/images/coffee/image14.png'
 import Image2 from '../../assets/images/coffee/image42.png'
 import Image3 from '../../assets/images/coffee/image9.png'
 import Payment from '../../components/Payment/Payment'
-import ProfilePicture from '../../assets/images/angela1.jpeg'
-import ProfilePicture2 from '../../assets/images/angela2.png'
-import ProfilePicture3 from '../../assets/images/angela3.png'
 import ProfilePicture4 from '../../assets/images/angela4.png'
 import MissionImage from '../../assets/images/mission.png'
 import ToolsImage from '../../assets/images/tools.png'
@@ -23,18 +18,12 @@ import ImageEvent3 from '../../assets/images/coffee/image24.png'
 import AngelitaIsoLogo from '../../assets/logos/isologo.svg'
 import AngelitaLogo from '../../assets/logos/angelita_logo.png'
 import PresentationImage from '../../assets/images/presentation.png'
-import SymptomsImage from '../../assets/illustrations/symptoms.svg'
 import Calendar from 'react-calendar'
 import WhatsAppButton from '../../components/WhatsAppButton/WhatsAppButton'
 import { whatsappMessage } from '../../constants/misc'
 import Button from '../../components/Button/Button'
-// import 'react-calendar/dist/Calendar.css'
 
-type Props = {
-}
-
-export default function Home({ }: Props) {
-    const [loading, setLoading] = useState(false)
+export default function Home() {
     const [renderSectionAbout, setRenderSectionAbout] = useState(false)
     const [renderMission, setRenderMission] = useState(false)
     const [renderPresentation, setRenderPresentation] = useState(false)
@@ -106,16 +95,18 @@ export default function Home({ }: Props) {
 
                 if (header && home) {
                     scrollPosition = scrollPosition || header.offsetTop
-                    if (scrollTop > scrollPosition && scrollPosition + scrollTop + 100 < scrollHeight) {
+                    if (scrollTop > scrollPosition && scrollPosition + scrollTop < scrollHeight) {
                         home.style.marginTop = '9vh'
                         header.classList.add('header--fixed')
-                        if (wapp) wapp.style.transform = 'translateX(0%)'
                     }
                     else {
                         home.style.marginTop = '0'
                         header.classList.remove('header--fixed')
-                        if (wapp) wapp.style.transform = 'translateX(200%)'
                     }
+                    if (scrollTop > scrollPosition && scrollPosition + scrollTop + 100 < scrollHeight) {
+                        if (wapp) wapp.style.transform = 'translateX(0%)'
+                    }
+                    else if (wapp) wapp.style.transform = 'translateX(200%)'
                 }
             })
         }
