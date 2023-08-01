@@ -49,9 +49,20 @@
         font-weight: normal;
         resize: none;
         font-family: 'Open Sans', sans-serif;
+        width: -webkit-fill-available;
 
         &::placeholder {
             color: #b5b5b5;
+        }
+
+        &:focus {
+            border: 1px solid #EBAA59;
+            outline: none;
+        }
+
+        &:active {
+            border: 1px solid #EBAA59;
+            outline: none;
         }
     }
 }

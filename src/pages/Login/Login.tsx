@@ -12,7 +12,7 @@ type Props = {}
 export default function Login({ }: Props) {
     const [data, setData] = useState({ email: '', password: '' })
     const history = useHistory()
-    const { lang, setLang, isMobile } = useContext(AppContext)
+    const { lang, setLang, isMobile, setIsLoggedIn } = useContext(AppContext)
 
     const updateData = (key: string, e: { [key: string | number]: any }) => {
         const value = e.target.value
@@ -24,6 +24,7 @@ export default function Login({ }: Props) {
         const logged = await loginUser(data)
         if (logged) {
             toast.success(`Hola, ${logged.username ? logged.username.split(' ')[0] : 'Angelita'}!`)
+            setIsLoggedIn(true)
             setTimeout(() => history.push('/booking'), 1000)
         } else toast.error('Error al iniciar sesión. Prueba nuevamente')
 

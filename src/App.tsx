@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Switch, Route } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Switch, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import './scss/app.scss'
 import Header from './components/Header/Header';
@@ -16,6 +16,10 @@ import Metodologies from './pages/Metodologies/Metodologies';
 import Discounts from './pages/Discounts/Discounts';
 import CheckoutError from './pages/CheckoutError/CheckoutError';
 import Booking from './pages/Booking/Booking';
+import RouteTracker from './components/RouteTracker/RouteTracker';
+import ReactGA from 'react-ga';
+const TRACKING_ID = "G-7BDD4BFJRQ";
+ReactGA.initialize(TRACKING_ID);
 
 const App: React.FC = () => {
   const preferedLang = localStorage.getItem('preferedLang')
@@ -25,6 +29,11 @@ const App: React.FC = () => {
   const [search, setSearch] = useState<string[]>([])
   const [lang, setLang] = useState<string>(localLang)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const location = useLocation()
+
+  useEffect(() => {
+    ReactGA.pageview(location.pathname)
+  }, [document.location.search])
 
   return (
     <AppProvider
@@ -36,6 +45,7 @@ const App: React.FC = () => {
       isLoggedIn={isLoggedIn}
       setIsLoggedIn={setIsLoggedIn}
     >
+      <RouteTracker />
       <Switch>
         <Route exact path="/">
           <div className='page__wrapper'>
