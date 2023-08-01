@@ -29,7 +29,6 @@ type Props = {
 export default function Header({ style, setRenderAll, setService }: Props) {
     const [postId, setPostId] = useState('')
     const [prompt, setPrompt] = useState('')
-    const [isAdmin, setIsAdmin] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false)
     const [menuToggle, setMenuToggle] = useState(false)
     const [searchClicked, setSearchClicked] = useState(false)
@@ -43,9 +42,6 @@ export default function Header({ style, setRenderAll, setService }: Props) {
     }, [])
 
     useEffect(() => {
-        const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {}
-        if (user && user.token && user.username) setIsAdmin(true)
-
         const id = new URLSearchParams(document.location.search).get('id')
         if (id) setPostId(id)
         else setPostId('')
@@ -67,7 +63,11 @@ export default function Header({ style, setRenderAll, setService }: Props) {
     const verifyUser = async () => {
         try {
             const isLodded = await verifyToken()
-            if (isLodded) setIsLoggedIn(isLodded)
+            if (isLodded && isLodded.token) setIsLoggedIn(isLodded)
+            else {
+                localStorage.clear()
+                setIsLoggedIn(false)
+            }
         } catch (err) {
             console.error(err)
         }
@@ -110,7 +110,7 @@ export default function Header({ style, setRenderAll, setService }: Props) {
         localStorage.clear()
         toast.success(TEXT[lang]['see_you_later'])
         setTimeout(() => {
-            setIsAdmin(false)
+            setIsLoggedIn(false)
             setPostId('')
             history.push('/')
         }, 1500)
@@ -146,11 +146,6 @@ export default function Header({ style, setRenderAll, setService }: Props) {
             if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' })
             else window.location.href = `/?sectionId=${section}&service=${service || ''}`
         }, 50)
-    }
-
-    const logout = () => {
-        localStorage.clear()
-        history.go(0)
     }
 
     const login = () => {
@@ -191,7 +186,7 @@ export default function Header({ style, setRenderAll, setService }: Props) {
             </div>
             <div className="header__logo">
                 {isLoggedIn ?
-                    <img src={LogoutIcon} className="header__login-icon" onClick={logout} />
+                    <img src={LogoutIcon} className="header__login-icon" onClick={logOut} />
                     :
                     <img src={LoginIcon} className="header__login-icon" onClick={login} />}
             </div>

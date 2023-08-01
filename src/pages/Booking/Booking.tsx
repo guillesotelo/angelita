@@ -372,282 +372,280 @@ export default function Booking({ }: Props) {
         noEventsInRange: 'No hay eventos en este rango',
     }
 
-    return isLoggedIn ?
-        <div className="booking__container">
-            <h1 className='page__title' style={{ marginTop: 0, filter: selected !== -1 || isNew ? 'blur(10px)' : '' }}>Reservas</h1>
+    return <div className="booking__container">
+        <h1 className='page__title' style={{ marginTop: 0, filter: selected !== -1 || isNew ? 'blur(10px)' : '' }}>Reservas</h1>
 
-            <div className="booking__cta-btns">
-                <Button
-                    label={showEventCalendar ? 'Ver Base de Datos' : 'Ver Calendario'}
-                    handleClick={() => setShowEventCalendar(!showEventCalendar)}
-                    bgColor="#B0BCEB"
-                    style={{
-                        width: 'fit-content',
-                        alignSelf: 'flex-end',
-                        filter: selected !== -1 || isNew ? 'blur(10px)' : ''
-                    }}
-                />
-                <Button
-                    label='Nueva reserva'
-                    handleClick={() => setIsNew(true)}
-                    bgColor="#87d18d"
-                    style={{
-                        width: 'fit-content',
-                        alignSelf: 'flex-end',
-                        filter: selected !== -1 || isNew ? 'blur(10px)' : ''
-                    }}
-                />
-            </div>
+        <div className="booking__cta-btns">
+            <Button
+                label={showEventCalendar ? 'Ver Base de Datos' : 'Ver Calendario'}
+                handleClick={() => setShowEventCalendar(!showEventCalendar)}
+                bgColor="#B0BCEB"
+                style={{
+                    width: 'fit-content',
+                    alignSelf: 'flex-end',
+                    filter: selected !== -1 || isNew ? 'blur(10px)' : ''
+                }}
+            />
+            <Button
+                label='Nueva reserva'
+                handleClick={() => setIsNew(true)}
+                bgColor="#87d18d"
+                style={{
+                    width: 'fit-content',
+                    alignSelf: 'flex-end',
+                    filter: selected !== -1 || isNew ? 'blur(10px)' : ''
+                }}
+            />
+        </div>
 
-            {showEventCalendar ?
-                <EventCalendar
-                    localizer={localizer}
-                    events={getCalendarEvents()}
-                    startAccessor="start"
-                    endAccessor="end"
-                    defaultDate={new Date()}
-                    views={["day", "agenda", "week", "month"]}
-                    selectable
-                    defaultView="month"
-                    style={{
-                        height: "70vh",
-                        width: '60vw',
-                        // alignSelf: 'flex-start',
-                        zIndex: 0,
-                        filter: selected !== -1 || isNew ? 'blur(10px)' : '',
-                        marginBottom: '5rem'
-                    }}
-                    onSelectEvent={handleSelectEvent}
-                    onSelectSlot={handleSelectSlot}
-                    min={new Date(0, 0, 0, 8, 0, 0)}
-                    max={new Date(0, 0, 0, 21, 0, 0)}
-                    messages={messages}
-                /> : ''}
+        {showEventCalendar ?
+            <EventCalendar
+                localizer={localizer}
+                events={getCalendarEvents()}
+                startAccessor="start"
+                endAccessor="end"
+                defaultDate={new Date()}
+                views={["day", "agenda", "week", "month"]}
+                selectable
+                defaultView="month"
+                style={{
+                    height: "70vh",
+                    width: '60vw',
+                    // alignSelf: 'flex-start',
+                    zIndex: 0,
+                    filter: selected !== -1 || isNew ? 'blur(10px)' : '',
+                    marginBottom: '5rem'
+                }}
+                onSelectEvent={handleSelectEvent}
+                onSelectSlot={handleSelectSlot}
+                min={new Date(0, 0, 0, 8, 0, 0)}
+                max={new Date(0, 0, 0, 21, 0, 0)}
+                messages={messages}
+            /> : ''}
 
-            {selected !== -1 || isNew ?
-                <div className='home__modal-wrapper'>
-                    <div className='home__modal-container' style={{ overflow: 'auto ' }}>
-                        <h4 className="home__modal-close" onClick={discardChanges}>X</h4>
-                        <div className="booking__row">
-                            {isNew && !data.name && !data.username ?
-                                <h1 className='booking__title'>Nueva reserva</h1>
-                                :
-                                <h1 className='booking__title'>{data.name} - {data.username}</h1>}
-                        </div>
-                        {tryToRemove ?
-                            <div className="booking__col" style={{ width: '100%' }}>
-                                <h3 style={{ textAlign: 'center', fontWeight: 'normal', fontSize: '1.5rem' }}>¿Estás segura de que quieres eliminar esta reserva?</h3>
-                                <div className="booking__row">
-                                    <div className="booking__col">
-                                        <div className="booking__no-edit-data">
-                                            <h2 className="booking__data-label">Reserva</h2>
-                                            <h2 className="booking__data-value">{getDateAndTime(selectedDates.length ? selectedDates : date)}</h2>
-                                        </div>
-                                    </div>
-                                    <div className="booking__col">
-                                        <div className="booking__no-edit-data">
-                                            <h2 className="booking__data-label">Total</h2>
-                                            <h2 className="booking__data-value">{serviceSelected.currency || 'USD'} ${serviceSelected.realPrice}</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="booking__btns">
-                                    <Button
-                                        label='Cancelar'
-                                        handleClick={discardChanges}
-                                        bgColor="lightgray"
-                                    />
-                                    <Button
-                                        label='Eliminar'
-                                        handleClick={removeBooking}
-                                        bgColor="#ffacac"
-                                    />
-                                </div>
-                            </div>
+        {selected !== -1 || isNew ?
+            <div className='home__modal-wrapper'>
+                <div className='home__modal-container' style={{ overflow: 'auto ' }}>
+                    <h4 className="home__modal-close" onClick={discardChanges}>X</h4>
+                    <div className="booking__row">
+                        {isNew && !data.name && !data.username ?
+                            <h1 className='booking__title'>Nueva reserva</h1>
                             :
+                            <h1 className='booking__title'>{data.name} - {data.username}</h1>}
+                    </div>
+                    {tryToRemove ?
+                        <div className="booking__col" style={{ width: '100%' }}>
+                            <h3 style={{ textAlign: 'center', fontWeight: 'normal', fontSize: '1.5rem' }}>¿Estás segura de que quieres eliminar esta reserva?</h3>
                             <div className="booking__row">
                                 <div className="booking__col">
-                                    {isNew ?
-                                        <Dropdown
-                                            label='Servicio'
-                                            options={getAllServices()}
-                                            selected={serviceSelected}
-                                            setSelected={setServiceSelected}
-                                            value={serviceSelected.name}
-                                            objKey='name'
-                                        />
-                                        :
-                                        <div className="booking__data">
-                                            <h2 className="booking__data-label">Servicio</h2>
-                                            <h2 className="booking__data-value">{data.name}</h2>
-                                        </div>}
                                     <div className="booking__no-edit-data">
-                                        <h2 className="booking__data-label">Precio unitario</h2>
-                                        <h2 className="booking__data-value">{data.currency || 'USD'} ${data.price}</h2>
-                                    </div>
-                                    <InputField
-                                        label='Nombre completo'
-                                        name="username"
-                                        updateData={updateData}
-                                        value={data.username}
-                                    />
-                                    <InputField
-                                        label='País de residencia'
-                                        name="country"
-                                        updateData={updateData}
-                                        value={data.country}
-                                    />
-                                    <Dropdown
-                                        label='Cantidad'
-                                        options={getQuantityOptions()}
-                                        setSelected={setQuantity}
-                                        selected={quantity}
-                                        value={quantity}
-                                    />
-                                    <div className="payment__contact-info-row">
-                                        {openCalendar ?
-                                            <Calendar
-                                                locale='es'
-                                                onChange={setDate}
-                                                value={date}
-                                                tileDisabled={tileDisabled}
-                                                className='react-calendar calendar-fixed'
-                                            />
-                                            : getQuantity() === 1 ?
-                                                <>
-                                                    <Button
-                                                        label={date ? getDate(date) : 'Seleccionar fecha'}
-                                                        handleClick={() => setOpenCalendar(true)}
-                                                        bgColor="#B0BCEB"
-                                                        style={{ marginTop: '1rem' }}
-                                                    />
-                                                    {data.startTime ?
-                                                        <Dropdown
-                                                            label='Seleccionar hora'
-                                                            options={getBookingSlots(date)}
-                                                            selected={date}
-                                                            setSelected={setDate}
-                                                            value={date}
-                                                            isTime={true}
-                                                            maxHeight='10rem'
-                                                        />
-                                                        : ''}
-                                                </>
-                                                : ''
-                                        }
-                                    </div>
-                                    <div className="payment__various-dates">
-                                        {Number(quantity.split(' ')[0]) > 1 ?
-                                            Array.from({ length: getQuantity() }).map((_, i) =>
-                                                <div key={i} className="payment__various-dates-item" style={{ width: '100%' }}>
-                                                    <h4 className="payment__various-dates-item-label">{i + 1}</h4>
-                                                    {openCalendars[i] ?
-                                                        <Calendar
-                                                            locale='es'
-                                                            onChange={(date) => handleDateChange(date, i)}
-                                                            value={selectedDates[i]}
-                                                            tileDisabled={tileDisabled}
-                                                            className='react-calendar calendar-fixed'
-                                                        />
-                                                        :
-                                                        <>
-                                                            <Button
-                                                                label={selectedDates[i] ? getDate(selectedDates[i]) : 'Seleccionar fecha'}
-                                                                handleClick={() => setOpenCalendars({ ...openCalendars, [i]: true })}
-                                                                bgColor="#B0BCEB"
-                                                                style={{ width: 'fit-content' }}
-                                                            />
-                                                            {data.startTime ?
-                                                                <Dropdown
-                                                                    label='Seleccionar hora'
-                                                                    options={getBookingSlots(selectedDates[i])}
-                                                                    selected={selectedDates[i]}
-                                                                    setSelected={(date: any) => handleDateChange(date, i)}
-                                                                    value={selectedDates[i]}
-                                                                    isTime={true}
-                                                                    maxHeight='10rem'
-                                                                />
-                                                                :
-                                                                <h2 className="booking__data-value">{getStaticServiceData('time')}</h2>
-                                                            }
-                                                        </>
-                                                    }
-                                                </div>)
-                                            : ''}
+                                        <h2 className="booking__data-label">Reserva</h2>
+                                        <h2 className="booking__data-value">{getDateAndTime(selectedDates.length ? selectedDates : date)}</h2>
                                     </div>
                                 </div>
                                 <div className="booking__col">
                                     <div className="booking__no-edit-data">
-                                        <h2 className="booking__data-label">Agenda</h2>
-                                        <h2 className="booking__data-value">{getStaticServiceData('day')} - {getStaticServiceData('time')}</h2>
-                                    </div>
-                                    {isNew ?
-                                        <Dropdown
-                                            label='Pago confirmado'
-                                            options={['Si', 'No']}
-                                            selected={isPaid}
-                                            setSelected={setIsPaid}
-                                            value={isPaid}
-                                        />
-                                        :
-                                        <div className="booking__no-edit-data">
-                                            <h2 className="booking__data-label">Pago confirmado</h2>
-                                            <h2 className="booking__data-value">{data.isPaid ? 'Si' : 'No'}</h2>
-                                        </div>}
-                                    <InputField
-                                        label='Correo electrónico'
-                                        name="email"
-                                        updateData={updateData}
-                                        value={data.email}
-                                    />
-                                    <InputField
-                                        label='Teléfono'
-                                        name="phone"
-                                        updateData={updateData}
-                                        value={data.phone}
-                                    />
-                                    <div className="booking__no-edit-data">
-                                        <h2 className="booking__data-label">{isNew ? 'Precio final' : data.isPaid ? 'Monto recibido' : 'Monto total'}</h2>
-                                        <h2 className="booking__data-value">US $ {isNew ? totalPrice : data.realPrice}</h2>
+                                        <h2 className="booking__data-label">Total</h2>
+                                        <h2 className="booking__data-value">{serviceSelected.currency || 'USD'} ${serviceSelected.realPrice}</h2>
                                     </div>
                                 </div>
                             </div>
-                        }
-                        {!tryToRemove ?
                             <div className="booking__btns">
-                                {!isNew ?
-                                    <Button
-                                        label='Eliminar reserva'
-                                        handleClick={() => setTryToRemove(true)}
-                                        bgColor="#ffacac"
-                                    /> : ''}
                                 <Button
-                                    label='Descartar cambios'
+                                    label='Cancelar'
                                     handleClick={discardChanges}
                                     bgColor="lightgray"
                                 />
                                 <Button
-                                    label={isNew ? 'Crear' : 'Guardar'}
-                                    handleClick={saveChanges}
+                                    label='Eliminar'
+                                    handleClick={removeBooking}
+                                    bgColor="#ffacac"
                                 />
                             </div>
-                            : ''}
-                    </div >
+                        </div>
+                        :
+                        <div className="booking__row">
+                            <div className="booking__col">
+                                {isNew ?
+                                    <Dropdown
+                                        label='Servicio'
+                                        options={getAllServices()}
+                                        selected={serviceSelected}
+                                        setSelected={setServiceSelected}
+                                        value={serviceSelected.name}
+                                        objKey='name'
+                                    />
+                                    :
+                                    <div className="booking__data">
+                                        <h2 className="booking__data-label">Servicio</h2>
+                                        <h2 className="booking__data-value">{data.name}</h2>
+                                    </div>}
+                                <div className="booking__no-edit-data">
+                                    <h2 className="booking__data-label">Precio unitario</h2>
+                                    <h2 className="booking__data-value">{data.currency || 'USD'} ${data.price}</h2>
+                                </div>
+                                <InputField
+                                    label='Nombre completo'
+                                    name="username"
+                                    updateData={updateData}
+                                    value={data.username}
+                                />
+                                <InputField
+                                    label='País de residencia'
+                                    name="country"
+                                    updateData={updateData}
+                                    value={data.country}
+                                />
+                                <Dropdown
+                                    label='Cantidad'
+                                    options={getQuantityOptions()}
+                                    setSelected={setQuantity}
+                                    selected={quantity}
+                                    value={quantity}
+                                />
+                                <div className="payment__contact-info-row">
+                                    {openCalendar ?
+                                        <Calendar
+                                            locale='es'
+                                            onChange={setDate}
+                                            value={date}
+                                            tileDisabled={tileDisabled}
+                                            className='react-calendar calendar-fixed'
+                                        />
+                                        : getQuantity() === 1 ?
+                                            <>
+                                                <Button
+                                                    label={date ? getDate(date) : 'Seleccionar fecha'}
+                                                    handleClick={() => setOpenCalendar(true)}
+                                                    bgColor="#B0BCEB"
+                                                    style={{ marginTop: '1rem' }}
+                                                />
+                                                {data.startTime ?
+                                                    <Dropdown
+                                                        label='Seleccionar hora'
+                                                        options={getBookingSlots(date)}
+                                                        selected={date}
+                                                        setSelected={setDate}
+                                                        value={date}
+                                                        isTime={true}
+                                                        maxHeight='10rem'
+                                                    />
+                                                    : ''}
+                                            </>
+                                            : ''
+                                    }
+                                </div>
+                                <div className="payment__various-dates">
+                                    {Number(quantity.split(' ')[0]) > 1 ?
+                                        Array.from({ length: getQuantity() }).map((_, i) =>
+                                            <div key={i} className="payment__various-dates-item" style={{ width: '100%' }}>
+                                                <h4 className="payment__various-dates-item-label">{i + 1}</h4>
+                                                {openCalendars[i] ?
+                                                    <Calendar
+                                                        locale='es'
+                                                        onChange={(date) => handleDateChange(date, i)}
+                                                        value={selectedDates[i]}
+                                                        tileDisabled={tileDisabled}
+                                                        className='react-calendar calendar-fixed'
+                                                    />
+                                                    :
+                                                    <>
+                                                        <Button
+                                                            label={selectedDates[i] ? getDate(selectedDates[i]) : 'Seleccionar fecha'}
+                                                            handleClick={() => setOpenCalendars({ ...openCalendars, [i]: true })}
+                                                            bgColor="#B0BCEB"
+                                                            style={{ width: 'fit-content' }}
+                                                        />
+                                                        {data.startTime ?
+                                                            <Dropdown
+                                                                label='Seleccionar hora'
+                                                                options={getBookingSlots(selectedDates[i])}
+                                                                selected={selectedDates[i]}
+                                                                setSelected={(date: any) => handleDateChange(date, i)}
+                                                                value={selectedDates[i]}
+                                                                isTime={true}
+                                                                maxHeight='10rem'
+                                                            />
+                                                            :
+                                                            <h2 className="booking__data-value">{getStaticServiceData('time')}</h2>
+                                                        }
+                                                    </>
+                                                }
+                                            </div>)
+                                        : ''}
+                                </div>
+                            </div>
+                            <div className="booking__col">
+                                <div className="booking__no-edit-data">
+                                    <h2 className="booking__data-label">Agenda</h2>
+                                    <h2 className="booking__data-value">{getStaticServiceData('day')} - {getStaticServiceData('time')}</h2>
+                                </div>
+                                {isNew ?
+                                    <Dropdown
+                                        label='Pago confirmado'
+                                        options={['Si', 'No']}
+                                        selected={isPaid}
+                                        setSelected={setIsPaid}
+                                        value={isPaid}
+                                    />
+                                    :
+                                    <div className="booking__no-edit-data">
+                                        <h2 className="booking__data-label">Pago confirmado</h2>
+                                        <h2 className="booking__data-value">{data.isPaid ? 'Si' : 'No'}</h2>
+                                    </div>}
+                                <InputField
+                                    label='Correo electrónico'
+                                    name="email"
+                                    updateData={updateData}
+                                    value={data.email}
+                                />
+                                <InputField
+                                    label='Teléfono'
+                                    name="phone"
+                                    updateData={updateData}
+                                    value={data.phone}
+                                />
+                                <div className="booking__no-edit-data">
+                                    <h2 className="booking__data-label">{isNew ? 'Precio final' : data.isPaid ? 'Monto recibido' : 'Monto total'}</h2>
+                                    <h2 className="booking__data-value">US $ {isNew ? totalPrice : data.realPrice}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    {!tryToRemove ?
+                        <div className="booking__btns">
+                            {!isNew ?
+                                <Button
+                                    label='Eliminar reserva'
+                                    handleClick={() => setTryToRemove(true)}
+                                    bgColor="#ffacac"
+                                /> : ''}
+                            <Button
+                                label='Descartar cambios'
+                                handleClick={discardChanges}
+                                bgColor="lightgray"
+                            />
+                            <Button
+                                label={isNew ? 'Crear' : 'Guardar'}
+                                handleClick={saveChanges}
+                            />
+                        </div>
+                        : ''}
                 </div >
-                : ''}
-            {!showEventCalendar ?
-                <div style={{ width: '100%', filter: selected !== -1 || isNew ? 'blur(10px)' : '' }}>
-                    <DataTable
-                        title='Todas las reservas'
-                        name='reservas'
-                        tableData={bookings}
-                        setTableData={setBookings}
-                        tableHeaders={bookingHeaders}
-                        selected={selected}
-                        setSelected={setSelected}
-                        loading={loading}
-                    />
-                </div> : ''}
-        </div>
-        : null
+            </div >
+            : ''}
+        {!showEventCalendar ?
+            <div style={{ width: '100%', filter: selected !== -1 || isNew ? 'blur(10px)' : '' }}>
+                <DataTable
+                    title='Todas las reservas'
+                    name='reservas'
+                    tableData={bookings}
+                    setTableData={setBookings}
+                    tableHeaders={bookingHeaders}
+                    selected={selected}
+                    setSelected={setSelected}
+                    loading={loading}
+                />
+            </div> : ''}
+    </div>
 }
