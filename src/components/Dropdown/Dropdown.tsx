@@ -11,7 +11,8 @@ type Props = {
     isTime?: boolean
     isDate?: boolean
     locale?: string
-    maxHeight?:string
+    maxHeight?: string
+    style?: { [key: string | number]: any }
 }
 
 export default function Dropdown(props: Props) {
@@ -27,7 +28,8 @@ export default function Dropdown(props: Props) {
         isTime,
         isDate,
         locale,
-        maxHeight
+        maxHeight,
+        style
     } = props
 
     useEffect(() => {
@@ -44,7 +46,7 @@ export default function Dropdown(props: Props) {
             if (isTime) return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             else return value
         }
-        return objKey && selected[objKey] ? selected[objKey] : 'Selecciona'
+        return objKey && selected && selected[objKey] ? selected[objKey] : 'Selecciona'
     }
 
     const renderSelectedItem = () => {
@@ -68,7 +70,10 @@ export default function Dropdown(props: Props) {
                     <h4
                         key={i}
                         className='dropdown__option'
-                        style={{ marginTop: i === 0 ? '.7rem' : 0 }}
+                        style={{
+                            marginTop: i === 0 ? '.3rem' : 0,
+                            borderTop: i === 0 ? 'none' : '1px solid #e7e7e7'
+                        }}
                         onClick={() => {
                             setSelected(option)
                             setOpenDrop(false)
@@ -84,7 +89,7 @@ export default function Dropdown(props: Props) {
     }
 
     return (
-        <div className='dropdown__container'>
+        <div className='dropdown__container' style={style}>
             {label ? <h4 className='dropdown__label'>{label}</h4> : ''}
             <div className='dropdown__select-section'>
                 {renderSelectedItem()}

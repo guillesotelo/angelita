@@ -214,7 +214,7 @@ function Payment({ checkout }: Props) {
                 realQty: getQuantity(),
                 realPrice: getPrice(),
                 priceInCents: Number(getPrice().replace('.', '')),
-                image: 'https://www.naturallydating.com/wp-content/uploads/2021/01/first-date-ideas-scaled.jpg',
+                image: getImage(),
                 description: getDescription(),
             })
 
@@ -224,6 +224,10 @@ function Payment({ checkout }: Props) {
             console.error(err)
             setIsProcessing(false)
         }
+    }
+
+    const getImage = () => {
+        return SERVICES[checkout || -1].imageUrl || 'https://i.postimg.cc/rwHVQg5k/angelita-logo.png'
     }
 
     const getBookingSlots = (date: Date) => {

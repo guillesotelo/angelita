@@ -20,6 +20,14 @@ import {
     deleteBooking,
 } from './booking'
 
+import {
+    getAllServices,
+    createService,
+    getServiceById,
+    updateService,
+    deleteService,
+} from './service'
+
 export {
     loginUser,
     verifyToken,
@@ -34,4 +42,9 @@ export {
     getBookingById,
     updateBooking,
     deleteBooking,
+    getAllServices,
+    createService,
+    getServiceById,
+    updateService,
+    deleteService,
 }

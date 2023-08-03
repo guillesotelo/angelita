@@ -14,7 +14,7 @@
         background-color: transparent;
 
         margin: 0 0 0.5vh 0;
-        font-size: 0.8vw;
+        font-size: 0.8rem;
         font-weight: normal;
         width: 100%;
     }
@@ -29,8 +29,8 @@
     &__select {
         border: 1px solid gray;
         background-color: #fff;
-        border-radius: 0.5vw;
-        font-size: 0.9vw;
+        border-radius: 0.5rem;
+        font-size: 1rem;
         // padding: 0.5vw;
         margin: 0;
         white-space: nowrap;
@@ -56,7 +56,7 @@
         border-radius: 0.5rem;
         min-height: 1.3rem;
         font-weight: normal;
-        padding: 0.5vw;
+        padding: 0.5rem;
     }
 
     &__options {
@@ -84,7 +84,7 @@
         line-height: 1.5vw;
         cursor: pointer;
         padding: .4rem .7rem;
-        border-top: 1px solid rgb(231, 231, 231);
+        border-top: 1px solid #e7e7e7;
         transition: .3s;
         white-space: nowrap;
         // overflow: hidden;

@@ -1,6 +1,6 @@
 export const bookingHeaders = [
     {
-        name: 'MODIFICADO',
+        name: 'ACTUALIZADO',
         value: 'updatedAt'
     },
     {
@@ -54,5 +54,59 @@ export const bookingHeaders = [
     {
         name: 'PAGO CONFIRMADO',
         value: 'isPaid'
+    },
+]
+
+export const serviceHeaders = [
+    {
+        name: 'SERVICIO',
+        value: 'name'
+    },
+    {
+        name: 'DÍAS SERVCIO',
+        value: 'day'
+    },
+    {
+        name: 'HORARIO',
+        value: 'time'
+    },
+    {
+        name: 'TYPO',
+        value: 'type'
+    },
+    {
+        name: 'DURACIÓN (HS)',
+        value: 'duration'
+    },
+    {
+        name: 'ES EVENTO',
+        value: 'isEvent'
+    },
+    {
+        name: 'PRECIO (US $)',
+        value: 'price'
+    },
+]
+
+export const eventHeaders = [
+    {
+        name: 'EVENTO',
+        value: 'name'
+    },
+    {
+        name: 'DÍA',
+        value: 'day'
+    },
+    {
+        name: 'HORARIO',
+        value: 'time'
+    },
+    {
+        name: 'DURACIÓN (HS)',
+        value: 'duration'
+    },
+    {
+        name: 'PRECIO (US $)',
+        value: 'price'
     },
 ]

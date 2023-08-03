@@ -5,6 +5,7 @@
         margin: 16vh 3vw 25vh 3vw;
         position: relative;
         align-items: center;
+        padding-bottom: 25vw;
     }
 
     &__title {
@@ -73,4 +74,110 @@
         margin-bottom: 2rem;
         align-self: flex-start;
     }
+
+    &__sidebar {
+        margin: -7vh -2.5rem 0 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        background-color: white;
+        height: 100vh;
+        width: 20vw;
+        border-left: 1px solid lightgray;
+        padding: 2rem;
+
+        &-title {
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        &-col {
+            display: flex;
+            flex-direction: column;
+            gap: .8rem;
+        }
+
+        &-timeselect {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            // gap: 1rem;
+
+            input {
+                width: 50%;
+            }
+        }
+
+        &-btns {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+    }
+
+    &__sidebar-event {
+        margin: -7vh -2.5rem 0 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        background-color: white;
+        height: 100vh;
+        width: 40vw;
+        border-left: 1px solid lightgray;
+        padding: 2rem;
+        overflow-y: auto;
+
+        &-title {
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        &-row {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        &-col {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            gap: .8rem;
+        }
+
+        &-timeselect {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            // gap: 1rem;
+
+            input {
+                width: 50%;
+            }
+        }
+
+        &-btns {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+    }
+
+}
+
+.show-sidebar {
+    transform: translateX(0%);
+    opacity: 1;
+    transition: .5s;
+}
+
+.hide-sidebar {
+    transform: translateX(100%);
+    opacity: 0;
+    transition: .5s;
 }

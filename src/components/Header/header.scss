@@ -5,7 +5,7 @@
         align-items: center;
         justify-content: space-between;
         height: 9vh;
-        box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.062);
         position: relative;
         bottom: 0;
         left: 0;
@@ -81,10 +81,15 @@
             background-color: #EBCE98;
         }
 
+        &:hover .header__item-text {
+            color: gray !important;
+        }
+
         &-text {
             font-size: 1.2rem;
             font-weight: normal;
             padding: 1rem 0;
+            transition: 0.3s;
         }
 
         &-svg {
@@ -165,7 +170,7 @@
 
     &__login {
         &-icon {
-            height: 2rem;
+            height: 1.5rem;
             align-self: flex-end;
             margin: 0 1.5rem;
             cursor: pointer;

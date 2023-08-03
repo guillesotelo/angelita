@@ -8,7 +8,8 @@ export const SERVICES: { [key: number | string]: any } = {
         mark: 'hour',
         day: 'Martes',
         time: '16hs (Berlin)',
-        fixedTime: true
+        fixedTime: true,
+        imageUrl: 'https://i.postimg.cc/SK8qSMvF/image14.jpg'
     },
     12: {
         name: 'Pedacito de Cielo',
@@ -19,7 +20,9 @@ export const SERVICES: { [key: number | string]: any } = {
         mark: 'hour',
         day: 'Miércoles',
         time: '16hs (Berlin)',
-        fixedTime: true
+        fixedTime: true,
+        imageUrl: 'https://i.postimg.cc/SK8qSMvF/image14.jpg',
+        isEvent: true
     },
     13: {
         name: 'Formación Psicológica',
@@ -30,7 +33,9 @@ export const SERVICES: { [key: number | string]: any } = {
         mark: 'hour',
         day: '1er sábado del mes',
         time: '16hs (Berlin)',
-        fixedTime: true
+        fixedTime: true,
+        imageUrl: 'https://i.postimg.cc/SK8qSMvF/image14.jpg',
+        isEvent: true
     },
     31: {
         name: 'Consejería',
@@ -45,6 +50,7 @@ export const SERVICES: { [key: number | string]: any } = {
         fixedTime: false,
         startTime: 11,
         endTime: 19,
+        imageUrl: 'https://i.postimg.cc/SxRCvytz/image9.jpg'
     },
     32: {
         name: 'Psicoterapia',
@@ -59,6 +65,7 @@ export const SERVICES: { [key: number | string]: any } = {
         fixedTime: false,
         startTime: 11,
         endTime: 19,
+        imageUrl: 'https://i.postimg.cc/SxRCvytz/image9.jpg'
     },
     1: {
         name: 'Encuentros Grupales',
@@ -72,7 +79,8 @@ export const SERVICES: { [key: number | string]: any } = {
         mark: 'hour',
         day: 'Jueves y sábados',
         time: '16hs (Berlin)',
-        fixedTime: true
+        fixedTime: true,
+        imageUrl: 'https://i.postimg.cc/9XvfhcM7/image42.jpg'
     },
     3: {
         name: 'Psicoterapia Privada',

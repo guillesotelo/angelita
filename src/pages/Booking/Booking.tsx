@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import DataTable from '../../components/DataTable/DataTable'
 import { dataObj } from '../../types'
-import { bookingHeaders } from '../../constants/tableHeaders'
-import { deleteBooking, getAllBookings, updateBooking, verifyToken } from '../../services'
+import { bookingHeaders, eventHeaders, serviceHeaders } from '../../constants/tableHeaders'
+import { createBooking, createService, deleteBooking, deleteService, getAllBookings, getAllServices, updateBooking, updateService, verifyToken } from '../../services'
 import InputField from '../../components/InputField/InputField'
 import Button from '../../components/Button/Button'
 import { toast } from 'react-hot-toast'
@@ -16,6 +16,8 @@ import { Calendar as EventCalendar, momentLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import moment from 'moment';
 import 'moment/locale/es'
+import { createEvent, deleteEvent, getAllEvents, updateEvent } from '../../services/event'
+import { DISCOUNTS } from '../../constants/misc'
 
 type Props = {}
 
@@ -25,7 +27,7 @@ export default function Booking({ }: Props) {
     const [data, setData] = useState<dataObj>({})
     const [loading, setLoading] = useState<boolean>(false)
     const [tryToRemove, setTryToRemove] = useState<boolean>(false)
-    const [isNew, setIsNew] = useState<boolean>(false)
+    const [isNewBooking, setIsNewBooking] = useState<boolean>(false)
     const [isPaid, setIsPaid] = useState<string>('')
     const [serviceSelected, setServiceSelected] = useState<dataObj>({})
     const [discount, setDiscount] = useState<string>('')
@@ -33,18 +35,34 @@ export default function Booking({ }: Props) {
     const [totalPrice, setTotalPrice] = useState<string>('')
     const [openCalendar, setOpenCalendar] = useState(false)
     const [openCalendars, setOpenCalendars] = useState<dataObj>({})
+    const [eventClicked, setEventClicked] = useState<dataObj>({})
     const [date, setDate] = useState<any>(null)
     const [selectedDates, setSelectedDates] = useState<any>([])
     const [showEventCalendar, setShowEventCalendar] = useState(true)
+    const [view, setView] = useState('Calendario')
+    const [dbServices, setDbServices] = useState<dataObj[]>([])
+    const [dbServiceSelected, setDbServiceSelected] = useState<number>(-1)
+    const [isNewService, setIsNewService] = useState(false)
+    const [tryToRemoveService, setTryToRemoveService] = useState(false)
+    const [serviceData, setServiceData] = useState<dataObj>({})
+
+    const [events, setEvents] = useState<dataObj[]>([])
+    const [eventSelected, setEventSelected] = useState<number>(-1)
+    const [isNewEvent, setIsNewEvent] = useState(false)
+    const [tryToRemoveEvent, setTryToRemoveEvent] = useState(false)
+    const [eventData, setEventData] = useState<dataObj>({})
     const history = useHistory()
     const { isMobile, isLoggedIn } = useContext(AppContext)
 
-    // console.log('data', data)
+    console.log('events', events)
+    console.log('dbServices', dbServices)
 
     useEffect(() => {
         if (!isLoggedIn) history.push('/')
         window.scrollTo({ top: 0, behavior: 'smooth' })
         getBookings()
+        getServices()
+        getEvents()
     }, [])
 
     useEffect(() => {
@@ -54,21 +72,35 @@ export default function Booking({ }: Props) {
             setDate(bookings[selected].dateObject ? JSON.parse(bookings[selected].dateObject) : null)
             setSelectedDates(bookings[selected].dateObjects ? JSON.parse(bookings[selected].dateObjects).map((date: string) => new Date(date)) : [])
             setQuantity(`${bookings[selected].realQty} ${bookings[selected].realQty === 1 ? 'sesión' : 'sesiones'}`)
+            setIsPaid(bookings[selected].isPaid ? 'Si' : 'No')
         }
         modalBehaviour()
     }, [selected])
 
     useEffect(() => {
-        if (isNew) {
+        if (dbServiceSelected !== -1) {
+            setServiceData(dbServices[dbServiceSelected])
+        }
+    }, [dbServiceSelected])
+
+    useEffect(() => {
+        if (eventSelected !== -1) {
+            setEventData(events[eventSelected])
+        }
+    }, [eventSelected])
+
+    useEffect(() => {
+        if (isNewBooking) {
             setTotalPrice(getPrice())
             setSelectedDates([])
             setDate(null)
             modalBehaviour()
+            setEventClicked({})
         }
     }, [serviceSelected, quantity])
 
     useEffect(() => {
-        if (isNew) {
+        if (isNewBooking) {
             setData(serviceSelected)
             setQuantity('1 sesión')
         }
@@ -85,7 +117,7 @@ export default function Booking({ }: Props) {
     useEffect(() => {
         const body = document.querySelector('body')
         const header = document.querySelector('.header__container') as HTMLElement
-        if (selected !== -1 || isNew) {
+        if (selected !== -1 || isNewBooking) {
             if (body) body.classList.add('overflow-hidden')
             if (header) header.style.filter = 'blur(10px)'
         } else {
@@ -93,6 +125,24 @@ export default function Booking({ }: Props) {
             if (header) header.style.filter = 'unset'
         }
     }, [selected])
+
+    const getServices = async () => {
+        try {
+            const allServices = await getAllServices()
+            if (allServices && allServices.length) setDbServices(allServices)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const getEvents = async () => {
+        try {
+            const allEvents = await getAllEvents()
+            if (allEvents && allEvents.length) setEvents(allEvents)
+        } catch (err) {
+            console.error(err)
+        }
+    }
 
     const modalBehaviour = () => {
         document.addEventListener('keydown', (e) => {
@@ -115,7 +165,7 @@ export default function Booking({ }: Props) {
         }
     }
 
-    const getAllServices = () => {
+    const getLocalServices = () => {
         const services: dataObj[] = []
         Object.keys(SERVICES).forEach(index => {
             if (String(index).length > 1) services.push(SERVICES[index])
@@ -128,11 +178,21 @@ export default function Booking({ }: Props) {
         setData({ ...data, [key]: value })
     }
 
+    const updateServiceData = (key: string, e: { [key: string | number]: any }) => {
+        const value = e.target.value
+        setServiceData({ ...serviceData, [key]: value })
+    }
+
+    const updateEventData = (key: string, e: { [key: string | number]: any }) => {
+        const value = e.target.value
+        setEventData({ ...eventData, [key]: value })
+    }
+
     const discardChanges = () => {
         setSelected(-1)
         setData({ ...{} })
         setTryToRemove(false)
-        setIsNew(false)
+        setIsNewBooking(false)
         setQuantity('1 sesión')
         setTotalPrice('')
         setIsPaid('')
@@ -142,13 +202,19 @@ export default function Booking({ }: Props) {
         setDate(null)
         setSelectedDates([])
         setServiceSelected({})
+        setEventClicked({})
+        setIsNewService(false)
+        setIsNewEvent(false)
+        setDbServiceSelected(-1)
+        setEventSelected(-1)
+        setTryToRemoveService(false)
     }
 
     const saveChanges = async () => {
         setLoading(true)
         try {
             const dates = selectedDates.length ? selectedDates : date
-            const updated = await updateBooking({
+            const bookingData = {
                 ...data,
                 date: getDateAndTime(dates),
                 dateObject: JSON.stringify(date),
@@ -157,9 +223,15 @@ export default function Booking({ }: Props) {
                 realQty: getQuantity(),
                 realPrice: getPrice(),
                 priceInCents: Number(getPrice().replace('.', '')),
-                image: 'https://www.naturallydating.com/wp-content/uploads/2021/01/first-date-ideas-scaled.jpg'
-            })
-            if (updated && updated.name) {
+                image: getImage(),
+                isPaid: isPaid === 'Si' ? true : false
+            }
+
+            console.log('bookingData', bookingData)
+
+            const saved = isNewBooking ? await createBooking(bookingData) : await updateBooking(bookingData)
+
+            if (saved && saved.name) {
                 toast.success('Cambios guardados')
                 discardChanges()
                 setLoading(false)
@@ -172,6 +244,10 @@ export default function Booking({ }: Props) {
             console.error(err)
             setLoading(false)
         }
+    }
+
+    const getImage = () => {
+        return serviceSelected.imageUrl || data.imageUrl || 'https://i.postimg.cc/rwHVQg5k/angelita-logo.png'
     }
 
     const removeBooking = async () => {
@@ -350,12 +426,13 @@ export default function Booking({ }: Props) {
     const handleSelectSlot = (event: dataObj) => {
         const { start, end } = event
         setDate(start)
-        setIsNew(true)
+        setIsNewBooking(true)
     }
 
     const handleSelectEvent = (event: dataObj) => {
         const { _id } = event
         setSelected(bookings.findIndex((item) => item._id === _id))
+        setEventClicked(event)
     }
 
     const messages = {
@@ -372,63 +449,89 @@ export default function Booking({ }: Props) {
         noEventsInRange: 'No hay eventos en este rango',
     }
 
-    return <div className="booking__container">
-        <h1 className='page__title' style={{ marginTop: 0, filter: selected !== -1 || isNew ? 'blur(10px)' : '' }}>Reservas</h1>
+    const saveServiceData = async () => {
+        try {
+            setLoading(true)
+            const saved = isNewService ? await createService(serviceData) : await updateService(serviceData)
+            if (saved && saved._id) {
+                toast.success('Servicio guardado')
+                discardChanges()
+                getServices()
+            } else toast.error('Ocurrió un error al guardar, intenta nuevamente')
+            setLoading(false)
+        } catch (err) {
+            console.error(err)
+            setLoading(false)
+        }
+    }
 
-        <div className="booking__cta-btns">
-            <Button
-                label={showEventCalendar ? 'Ver Base de Datos' : 'Ver Calendario'}
-                handleClick={() => setShowEventCalendar(!showEventCalendar)}
-                bgColor="#B0BCEB"
-                style={{
-                    width: 'fit-content',
-                    alignSelf: 'flex-end',
-                    filter: selected !== -1 || isNew ? 'blur(10px)' : ''
-                }}
-            />
-            <Button
-                label='Nueva reserva'
-                handleClick={() => setIsNew(true)}
-                bgColor="#87d18d"
-                style={{
-                    width: 'fit-content',
-                    alignSelf: 'flex-end',
-                    filter: selected !== -1 || isNew ? 'blur(10px)' : ''
-                }}
-            />
-        </div>
+    const saveEventData = async () => {
+        try {
+            setLoading(true)
+            const saved = isNewEvent ? await createEvent(eventData) : await updateEvent(eventData)
+            if (saved && saved._id) {
+                toast.success('Evento guardado')
+                discardChanges()
+                getEvents()
+            } else toast.error('Ocurrió un error al guardar, intenta nuevamente')
+            setLoading(false)
+        } catch (err) {
+            console.error(err)
+            setLoading(false)
+        }
+    }
 
-        {showEventCalendar ?
-            <EventCalendar
-                localizer={localizer}
-                events={getCalendarEvents()}
-                startAccessor="start"
-                endAccessor="end"
-                defaultDate={new Date()}
-                views={["day", "agenda", "week", "month"]}
-                selectable
-                defaultView="month"
-                style={{
-                    height: "70vh",
-                    width: '60vw',
-                    // alignSelf: 'flex-start',
-                    zIndex: 0,
-                    filter: selected !== -1 || isNew ? 'blur(10px)' : '',
-                    marginBottom: '5rem'
-                }}
-                onSelectEvent={handleSelectEvent}
-                onSelectSlot={handleSelectSlot}
-                min={new Date(0, 0, 0, 8, 0, 0)}
-                max={new Date(0, 0, 0, 21, 0, 0)}
-                messages={messages}
-            /> : ''}
+    const removeService = async () => {
+        setLoading(true)
+        try {
+            const updated = await deleteService(serviceData)
+            if (updated) {
+                toast.success('Servicio eliminado')
+                discardChanges()
+                setLoading(false)
+                return getServices()
+            }
+            toast.error('Ocurrió un error al guardar los cambios')
+            setLoading(false)
+        } catch (err) {
+            toast.error('Ocurrió un error al guardar los cambios')
+            console.error(err)
+            setLoading(false)
+        }
+    }
 
-        {selected !== -1 || isNew ?
+    const removeEvent = async () => {
+        setLoading(true)
+        try {
+            const updated = await deleteEvent(eventData)
+            if (updated) {
+                toast.success('Evento eliminado')
+                discardChanges()
+                setLoading(false)
+                return getEvents()
+            }
+            toast.error('Ocurrió un error al guardar los cambios')
+            setLoading(false)
+        } catch (err) {
+            toast.error('Ocurrió un error al guardar los cambios')
+            console.error(err)
+            setLoading(false)
+        }
+    }
+
+    const handleCreateButton = () => {
+        if (view === 'Servicios') return setIsNewService(true)
+        if (view === 'Eventos') return setIsNewEvent(true)
+        else return setIsNewBooking(true)
+    }
+
+    const renderModal = () => {
+        return (
             <div className='home__modal-wrapper'>
                 <div className='home__modal-container' style={{ overflow: 'auto ' }}>
                     <h4 className="home__modal-close" onClick={discardChanges}>X</h4>
                     <div className="booking__row">
-                        {isNew && !data.name && !data.username ?
+                        {isNewBooking && !data.name && !data.username ?
                             <h1 className='booking__title'>Nueva reserva</h1>
                             :
                             <h1 className='booking__title'>{data.name} - {data.username}</h1>}
@@ -466,10 +569,10 @@ export default function Booking({ }: Props) {
                         :
                         <div className="booking__row">
                             <div className="booking__col">
-                                {isNew ?
+                                {isNewBooking ?
                                     <Dropdown
                                         label='Servicio'
-                                        options={getAllServices()}
+                                        options={getLocalServices()}
                                         selected={serviceSelected}
                                         setSelected={setServiceSelected}
                                         value={serviceSelected.name}
@@ -538,7 +641,14 @@ export default function Booking({ }: Props) {
                                 <div className="payment__various-dates">
                                     {Number(quantity.split(' ')[0]) > 1 ?
                                         Array.from({ length: getQuantity() }).map((_, i) =>
-                                            <div key={i} className="payment__various-dates-item" style={{ width: '100%' }}>
+                                            <div
+                                                key={i}
+                                                className="payment__various-dates-item"
+                                                style={{
+                                                    width: '100%',
+                                                    border: eventClicked.start && getDate(eventClicked.start) === getDate(selectedDates[i]) ? '2px solid #EBAA59' : ''
+                                                }}
+                                            >
                                                 <h4 className="payment__various-dates-item-label">{i + 1}</h4>
                                                 {openCalendars[i] ?
                                                     <Calendar
@@ -580,19 +690,13 @@ export default function Booking({ }: Props) {
                                     <h2 className="booking__data-label">Agenda</h2>
                                     <h2 className="booking__data-value">{getStaticServiceData('day')} - {getStaticServiceData('time')}</h2>
                                 </div>
-                                {isNew ?
-                                    <Dropdown
-                                        label='Pago confirmado'
-                                        options={['Si', 'No']}
-                                        selected={isPaid}
-                                        setSelected={setIsPaid}
-                                        value={isPaid}
-                                    />
-                                    :
-                                    <div className="booking__no-edit-data">
-                                        <h2 className="booking__data-label">Pago confirmado</h2>
-                                        <h2 className="booking__data-value">{data.isPaid ? 'Si' : 'No'}</h2>
-                                    </div>}
+                                <Dropdown
+                                    label='Pago confirmado'
+                                    options={['Si', 'No']}
+                                    selected={isPaid}
+                                    setSelected={setIsPaid}
+                                    value={isPaid}
+                                />
                                 <InputField
                                     label='Correo electrónico'
                                     name="email"
@@ -606,15 +710,15 @@ export default function Booking({ }: Props) {
                                     value={data.phone}
                                 />
                                 <div className="booking__no-edit-data">
-                                    <h2 className="booking__data-label">{isNew ? 'Precio final' : data.isPaid ? 'Monto recibido' : 'Monto total'}</h2>
-                                    <h2 className="booking__data-value">US $ {isNew ? totalPrice : data.realPrice}</h2>
+                                    <h2 className="booking__data-label">{isNewBooking ? 'Precio final' : data.isPaid ? 'Monto registrado' : 'Monto total'}</h2>
+                                    <h2 className="booking__data-value">US $ {isNewBooking ? totalPrice : data.realPrice}</h2>
                                 </div>
                             </div>
                         </div>
                     }
                     {!tryToRemove ?
                         <div className="booking__btns">
-                            {!isNew ?
+                            {!isNewBooking ?
                                 <Button
                                     label='Eliminar reserva'
                                     handleClick={() => setTryToRemove(true)}
@@ -626,26 +730,346 @@ export default function Booking({ }: Props) {
                                 bgColor="lightgray"
                             />
                             <Button
-                                label={isNew ? 'Crear' : 'Guardar'}
+                                label={isNewBooking ? 'Crear' : 'Guardar'}
                                 handleClick={saveChanges}
                             />
                         </div>
                         : ''}
                 </div >
             </div >
-            : ''}
-        {!showEventCalendar ?
-            <div style={{ width: '100%', filter: selected !== -1 || isNew ? 'blur(10px)' : '' }}>
-                <DataTable
-                    title='Todas las reservas'
-                    name='reservas'
-                    tableData={bookings}
-                    setTableData={setBookings}
-                    tableHeaders={bookingHeaders}
-                    selected={selected}
-                    setSelected={setSelected}
-                    loading={loading}
-                />
-            </div> : ''}
+        )
+    }
+
+    const renderServiceSidebar = () => {
+        return (
+            <div className={`booking__sidebar-event ${dbServiceSelected !== -1 || isNewService ? 'show-sidebar' : 'hide-sidebar'}`}>
+                <h4 className="booking__sidebar-title">{tryToRemoveService ? serviceData.name : 'Detalles del servicio'}</h4>
+                {tryToRemoveService ?
+                    <div className="booking__sidebar-col">
+                        <h3 style={{ textAlign: 'center', fontWeight: 'normal', fontSize: '1rem' }}>¿Estás segura de que quieres eliminar este servicio?</h3>
+                        <div className="booking__btns">
+                            <Button
+                                label='Cancelar'
+                                handleClick={discardChanges}
+                                bgColor="lightgray"
+                            />
+                            <Button
+                                label='Eliminar'
+                                handleClick={removeService}
+                                bgColor="#ffacac"
+                            />
+                        </div>
+                    </div>
+                    :
+                    <div className="booking__sidebar-col">
+                        <InputField
+                            label='Nombre'
+                            name="name"
+                            updateData={updateServiceData}
+                            value={serviceData.name}
+                        />
+                        <InputField
+                            label='Tipo'
+                            name="type"
+                            updateData={updateServiceData}
+                            value={serviceData.type}
+                        />
+                        <Dropdown
+                            label='Días'
+                            options={['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Lunes a sábados', 'Jueves y sábados', '1er sábado del mes']}
+                            selected={serviceData.day}
+                            setSelected={value => setServiceData({ ...serviceData, 'day': value })}
+                            value={serviceData.day}
+                        />
+                        {serviceData.time && serviceData.time === 'Elegir otro...' ?
+                            <div className='booking__sidebar-timeselect'>
+                                <InputField
+                                    label='Desde'
+                                    name="startTime"
+                                    updateData={updateServiceData}
+                                    value={serviceData.startTime}
+                                    placeholder='Ej: 11'
+                                    type='number'
+                                />
+                                <InputField
+                                    label='Hasta'
+                                    name="endTime"
+                                    updateData={updateServiceData}
+                                    value={serviceData.endTime}
+                                    placeholder='Ej: 19'
+                                    type='number'
+                                />
+                                <Button
+                                    label='Cerrar'
+                                    handleClick={() => setServiceData({ ...serviceData, 'time': dbServices[dbServiceSelected].time })}
+                                    bgColor='transparent'
+                                    style={{ alignSelf: 'flex-end' }}
+                                />
+                            </div>
+                            : <Dropdown
+                                label='Horario'
+                                options={['11-19hs (Berlin)', '16hs (Berlin)', 'Elegir otro...']}
+                                selected={serviceData.time}
+                                setSelected={value => setServiceData({ ...serviceData, 'time': value })}
+                                value={serviceData.time}
+                            />}
+                        <Dropdown
+                            label='Es evento'
+                            options={['Si', 'No']}
+                            selected={serviceData.isEvent}
+                            setSelected={value => setServiceData({ ...serviceData, 'isEvent': value ? true : false })}
+                            value={serviceData.isEvent ? 'Si' : 'No'}
+                        />
+                    </div>
+                }
+                {!tryToRemoveService ?
+                    <div className="booking__sidebar-btns">
+                        <Button
+                            label='Cerrar'
+                            handleClick={discardChanges}
+                            bgColor='lightgray'
+                        />
+                        {!isNewService && dbServiceSelected !== -1 ?
+                            <Button
+                                label='Eliminar'
+                                handleClick={() => setTryToRemoveService(true)}
+                                bgColor='#ffacac'
+                            /> : ''}
+                        <Button
+                            label='Guardar'
+                            handleClick={saveServiceData}
+                        />
+                    </div>
+                    : ''
+                }
+            </div >
+        )
+    }
+
+    const renderEventSidebar = () => {
+        return (
+            <div className={`booking__sidebar-event ${eventSelected !== -1 || isNewEvent ? 'show-sidebar' : 'hide-sidebar'}`}>
+                <h4 className="booking__sidebar-title">{tryToRemoveEvent ? eventData.name : 'Detalles del evento'}</h4>
+                {tryToRemoveEvent ?
+                    <div className="booking__sidebar-col">
+                        <h3 style={{ textAlign: 'center', fontWeight: 'normal', fontSize: '1rem' }}>¿Estás segura de que quieres eliminar este evento?</h3>
+                        <div className="booking__btns">
+                            <Button
+                                label='Cancelar'
+                                handleClick={discardChanges}
+                                bgColor="lightgray"
+                            />
+                            <Button
+                                label='Eliminar'
+                                handleClick={removeEvent}
+                                bgColor="#ffacac"
+                            />
+                        </div>
+                    </div>
+                    :
+                    <div className="booking__sidebar-col">
+                        <div className='booking__sidebar-event-row'>
+                            <InputField
+                                label='Nombre'
+                                name="name"
+                                updateData={updateEventData}
+                                value={eventData.name}
+                            />
+                            <Dropdown
+                                label='Servicio'
+                                options={dbServices.filter(service => service.isEvent)}
+                                selected={dbServices.find(service => service._id === eventData.service) || ''}
+                                setSelected={value => setEventData({ ...eventData, 'service': value })}
+                                value={eventData.service ? eventData.service.name : ''}
+                                objKey='name'
+                            />
+                        </div>
+                        <div className='booking__sidebar-event-row'>
+                            <InputField
+                                label='Descripción'
+                                name="description"
+                                updateData={updateEventData}
+                                value={eventData.description}
+                                type='textarea'
+                                rows={5}
+                            />
+                        </div>
+                        <div className='booking__sidebar-event-row'>
+                            <InputField
+                                label='Precio (US $)'
+                                name="price"
+                                updateData={updateEventData}
+                                value={eventData.price}
+                                type='number'
+                            />
+                            <Dropdown
+                                label='Descuento'
+                                options={DISCOUNTS}
+                                selected={eventData.discount ? eventData.discount.label : ''}
+                                setSelected={value => setEventData({ ...eventData, 'discount': value.label })}
+                                value={eventData.discount ? eventData.discount.label : ''}
+                                objKey='label'
+                            />
+                        </div>
+                        <div className='booking__sidebar-event-row'>
+                            <InputField
+                                label='URL de Imagen'
+                                name="imageUrl"
+                                updateData={updateEventData}
+                                value={eventData.imageUrl}
+                                placeholder='https://url-de-imagen.png'
+                            />
+                        </div>
+                        <div className='booking__sidebar-event-row'>
+                            <InputField
+                                label='Link del evento'
+                                name="link"
+                                updateData={updateEventData}
+                                value={eventData.link}
+                                placeholder='https://url-de-reunion'
+                            />
+                            <InputField
+                                label='Contraseña del evento (opcional)'
+                                name="linkPassword"
+                                updateData={updateEventData}
+                                value={eventData.linkPassword}
+                            />
+                        </div>
+                        <div className='booking__sidebar-event-row'>
+                            <Dropdown
+                                label='Es virtual'
+                                options={['Si', 'No']}
+                                selected={eventData.isVirtual}
+                                setSelected={value => setEventData({ ...eventData, 'isVirtual': value ? true : false })}
+                                value={eventData.isVirtual ? 'Si' : 'No'}
+                            />
+                        </div>
+                    </div>
+                }
+                {!tryToRemoveEvent ?
+                    <div className="booking__sidebar-event-btns">
+                        <Button
+                            label='Cerrar'
+                            handleClick={discardChanges}
+                            bgColor='lightgray'
+                        />
+                        {!isNewEvent && eventSelected !== -1 ?
+                            <Button
+                                label='Eliminar'
+                                handleClick={() => setTryToRemoveEvent(true)}
+                                bgColor='#ffacac'
+                            /> : ''}
+                        <Button
+                            label='Guardar'
+                            handleClick={saveEventData}
+                        />
+                    </div>
+                    : ''
+                }
+            </div >
+        )
+    }
+
+    return <div className="booking__container">
+        <h1 className='page__title' style={{ margin: 0, filter: selected !== -1 || isNewBooking ? 'blur(10px)' : '' }}>Booking</h1>
+        <div className="booking__cta-btns">
+            <Dropdown
+                label='Vista'
+                options={['Calendario', 'Reservas', 'Servicios', 'Eventos']}
+                selected={view}
+                setSelected={setView}
+                value={view}
+                style={{
+                    width: 'fit-content',
+                    alignSelf: 'flex-end',
+                    filter: selected !== -1 || isNewBooking ? 'blur(10px)' : ''
+                }}
+            />
+            <Button
+                label={view === 'Servicios' ? 'Crear servicio' : view === 'Eventos' ? 'Nuevo evento' : 'Nueva reserva'}
+                handleClick={handleCreateButton}
+                bgColor="#87d18d"
+                style={{
+                    width: 'fit-content',
+                    alignSelf: 'flex-end',
+                    filter: selected !== -1 || isNewBooking ? 'blur(10px)' : ''
+                }}
+            />
+        </div>
+
+        {view === 'Calendario' ?
+            <EventCalendar
+                localizer={localizer}
+                events={getCalendarEvents()}
+                startAccessor="start"
+                endAccessor="end"
+                defaultDate={new Date()}
+                views={["day", "agenda", "week", "month"]}
+                selectable
+                defaultView="month"
+                style={{
+                    height: "70vh",
+                    width: '60vw',
+                    // alignSelf: 'flex-start',
+                    zIndex: 0,
+                    filter: selected !== -1 || isNewBooking ? 'blur(10px)' : '',
+                    marginBottom: '5rem'
+                }}
+                onSelectEvent={handleSelectEvent}
+                onSelectSlot={handleSelectSlot}
+                min={new Date(0, 0, 0, 8, 0, 0)}
+                max={new Date(0, 0, 0, 21, 0, 0)}
+                messages={messages}
+            />
+            : view === 'Reservas' ?
+                <div style={{ width: '100%', filter: selected !== -1 || isNewBooking ? 'blur(10px)' : '' }}>
+                    <DataTable
+                        title='Todas las reservas'
+                        name='reservas'
+                        tableData={bookings}
+                        setTableData={setBookings}
+                        tableHeaders={bookingHeaders}
+                        selected={selected}
+                        setSelected={setSelected}
+                        loading={loading}
+                    />
+                </div>
+                : view === 'Servicios' ?
+                    <div style={{ width: '100%' }}>
+                        <p style={{ margin: '0 0 1rem 0' }}>
+                            Los servicios mostrados aquí son todos los ofrecidos por ti. Si modificas, creas o eliminas alguno, las reservas que ya estén confirmadas no serán afectadas, sólo las nuevas reservas mostrarán dichas modificaciones.
+                        </p>
+                        <DataTable
+                            title='Todas los servicios'
+                            name='servicios'
+                            tableData={dbServices}
+                            setTableData={setDbServices}
+                            tableHeaders={serviceHeaders}
+                            selected={dbServiceSelected}
+                            setSelected={setDbServiceSelected}
+                            loading={loading}
+                        />
+                    </div>
+                    : view === 'Eventos' ?
+                        <div style={{ width: '100%' }}>
+                            <p style={{ margin: '0 0 1rem 0' }}>
+                            </p>
+                            <DataTable
+                                title='Todas los eventos'
+                                name='eventos'
+                                tableData={events}
+                                setTableData={setEvents}
+                                tableHeaders={eventHeaders}
+                                selected={eventSelected}
+                                setSelected={setEventSelected}
+                                loading={loading}
+                            />
+                        </div>
+                        : ''}
+
+        {selected !== -1 || isNewBooking ? renderModal() : ''}
+        {renderServiceSidebar()}
+        {renderEventSidebar()}
+
     </div>
 }

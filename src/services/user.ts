@@ -28,28 +28,28 @@ const verifyToken = async ()=> {
     try {
         const verify = await axios.post(`${API_URL}/api/user/verify`, {}, getConfig())
         return verify.data
-    } catch (err) { console.log(err) }
+    } catch (err) { }
 }
 
 const registerUser = async (data: { [key: string | number]: any }) => {
     try {
         const newUser = await axios.post(`${API_URL}/api/user/create`, data)
         return newUser.data
-    } catch (err) { console.log(err) }
+    } catch (err) { console.error(err) }
 }
 
 const subscribe = async (data: { [key: string | number]: any }) => {
     try {
         const newEmail = await axios.post(`${API_URL}/api/app/subscribe`, data)
         return newEmail.data
-    } catch (err) { console.log(err) }
+    } catch (err) { console.error(err) }
 }
 
 const cancelSubscription = async (data: { [key: string | number]: any }) => {
     try {
         const canceled = await axios.post(`${API_URL}/api/app/cancelSubscription`, data)
         return canceled.data
-    } catch (err) { console.log(err) }
+    } catch (err) { console.error(err) }
 }
 
 const updateUser = async (data: { [key: string | number]: any }) => {
@@ -61,7 +61,7 @@ const updateUser = async (data: { [key: string | number]: any }) => {
             ...user.data
         }))
         return user.data
-    } catch (err) { console.log(err) }
+    } catch (err) { console.error(err) }
 }
 
 export {

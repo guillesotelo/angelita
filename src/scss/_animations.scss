@@ -36,6 +36,18 @@
     }
 }
 
+@keyframes move-x {
+    0% {
+        transform: translateX(50%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
 
 @keyframes fade-in {
     0% {

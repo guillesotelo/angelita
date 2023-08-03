@@ -15,6 +15,7 @@ type Props = {
 export default function InputField({ value, name, label, updateData, className, type, placeholder, cols, rows }: Props) {
     return type === 'textarea' ?
         <div className="inputfield__container">
+            {label ? <h2 className="inputfield__label">{label}</h2> : ''}
             <textarea
                 className={className || 'textarea__default'}
                 placeholder={placeholder || ''}
