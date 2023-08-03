@@ -200,7 +200,7 @@ export default function Home() {
                     <div className="home__section-col2" style={{ width: '50%', textAlign: 'justify', padding: '2vw' }}>
                         <h2 className="home__section-title scroll-item" style={{ animationDelay: '.4s', alignSelf: 'flex-start', color: '#fff' }}>Con una <strong>Misión</strong></h2>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.8s' }}>
-                            Quiero promover una <i>psicología afectuosa y divergente</i>, cercana, de igual a igual, asequible en todos los sentidos, donde podamos sanar y expandirnos a través de la experience del ser libre.
+                            Quiero promover una psicología afectuosa y divergente, cercana, de igual a igual, asequible en todos los sentidos, donde podamos sanar y expandirnos a través de la experiencia del ser libre.
                             <br />
                             <br />
                             Busco disfrutar mi labor, vocación y propósito, y encontrar la manera de dignificar esta profesión y quienes la consultan.
