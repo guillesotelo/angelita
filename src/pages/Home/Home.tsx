@@ -33,7 +33,7 @@ export default function Home() {
     const [renderDiscounts, setRenderDiscounts] = useState(false)
     const [renderTools, setRenderTools] = useState(false)
     const [renderEvents, setRenderEvents] = useState(false)
-    const [checkout, setCheckout] = useState(0)
+    const [checkout, setCheckout] = useState('')
     const [service, setService] = useState(0)
     const [subService, setSubService] = useState(0)
     const [renderAll, setRenderAll] = useState(false)
@@ -224,7 +224,7 @@ export default function Home() {
                     <h4 className="home__modal-close" onClick={() => {
                         setService(0)
                         setSubService(0)
-                        setCheckout(0)
+                        setCheckout('')
                         setTimeout(() => scrollToSection('servicios'), 100)
                     }}>X</h4>
                     {!checkout ?
@@ -283,7 +283,7 @@ export default function Home() {
         <div className="home__section-discounts scroll-item"></div>
         {renderDiscounts ?
             <div className="home__section">
-                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.3s', color: '#EBAA59', fontSize: '2.2vw', textAlign: 'center' }}>DESCUENTOS ESPECIALES</h2>
+                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.3s', color: '#EBAA59', fontSize: '2.2vw', alignSelf: 'center' }}>DESCUENTOS ESPECIALES</h2>
                 <div className="home__discount-row" >
                     <div className="home__discount-card scroll-item">
                         <p className="home__section-text" style={{ animationDelay: '.4s', textAlign: 'center', fontSize: '1.2rem' }}>
@@ -332,10 +332,10 @@ export default function Home() {
                     <div className="home__section-col1" style={{ textAlign: 'justify', width: '100%' }}>
                         <h2 className="home__section-title scroll-item" style={{ animationDelay: '.3s', color: '#B0BCEB', fontSize: '2.2vw' }}>Amor. Vocación. Interacción. Comprensión. Expansión</h2>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.4s', width: '90%' }}>
-                            Ofrezco asesoría psicológica profesional, afectuosa, pedagógica y práctica, enmarcada dentro del modelo humanista transpersonal, el cual ofrece un <i>escalonamiento en fuerza, poder y dominio mental</i> a medida que se deconstruye el autoconcepto e interpretaciones parciales y distorcionadas acerca de los demás, el mundo y sus elementos.
+                            Ofrezco asesoría psicológica profesional, afectuosa, pedagógica y práctica, enmarcada dentro del modelo humanista transpersonal, el cual ofrece un escalonamiento en fuerza, poder y dominio mental a medida que se deconstruye el autoconcepto e interpretaciones parciales y distorcionadas acerca de los demás, el mundo y sus elementos.
                             <br />
                             <br />
-                            Promuevo la <i>resolución eficiente de conflictos y empodero al consultante en la renovación de su sistema de valores</i> de manera que pueda redirigir el curso, plan y propósito de vida. La persona se extiende a la experiencia de sanidad y libertad una vez que encuentra su núcleo esencial o identidad libre.
+                            Promuevo la resolución eficiente de conflictos y empodero al consultante en la renovación de su sistema de valores de manera que pueda redirigir el curso, plan y propósito de vida. La persona se extiende a la experiencia de sanidad y libertad una vez que encuentra su núcleo esencial o identidad libre.
                             <br />
                             <br />
                             Para mí es un gusto asesorar y asistir en este proceso de descubrimiento y fortalecimiento psicológico, cuya natural disolución de causas inconscientes, acabarán con el desgaste emocional, físico y relacional innecesario. El resultado humanos adultos, conscientes, maduros y resilientes.
@@ -552,7 +552,7 @@ export default function Home() {
                                 <div className="home__event-details">
                                     <h1 className="home__event-title">4 temores cuando hablamos en público</h1>
                                     <h2 className="home__event-subtitle">👥 22 Participantes</h2>
-                                    <h3 className="home__event-venue">Evento Virtual</h3>
+                                    <h3 className="home__event-venue">🖥 Evento Virtual</h3>
                                 </div>
                             </div>
 
@@ -570,7 +570,7 @@ export default function Home() {
                                 <div className="home__event-details">
                                     <h1 className="home__event-title">Cuando la estrategia paternal  es la imposición y el dominio</h1>
                                     <h2 className="home__event-subtitle">👥 9 Participantes</h2>
-                                    <h3 className="home__event-venue">Evento Virtual</h3>
+                                    <h3 className="home__event-venue">🖥 Evento Virtual</h3>
                                 </div>
                             </div>
                         </div>

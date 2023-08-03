@@ -139,6 +139,7 @@
             flex-direction: row;
             gap: 1rem;
             width: 100%;
+            align-items: flex-end;
         }
 
         &-col {
@@ -146,6 +147,12 @@
             flex-direction: column;
             width: 50%;
             gap: .8rem;
+        }
+
+        &-image {
+            max-height: 5rem;
+            max-width: 8rem;
+            border-radius: .4rem;
         }
 
         &-timeselect {

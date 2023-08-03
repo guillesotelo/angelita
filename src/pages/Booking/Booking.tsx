@@ -38,14 +38,12 @@ export default function Booking({ }: Props) {
     const [eventClicked, setEventClicked] = useState<dataObj>({})
     const [date, setDate] = useState<any>(null)
     const [selectedDates, setSelectedDates] = useState<any>([])
-    const [showEventCalendar, setShowEventCalendar] = useState(true)
     const [view, setView] = useState('Calendario')
     const [dbServices, setDbServices] = useState<dataObj[]>([])
     const [dbServiceSelected, setDbServiceSelected] = useState<number>(-1)
     const [isNewService, setIsNewService] = useState(false)
     const [tryToRemoveService, setTryToRemoveService] = useState(false)
     const [serviceData, setServiceData] = useState<dataObj>({})
-
     const [events, setEvents] = useState<dataObj[]>([])
     const [eventSelected, setEventSelected] = useState<number>(-1)
     const [isNewEvent, setIsNewEvent] = useState(false)
@@ -437,8 +435,8 @@ export default function Booking({ }: Props) {
 
     const messages = {
         allDay: 'Todo el día',
-        previous: 'Anterior',
-        next: 'Siguiente',
+        previous: '◄ Anterior',
+        next: 'Siguiente ►',
         today: 'Hoy',
         month: 'Mes',
         week: 'Semana',
@@ -919,6 +917,9 @@ export default function Booking({ }: Props) {
                                 value={eventData.imageUrl}
                                 placeholder='https://url-de-imagen.png'
                             />
+                            {eventData.imageUrl ?
+                                <img src={eventData.imageUrl} className='booking__sidebar-event-image' alt='Imagen del Evento'/>
+                                : ''}
                         </div>
                         <div className='booking__sidebar-event-row'>
                             <InputField

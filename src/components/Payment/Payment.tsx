@@ -2,15 +2,14 @@ import { useEffect, useState } from "react"
 import Button from "../Button/Button"
 import { dataObj } from "../../types"
 import Dropdown from "../Dropdown/Dropdown"
-import { SERVICES } from "../../constants/services"
 import { TileDisabledFunc } from "react-calendar/dist/cjs/shared/types"
 import Calendar from "react-calendar"
-import { createBooking, createCheckoutSession } from "../../services/"
+import { createBooking, createCheckoutSession, getAllServices } from "../../services/"
 import InputField from "../InputField/InputField"
 import { useHistory } from "react-router-dom"
 
 type Props = {
-    checkout?: number
+    checkout?: string
 }
 
 function Payment({ checkout }: Props) {
@@ -26,20 +25,28 @@ function Payment({ checkout }: Props) {
     const [dataOk, setDataOk] = useState(true)
     const [contribute, setContribute] = useState('')
     const [openCalendars, setOpenCalendars] = useState<dataObj>({})
+    const [currentService, setCurrentService] = useState<dataObj>({})
+    const [dbServices, setDbServices] = useState<dataObj[]>([])
     const history = useHistory()
 
 
     useEffect(() => {
         setQuantity(`1 sesión (${getHours(1)})`)
+        getServices()
+        setCurrentService(getService())
     }, [])
 
     useEffect(() => {
         setDataOk(checkData())
-    }, [data, date, selectedDates, quantity, isProcessing])
+    }, [checkout, data, date, selectedDates, quantity, isProcessing])
 
     useEffect(() => {
         setOpenCalendar(false)
     }, [date])
+
+    useEffect(() => {
+        setCurrentService(getService())
+    }, [dbServices, checkout])
 
     useEffect(() => {
         setOpenCalendars({})
@@ -47,15 +54,24 @@ function Payment({ checkout }: Props) {
 
     useEffect(() => {
         setTotal(getPrice())
-    }, [quantity, contribute])
+    }, [currentService, quantity, contribute, checkout])
 
     const updateInfo = (key: string, e: { [key: string | number]: any }) => {
         const value = e.target.value
         setData({ ...data, [key]: value })
     }
 
-    const getServiceData = (data: string | number) => {
-        return SERVICES[checkout || -1][data]
+    const getService = () => {
+        return dbServices.find(s => s._id === checkout) || {}
+    }
+
+    const getServices = async () => {
+        try {
+            const allServices = await getAllServices()
+            if (allServices && allServices.length) setDbServices(allServices)
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     const checkoutStripe = async () => {
@@ -68,10 +84,11 @@ function Payment({ checkout }: Props) {
             date: getDateAndTime(dates),
             dateObject: JSON.stringify(date),
             dateObjects: JSON.stringify(selectedDates),
-            rawData: SERVICES[checkout || -1],
+            rawData: currentService,
             selectedDates,
             checkout,
-            name: getServiceData('name'),
+            name: currentService.name,
+            serviceId: currentService._id,
             quantity: 1, // We pass the total amount with discounts if any
             realQty: getQuantity(),
             realPrice: getPrice(),
@@ -90,11 +107,11 @@ function Payment({ checkout }: Props) {
     }
 
     const getDescription = () => {
-        return getServiceData('description') || discountText()
+        return currentService.description || discountText()
     }
 
     const discountText = () => {
-        const { discount, price } = SERVICES[checkout || 0]
+        const { discount, price } = currentService
         if (discount) {
             const dsc = Number(discount.split('=')[1].replace('%', ''))
             return `Descuento del ${100 - dsc}% desde la segunda sesión consecutiva - Precio ordinario: $${price}.00`
@@ -116,7 +133,7 @@ function Payment({ checkout }: Props) {
     }
 
     const getPrice = () => {
-        const { price, discount } = SERVICES[checkout || 0]
+        const { price, discount } = currentService
         const hours = getQuantity()
         if (discount) {
             if (discount == '>2=70%') {
@@ -133,8 +150,8 @@ function Payment({ checkout }: Props) {
     }
 
     const getHours = (session: number) => {
-        return getServiceData('duration') * session > 1 ?
-            `${getServiceData('duration') * session} horas` :
+        return currentService.duration * session > 1 ?
+            `${currentService.duration * session} horas` :
             `${session} hora`
     }
 
@@ -169,7 +186,7 @@ function Payment({ checkout }: Props) {
         const day = date.getDay()
         const today = new Date()
         const isTodayOrBefore = date <= today
-        const serviceDay = getServiceData('day') || ''
+        const serviceDay = currentService.day || ''
         if (serviceDay) {
             if (serviceDay === 'Martes') return day !== 2 || isTodayOrBefore
             if (serviceDay === 'Miércoles') return day !== 3 || isTodayOrBefore
@@ -206,10 +223,11 @@ function Payment({ checkout }: Props) {
                 date: getDateAndTime(dates),
                 dateObject: JSON.stringify(date),
                 dateObjects: JSON.stringify(selectedDates),
-                rawData: SERVICES[checkout || -1],
+                rawData: currentService,
                 selectedDates,
                 checkout,
-                name: getServiceData('name'),
+                name: currentService.name,
+                serviceId: currentService._id,
                 quantity: 1, // We pass the total amount with discounts if any
                 realQty: getQuantity(),
                 realPrice: getPrice(),
@@ -227,11 +245,11 @@ function Payment({ checkout }: Props) {
     }
 
     const getImage = () => {
-        return SERVICES[checkout || -1].imageUrl || 'https://i.postimg.cc/rwHVQg5k/angelita-logo.png'
+        return currentService.imageUrl || 'https://i.postimg.cc/rwHVQg5k/angelita-logo.png'
     }
 
     const getBookingSlots = (date: Date) => {
-        const { startTime, endTime } = SERVICES[checkout || -1]
+        const { startTime, endTime } = currentService
         const timeSlots = []
         const start = new Date(date)
         const end = new Date(date)
@@ -247,7 +265,7 @@ function Payment({ checkout }: Props) {
 
     return (
         <div className="payment__container">
-            <h2 className="service-template__title" style={{ margin: 0 }}>Checkout: {SERVICES[checkout || -1].name}</h2>
+            <h2 className="service-template__title" style={{ margin: 0 }}>Checkout: {currentService.name}</h2>
             <div className="payment__contact-info">
                 <h4 className="payment__contact-info-title">Información de contacto</h4>
                 <div className="payment__contact-info-row">
@@ -308,7 +326,7 @@ function Payment({ checkout }: Props) {
                                     handleClick={() => setOpenCalendar(true)}
                                     bgColor="#B0BCEB"
                                 />
-                                {getServiceData('startTime') ?
+                                {currentService.startTime ?
                                     <Dropdown
                                         label='Seleccionar hora'
                                         options={getBookingSlots(date)}
@@ -318,7 +336,7 @@ function Payment({ checkout }: Props) {
                                         isTime={true}
                                         maxHeight='10rem'
                                     />
-                                    : <h2 className="booking__data-value">{getServiceData('time')}</h2>}
+                                    : <h2 className="booking__data-value">{currentService.time}</h2>}
                             </>
                             : ''
                     }
@@ -344,7 +362,7 @@ function Payment({ checkout }: Props) {
                                             bgColor="#B0BCEB"
                                             style={{ width: 'fit-content' }}
                                         />
-                                        {getServiceData('startTime') ?
+                                        {currentService.startTime ?
                                             <Dropdown
                                                 label='Seleccionar hora'
                                                 options={getBookingSlots(selectedDates[i])}
@@ -354,14 +372,14 @@ function Payment({ checkout }: Props) {
                                                 isTime={true}
                                                 maxHeight='10rem'
                                             />
-                                            : <h2 className="booking__data-value">{getServiceData('time')}</h2>}
+                                            : <h2 className="booking__data-value">{currentService.time}</h2>}
                                     </>
                                 }
                             </div>)
                         : ''}
                 </div>
                 {message && <h4 className="payment__message">{message}</h4>}
-                {SERVICES[checkout || -1]?.price !== 0 ?
+                {currentService?.price !== 0 ?
                     <Button
                         label={isProcessing ? 'Redirigiendo...' : 'Pagar ahora'}
                         handleClick={checkoutStripe}

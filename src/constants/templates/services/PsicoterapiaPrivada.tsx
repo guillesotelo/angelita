@@ -4,7 +4,7 @@ import Image2 from '../../../assets/images/coffee/image42.png'
 import Image3 from '../../../assets/images/coffee/image9.png'
 
 type Props = {
-    checkout: (value: number) => void
+    checkout: (value: string) => void
     setSubService: (value: number) => void
 }
 

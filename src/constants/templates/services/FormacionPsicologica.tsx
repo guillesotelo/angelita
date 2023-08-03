@@ -4,7 +4,7 @@ import Image2 from '../../../assets/images/coffee/image42.png'
 import Image3 from '../../../assets/images/coffee/image9.png'
 
 type Props = {
-    checkout: (value: number) => void
+    checkout: (value: string) => void
 }
 
 export default function FormacionPsicologica({ checkout }: Props) {
@@ -30,7 +30,7 @@ export default function FormacionPsicologica({ checkout }: Props) {
                     <div className="service-template__prices">
                         <h4 className="service-template__prices-text"><strong>US $50</strong></h4>
                     </div>
-                    <button className="service-template__btn" onClick={() => checkout(13)}>Reservar</button>
+                    <button className="service-template__btn" onClick={() => checkout('64ca5fd4baf72a66cc29c691')}>Reservar</button>
                 </div>
             </div>
         </div>

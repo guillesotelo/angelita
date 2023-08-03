@@ -11,7 +11,7 @@ type Props = {
     service: number
     subService: number
     setSubService: (value: number) => void
-    checkout: (value: number) => void
+    checkout: (value: string) => void
 }
 export default function ServiceTemplates({ service, subService, setSubService, checkout }: Props) {
 
