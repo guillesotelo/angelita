@@ -19,7 +19,7 @@ export default function Psicoterapia({ checkout }: Props) {
                     <h4 className="service-template__open-hours" style={{ margin: 0 }}>
                         <strong>Persona, pareja o familia</strong>
                         <br />
-                        Lunes a sábados.
+                        Lunes a sábado.
                         <br />
                         Entre 11 - 19 hs UTC/GMT+2 (Berlin).
                     </h4>

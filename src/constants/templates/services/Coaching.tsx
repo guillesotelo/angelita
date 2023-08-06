@@ -16,7 +16,7 @@ export default function Coaching({ checkout }: Props) {
                     <h4 className="service-template__open-hours" style={{ margin: 0 }}>
                         <strong>Personal</strong>
                         <br />
-                        Lunes a sábados.
+                        Lunes a sábado.
                         <br />
                         Entre 11 - 19 hs UTC/GMT+2 (Berlin).
                     </h4>

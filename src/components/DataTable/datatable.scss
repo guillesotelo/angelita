@@ -14,7 +14,7 @@
     }
 
     &__title {
-        font-size: 1vw;
+        font-size: 1rem;
         margin: .3vw 0;
         text-align: center;
     }
@@ -22,7 +22,7 @@
     &__headers {
         display: flex;
         flex-direction: row;
-        font-size: .8vw;
+        font-size: .8rem;
         border-radius: .5VW;
         padding: .6vw .4vw;
         text-align: left;
@@ -58,7 +58,7 @@
     &__row {
         display: flex;
         flex-direction: row;
-        font-size: .9vw;
+        font-size: .9rem;
         border-radius: .5VW;
         padding: .6vw .4vw;
         text-align: left;
@@ -74,7 +74,7 @@
         &-selected {
             display: flex;
             flex-direction: row;
-            font-size: .9vw;
+            font-size: .9rem;
             border-radius: .5VW;
             padding: .6vw .4vw;
             text-align: left;
@@ -118,7 +118,7 @@
         color: rgb(79, 79, 79);
         cursor: pointer;
         transition: 0.3s;
-        font-size: 1vw;
+        font-size: 1rem;
     }
 
     &__lazy-btn:hover {
@@ -134,7 +134,7 @@
 
         &>h4 {
             font-weight: normal;
-            font-size: .8vw;
+            font-size: .8rem;
         }
     }
 }

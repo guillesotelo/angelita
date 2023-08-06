@@ -24,7 +24,7 @@ export default function PsicoterapiaPrivada({ checkout, setSubService }: Props) 
                         <div className="service-template__subservice-details">
                             <h2 className="service-template__subservice-title">Psicoterapia</h2>
                             <h3 className="service-template__subservice-pacients">Persona, pareja, o familia</h3>
-                            <h4 className="service-template__subservice-open-hours">Lunes a sábados - 11 - 19 hs UTC/GMT+2 (Berlin)</h4>
+                            <h4 className="service-template__subservice-open-hours">Lunes a sábado - 11 - 19 hs UTC/GMT+2 (Berlin)</h4>
                         </div>
                         <div className="service-template__subservice-price">
                             <h4 className="service-template__subservice-price-text">US $50</h4>
@@ -34,7 +34,7 @@ export default function PsicoterapiaPrivada({ checkout, setSubService }: Props) 
                         <div className="service-template__subservice-details">
                             <h2 className="service-template__subservice-title">Consejería</h2>
                             <h3 className="service-template__subservice-pacients">Persona, pareja, o familia</h3>
-                            <h4 className="service-template__subservice-open-hours">Lunes a sábados - 11 - 19 hs UTC/GMT+2 (Berlin)</h4>
+                            <h4 className="service-template__subservice-open-hours">Lunes a sábado - 11 - 19 hs UTC/GMT+2 (Berlin)</h4>
                         </div>
                         <div className="service-template__subservice-price">
                             <h4 className="service-template__subservice-price-text">US $50</h4>

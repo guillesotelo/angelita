@@ -191,8 +191,8 @@ function Payment({ checkout }: Props) {
             if (serviceDay === 'Martes') return day !== 2 || isTodayOrBefore
             if (serviceDay === 'Miércoles') return day !== 3 || isTodayOrBefore
             if (serviceDay === '1er sábado del mes') return !isFirstSaturdayOfMonth(date) || isTodayOrBefore
-            if (serviceDay === 'Lunes a sábados') return day !== 0 || isTodayOrBefore
-            if (serviceDay === 'Jueves y sábados') return day !== 4 && day !== 6 || isTodayOrBefore
+            if (serviceDay === 'Lunes a sábado') return day !== 0 || isTodayOrBefore
+            if (serviceDay === 'Jueves y sábado') return day !== 4 && day !== 6 || isTodayOrBefore
         }
         return false
     }

@@ -74,8 +74,8 @@ export default function Booking({ }: Props) {
     const history = useHistory()
     const { isMobile, isLoggedIn, setIsLoggedIn } = useContext(AppContext)
 
-    console.log('eventData', eventData)
-
+    console.log('dbServices', dbServices)
+    console.log('events', events)
 
     useEffect(() => {
         verifyUser()
@@ -364,8 +364,8 @@ export default function Booking({ }: Props) {
             if (serviceDay === 'Martes') return day !== 2 || isTodayOrBefore
             if (serviceDay === 'Miércoles') return day !== 3 || isTodayOrBefore
             if (serviceDay === '1er sábado del mes') return !isFirstSaturdayOfMonth(date) || isTodayOrBefore
-            if (serviceDay === 'Lunes a sábados') return day !== 0 || isTodayOrBefore
-            if (serviceDay === 'Jueves y sábados') return day !== 4 && day !== 6 || isTodayOrBefore
+            if (serviceDay === 'Lunes a sábado') return day !== 0 || isTodayOrBefore
+            if (serviceDay === 'Jueves y sábado') return day !== 4 && day !== 6 || isTodayOrBefore
         }
         return false
     }
@@ -827,14 +827,14 @@ export default function Booking({ }: Props) {
                             label='Nombre'
                             name="name"
                             updateData={updateServiceData}
-                            value={serviceData.name}
+                            value={serviceData.name || ''}
                         />
                         <div className='booking__sidebar-event-row'>
                             <InputField
                                 label='Descripción'
                                 name="description"
                                 updateData={updateServiceData}
-                                value={serviceData.description}
+                                value={serviceData.description || ''}
                                 type='textarea'
                                 rows={5}
                             />
@@ -844,23 +844,33 @@ export default function Booking({ }: Props) {
                                 label='Imagen (url)'
                                 name="imageUrl"
                                 updateData={updateServiceData}
-                                value={serviceData.imageUrl}
+                                value={serviceData.imageUrl || ''}
                                 placeholder='https://url-de-imagen.png'
                             />
                             {serviceData.imageUrl ?
-                                <img src={serviceData.imageUrl} className='booking__sidebar-event-image' alt='Imagen del servicio' />
+                                <img src={serviceData.imageUrl || ''} className='booking__sidebar-event-image' alt='Imagen del servicio' />
                                 : ''}
                         </div>
-                        <InputField
-                            label='Tipo'
-                            name="type"
-                            updateData={updateServiceData}
-                            value={serviceData.type}
-                        />
+                        <div className='booking__sidebar-event-row'>
+                            <InputField
+                                label='Tipo'
+                                name="type"
+                                updateData={updateServiceData}
+                                value={serviceData.type || ''}
+                            />
+                            <InputField
+                                label='Duración'
+                                name="duration"
+                                updateData={updateServiceData}
+                                value={serviceData.duration || null}
+                                type='number'
+                                style={{ width: '20%' }}
+                            />
+                        </div>
                         <div className='booking__sidebar-event-row'>
                             <Dropdown
                                 label='Días'
-                                options={['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Lunes a sábados', 'Jueves y sábados', '1er sábado del mes']}
+                                options={['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Lunes a sábado', 'Jueves y sábado', '1er sábado del mes']}
                                 selected={serviceData.day}
                                 setSelected={value => setServiceData({ ...serviceData, 'day': value })}
                                 value={serviceData.day}
@@ -871,7 +881,7 @@ export default function Booking({ }: Props) {
                                         label='Desde'
                                         name="startTime"
                                         updateData={updateServiceData}
-                                        value={serviceData.startTime}
+                                        value={serviceData.startTime || null}
                                         placeholder='Ej: 11'
                                         type='number'
                                     />
@@ -879,7 +889,7 @@ export default function Booking({ }: Props) {
                                         label='Hasta'
                                         name="endTime"
                                         updateData={updateServiceData}
-                                        value={serviceData.endTime}
+                                        value={serviceData.endTime || null}
                                         placeholder='Ej: 19'
                                         type='number'
                                     />
@@ -903,7 +913,7 @@ export default function Booking({ }: Props) {
                                 label='Precio (US $)'
                                 name="price"
                                 updateData={updateServiceData}
-                                value={serviceData.price}
+                                value={serviceData.price || null}
                                 type='number'
                                 style={{ width: '20%' }}
                             />
@@ -912,12 +922,12 @@ export default function Booking({ }: Props) {
                                 options={DISCOUNTS}
                                 selected={serviceData.discount}
                                 setSelected={value => setServiceData({ ...serviceData, 'discount': value })}
-                                value={serviceData.discount}
+                                value={serviceData.discount || ''}
                             />
                             <Dropdown
                                 label='Es evento'
                                 options={['Si', 'No']}
-                                selected={serviceData.isEvent}
+                                selected={serviceData.isEvent || false}
                                 setSelected={value => setServiceData({ ...serviceData, 'isEvent': value === 'Si' ? true : false })}
                                 value={serviceData.isEvent ? 'Si' : 'No'}
                             />
@@ -927,14 +937,14 @@ export default function Booking({ }: Props) {
                                 label='Link de reunión'
                                 name="link"
                                 updateData={updateServiceData}
-                                value={serviceData.link}
+                                value={serviceData.link || ''}
                                 placeholder='https://url-de-reunion'
                             />
                             <InputField
                                 label='Contraseña (opcional)'
                                 name="linkPassword"
                                 updateData={updateServiceData}
-                                value={serviceData.linkPassword}
+                                value={serviceData.linkPassword || ''}
                             />
                         </div>
                     </div>
@@ -991,7 +1001,7 @@ export default function Booking({ }: Props) {
                                 label='Nombre'
                                 name="name"
                                 updateData={updateEventData}
-                                value={eventData.name}
+                                value={eventData.name || ''}
                             />
                             <Dropdown
                                 label='Servicio'
@@ -1042,7 +1052,7 @@ export default function Booking({ }: Props) {
                                 label='Descripción'
                                 name="description"
                                 updateData={updateEventData}
-                                value={eventData.description}
+                                value={eventData.description || ''}
                                 type='textarea'
                                 rows={5}
                             />
@@ -1052,7 +1062,7 @@ export default function Booking({ }: Props) {
                                 label='Imagen (url)'
                                 name="imageUrl"
                                 updateData={updateEventData}
-                                value={eventData.imageUrl}
+                                value={eventData.imageUrl || ''}
                                 placeholder='https://url-de-imagen.png'
                             />
                             {eventData.imageUrl ?
@@ -1064,21 +1074,21 @@ export default function Booking({ }: Props) {
                                 label='Precio (US $)'
                                 name="price"
                                 updateData={updateEventData}
-                                value={eventData.price}
+                                value={eventData.price || null}
                                 type='number'
                                 style={{ width: '20%' }}
                             />
                             <Dropdown
                                 label='Descuento'
                                 options={DISCOUNTS}
-                                selected={eventData.discount}
+                                selected={eventData.discount || ''}
                                 setSelected={value => setEventData({ ...eventData, 'discount': value })}
-                                value={eventData.discount}
+                                value={eventData.discount || ''}
                             />
                             <Dropdown
                                 label='Máxima asistencia'
                                 options={Array.from({ length: 100 }).map((_, i) => i === 0 ? 'Sin tope' : i + 1)}
-                                selected={eventData.maxPax}
+                                selected={eventData.maxPax || 1}
                                 setSelected={value => setEventData({ ...eventData, 'maxPax': value })}
                                 value={eventData.maxPax || 'Sin tope'}
                             />
@@ -1095,14 +1105,14 @@ export default function Booking({ }: Props) {
                                 label='Link'
                                 name="link"
                                 updateData={updateEventData}
-                                value={eventData.link}
+                                value={eventData.link || ''}
                                 placeholder='https://url-de-reunion'
                             />
                             <InputField
                                 label='Contraseña (opcional)'
                                 name="linkPassword"
                                 updateData={updateEventData}
-                                value={eventData.linkPassword}
+                                value={eventData.linkPassword || ''}
                             />
                         </div>
                     </div>

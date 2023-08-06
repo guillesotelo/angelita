@@ -22,6 +22,9 @@ import Calendar from 'react-calendar'
 import WhatsAppButton from '../../components/WhatsAppButton/WhatsAppButton'
 import { whatsappMessage } from '../../constants/misc'
 import Button from '../../components/Button/Button'
+import { dataObj } from '../../types'
+import { getAllEvents } from '../../services/event'
+import EventCard from '../../components/EventCard/EventCard'
 
 export default function Home() {
     const [renderSectionAbout, setRenderSectionAbout] = useState(false)
@@ -38,6 +41,7 @@ export default function Home() {
     const [subService, setSubService] = useState(0)
     const [renderAll, setRenderAll] = useState(false)
     const [date, setDate] = useState<any>(new Date())
+    const [events, setEvents] = useState<dataObj[]>([])
     const history = useHistory()
     const { lang, isMobile } = useContext(AppContext)
 
@@ -52,6 +56,8 @@ export default function Home() {
                 scrollToSection(sectionId)
             }, 100)
         }
+
+        getEvents()
     }, [])
 
     useEffect(() => {
@@ -73,6 +79,15 @@ export default function Home() {
             else body.style.overflow = 'unset'
         }
     }, [service])
+
+    const getEvents = async () => {
+        try {
+            const allEvents = await getAllEvents()
+            if (allEvents && allEvents.length) setEvents(allEvents)
+        } catch (err) {
+            console.error(err)
+        }
+    }
 
     const scrollToSection = (section: string) => {
         if (setRenderAll) setRenderAll(true)
@@ -517,59 +532,12 @@ export default function Home() {
                     </div>
                     <div className="home__section-col2" style={{ width: '55%' }}>
                         <div className="home__event-list scroll-item">
-                            <div className="home__event-row">
-                                <div className="home__event-schedule">
-                                    Sáb
-                                    <br />
-                                    25 Jun
-                                    <br />
-                                    11:00
-                                </div>
-                                <div className="home__event-image-wrapper">
-                                    <img src={ImageEvent1} alt="Evento" className="home__event-image" />
-                                </div>
-                                <div className="home__event-details">
-                                    <h1 className="home__event-title">Cómo Lidiar con la Negatividad</h1>
-                                    <h2 className="home__event-subtitle">👥 13 Participantes</h2>
-                                    <h3 className="home__event-venue">🖥 Evento Virtual</h3>
-                                </div>
-                            </div>
-
-                            <div className="home__event-row">
-                                <div className="home__event-schedule">
-                                    Sáb
-                                    <br />
-                                    18 Jun
-                                    <br />
-                                    13:00
-                                </div>
-                                <div className="home__event-image-wrapper">
-                                    <img src={ImageEvent2} alt="Evento" className="home__event-image" />
-                                </div>
-                                <div className="home__event-details">
-                                    <h1 className="home__event-title">4 temores cuando hablamos en público</h1>
-                                    <h2 className="home__event-subtitle">👥 22 Participantes</h2>
-                                    <h3 className="home__event-venue">🖥 Evento Virtual</h3>
-                                </div>
-                            </div>
-
-                            <div className="home__event-row" style={{ border: 'none' }}>
-                                <div className="home__event-schedule">
-                                    Sáb
-                                    <br />
-                                    2 Jul
-                                    <br />
-                                    14:30
-                                </div>
-                                <div className="home__event-image-wrapper">
-                                    <img src={ImageEvent3} alt="Evento" className="home__event-image" />
-                                </div>
-                                <div className="home__event-details">
-                                    <h1 className="home__event-title">Cuando la estrategia paternal  es la imposición y el dominio</h1>
-                                    <h2 className="home__event-subtitle">👥 9 Participantes</h2>
-                                    <h3 className="home__event-venue">🖥 Evento Virtual</h3>
-                                </div>
-                            </div>
+                            {events.map((event: dataObj, i: number) =>
+                                <EventCard
+                                    key={i}
+                                    event={event}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
