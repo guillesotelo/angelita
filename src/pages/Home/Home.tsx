@@ -166,23 +166,22 @@ export default function Home() {
             <div className="home__section" id='sobre-mi' style={{ backgroundColor: '#fff', filter: service ? 'blur(10px)' : '' }}>
                 <div className="home__section-row">
                     <div className="home__section-col1" style={{ width: '60%', textAlign: 'justify' }}>
-                        <h2 className="home__section-title scroll-item" style={{ animationDelay: '.4s', alignSelf: 'flex-start', color: '#EBAA59' }}>Hola, soy <strong>Angelita</strong></h2>
+                        <h2 className="home__section-title scroll-item" style={{ animationDelay: '.4s', alignSelf: 'flex-start', color: '#EBAA59' }}>Hola, soy&nbsp;<strong>Angelita</strong></h2>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.6s' }}>
                             Me llamo Angela Sanguino y me gusta cuando me llaman de cariño “Angelita”.
                             <br />
-                            Estudio Psicología Clínica desde hace 28 años y me gradué con una especialización en Psicología Clínica, Organizacional y del Consumidor.
+                            <br />
+                            He estudiado Psicología Clínica desde hace 28 años y me gradué con una especialización en Psicología Clínica, Organizacional y del Consumidor.
                             <br />
                             <br />
-                            Mi tema favorito es el AMOR PERFECTO y esto es lo que he encontrado respecto a ese amor: "Dios es amor... Donde hay amor no hay miedo. Al contrario, el amor perfecto echa fuera el miedo. Pues el miedo supone el castigo. Por eso, si alguien tiene miedo, es que no ha llegado a amar perfectamente." 1 Juan 4:7, 18 DHH
-                            <br />
+                            Mi tema favorito es el AMOR PERFECTO y esto es lo que he encontrado respecto a ese amor: "Dios es amor... Donde hay amor no hay miedo. Al contrario, el amor perfecto echa fuera el miedo. Pues el miedo supone el castigo. Por eso, si alguien tiene miedo, es que no ha llegado a amar perfectamente." 1 Juan 4:7, 18 DHH                            <br />
                             <br />
                             Tengo el propósito de perdonarlo todo y amarlo todo; de ser consciente, de hallar mi ser resiliente, de despertar de tantas ilusiones que se refuerzan en el mundo como verdades.
                             <br />
                             <br />
-                            Quiero llegar a mirar al otro y a mí misma, más allá de la superficio. Busco la paz interior y la sigo. Me gusta la armonía, el silencio y la sencilléz en las formas. He dejado de valorar muchas cosas como ciertas o significativas. Me gusta sonreír y divertirme, sin ningún motivo en particular. Trabajo en dar lo que me gusta recibir.
-                        </p>
+                            Quiero llegar a mirar al otro y a mí misma, más allá de la superficie. Busco la paz interior y la sigo. Me gusta la armonía, el silencio y la sencillez en las formas. Me gusta sonreír y divertirme, sin ningún motivo en particular. Trabajo en dar lo que me gusta recibir.                        </p>
                     </div>
-                    <div className="home__section-col2 scroll-item" style={{ width: '30%' }} >
+                    <div className="home__section-col2 scroll-item" style={{ width: '30%', alignItems: 'center' }} >
                         {/* <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s' }}>Mira dentro de tí</h2> */}
                         <img src={ProfilePicture4} alt="Angela Sanguino" className="home__section-about-image" />
                     </div>
@@ -198,13 +197,11 @@ export default function Home() {
                         <img src={MissionImage} alt="Mision" className="home__section-mission-image" />
                     </div>
                     <div className="home__section-col2" style={{ width: '50%', textAlign: 'justify', padding: '2vw' }}>
-                        <h2 className="home__section-title scroll-item" style={{ animationDelay: '.4s', alignSelf: 'flex-start', color: '#fff' }}>Con una <strong>Misión</strong></h2>
+                        <h2 className="home__section-title scroll-item" style={{ animationDelay: '.4s', alignSelf: 'flex-start', color: '#fff' }}>Con una&nbsp;<strong>Misión</strong></h2>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.8s' }}>
-                            Quiero promover una psicología afectuosa y divergente, cercana, de igual a igual, asequible en todos los sentidos, donde podamos sanar y expandirnos a través de la experiencia del ser libre.
+                            Quiero promover una psicología afectuosa, cercana, de igual a igual, asequible en todos los sentidos, donde podamos sanar y expandirnos a través de la experiencia del ser libre.                            <br />
                             <br />
-                            <br />
-                            Busco disfrutar mi labor, vocación y propósito, y encontrar la manera de dignificar esta profesión y quienes la consultan.
-                        </p>
+                            Busco disfrutar mi labor, vocación y propósito, y encontrar constantemente la manera de dignificar esta profesión y quienes la consultan.                        </p>
                         <div className='scroll-item'>
                             <Button
                                 label='Leer más'
@@ -254,25 +251,25 @@ export default function Home() {
                         </h2>
                         <div className="home__card-wrapper" style={{ transform: 'scale(.9)' }}>
                             <ItemCard
+                                image={Image3}
+                                title='Psicoterapia Privada'
+                                // price='US $50'
+                                onClick={() => setService(3)}
+                                style={{ animationDelay: '.5s' }}
+                            />
+                            <ItemCard
                                 image={Image1}
                                 title='Encuentros Grupales'
                                 // price='US $15'
                                 onClick={() => setService(1)}
-                                style={{ animationDelay: '.5s' }}
+                                style={{ animationDelay: '1s' }}
                             />
                             <ItemCard
                                 image={Image2}
                                 title='Psicoterapia en Grupo'
                                 // price='US $25'
                                 onClick={() => setService(2)}
-                                style={{ animationDelay: '.9s' }}
-                            />
-                            <ItemCard
-                                image={Image3}
-                                title='Psicoterapia Privada'
-                                // price='US $50'
-                                onClick={() => setService(3)}
-                                style={{ animationDelay: '1.2s' }}
+                                style={{ animationDelay: '1.4s' }}
                             />
                         </div>
                     </div>
@@ -386,7 +383,7 @@ export default function Home() {
         <div className="home__section-symptoms scroll-item"></div>
         {renderSymptoms ?
             <div className="home__section" style={{ backgroundColor: '#fff' }}>
-                <h2 className="home__section-symptoms-title scroll-item" style={{ color: '#EBCE98', textAlign: 'center', fontSize: '1.6rem' }}>SÍNTOMAS DE QUE PODRÍAS NECESITAR ASESORÍA PSICOLÓGICA</h2>
+                <h2 className="home__section-symptoms-title scroll-item" style={{ color: '#EBCE98', textAlign: 'center', alignSelf: 'center', fontSize: '1.6rem' }}>SÍNTOMAS DE QUE PODRÍAS NECESITAR ASESORÍA PSICOLÓGICA</h2>
                 <div className="home__section-row" style={{ height: 'fit-content', justifyContent: 'center', marginTop: '4rem' }}>
                     <div className="home__section-col1" style={{ width: '45%', textAlign: 'justify' }}>
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>

@@ -136,7 +136,7 @@ function Payment({ checkout }: Props) {
         const { price, discount } = currentService
         const hours = getQuantity()
         if (discount) {
-            if (discount == '>2=70%') {
+            if (discount.includes('30%')) {
                 setDiscount('30% OFF')
                 const hasDiscount = hours > 1
                 return hasDiscount ?

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { dataObj } from '../../types'
-import { SERVICES } from '../../constants/services'
 import CheckIcon from '../../assets/icons/check-icon.svg'
 import Button from '../../components/Button/Button'
 import { useHistory } from 'react-router-dom'
@@ -38,10 +37,6 @@ export default function SuccessPayment({ }: Props) {
             console.error(err)
             setLoading(false)
         }
-    }
-
-    const getService = (service: number | string, key?: string | number) => {
-        return key ? SERVICES[service][key] : SERVICES[service] || {}
     }
 
     const getDate = (date: Date) => {

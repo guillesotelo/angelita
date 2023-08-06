@@ -3,6 +3,7 @@ import EncuentrosGrupales from './services/EncuentrosGrupales'
 import PsicoterapiaEnGrupo from './services/PsicoterapiaEnGrupo'
 import Consejeria from './services/Consejeria'
 import Psicoterapia from './services/Psicoterapia'
+import Coaching from './services/Coaching'
 import PsicoterapiaPrivada from './services/PsicoterapiaPrivada'
 import FormacionPsicologica from './services/FormacionPsicologica'
 import MenteDivina from './services/MenteDivina'
@@ -23,10 +24,12 @@ export default function ServiceTemplates({ service, subService, setSubService, c
                 : subService === 3 ?
                     <FormacionPsicologica checkout={checkout} />
                     : subService === 4 ?
-                        <Consejeria checkout={checkout} />
+                        <Psicoterapia checkout={checkout} />
                         : subService === 5 ?
-                            <Psicoterapia checkout={checkout} />
-                            : null
+                            <Consejeria checkout={checkout} />
+                            : subService === 6 ?
+                                <Coaching checkout={checkout} />
+                                : null
         : service === 1 ?
             <EncuentrosGrupales checkout={checkout} setSubService={setSubService} />
             : service === 2 ?

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { dataObj } from '../../types'
-import { SERVICES } from '../../constants/services'
 import ErrorIcon from '../../assets/icons/error-icon.svg'
 import Button from '../../components/Button/Button'
 import { useHistory } from 'react-router-dom'
+import { getAllServices } from '../../services'
 
 type Props = {}
 
@@ -11,13 +11,13 @@ export default function CheckoutError({ }: Props) {
     const [checkout, setCheckout] = useState<number>(-1)
     const [paymentInfo, setPaymentInfo] = useState<dataObj>({})
     const [serviceInfo, setServiceInfo] = useState<dataObj>({})
+    const [dbServices, setDbServices] = useState<dataObj[]>([])
     const history = useHistory()
 
     useEffect(() => {
         const payment_intent = new URLSearchParams(document.location.search).get('payment_intent')
         const payment_intent_client_secret = new URLSearchParams(document.location.search).get('payment_intent_client_secret')
         const redirect_status = new URLSearchParams(document.location.search).get('redirect_status')
-        const _checkout = localStorage.getItem('checkout') || ''
 
         setPaymentInfo({
             payment_intent,
@@ -25,13 +25,26 @@ export default function CheckoutError({ }: Props) {
             redirect_status
         })
 
+        const _checkout = localStorage.getItem('checkout') || ''
         if (_checkout) setCheckout(parseInt(_checkout))
-
-        setServiceInfo(getService(_checkout))
+        getServices()
     }, [])
 
-    const getService = (service: number | string, key?: string | number) => {
-        return key ? SERVICES[service][key] : SERVICES[service] || {}
+    useEffect(() => {
+        if (dbServices.length) setServiceInfo(getService())
+    }, [dbServices])
+
+    const getServices = async () => {
+        try {
+            const allServices = await getAllServices()
+            if (allServices && allServices.length) setDbServices(allServices)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const getService = () => {
+        return dbServices.find(s => s._id === checkout) || {}
     }
 
     return (

@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AppContext } from '../../AppContext'
 
 type Props = {}
 
 export default function Profession({ }: Props) {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+  const { lang, isMobile } = useContext(AppContext)
+  window.scrollTo({ top: 0, behavior: 'smooth' })
     return (
-        <div className="page__container">
+        <div className="page__container" style={{ padding: !isMobile ? '0 20vw' : '' }}>
             <h1 className="page__title">Profesión y Servicio</h1>
             <p className="page__text">
                 Me gradué con una especialización en Psicología Clínica, Organizacional y del Consumidor en el año 2000, con registro <strong>Profesional en Colombia [001565 FUKL]</strong>. 

@@ -28,6 +28,10 @@ import {
     deleteService,
 } from './service'
 
+import {
+    sendContactEmail,
+} from './app'
+
 export {
     loginUser,
     verifyToken,
@@ -47,4 +51,5 @@ export {
     getServiceById,
     updateService,
     deleteService,
+    sendContactEmail,
 }

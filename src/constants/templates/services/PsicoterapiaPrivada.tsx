@@ -22,7 +22,7 @@ export default function PsicoterapiaPrivada({ checkout, setSubService }: Props) 
                     </p>
                     <div className="service-template__subservice" onClick={() => setSubService(4)}>
                         <div className="service-template__subservice-details">
-                            <h2 className="service-template__subservice-title">Consejería</h2>
+                            <h2 className="service-template__subservice-title">Psicoterapia</h2>
                             <h3 className="service-template__subservice-pacients">Persona, pareja, o familia</h3>
                             <h4 className="service-template__subservice-open-hours">Lunes a sábados - 11 - 19 hs UTC/GMT+2 (Berlin)</h4>
                         </div>
@@ -32,12 +32,22 @@ export default function PsicoterapiaPrivada({ checkout, setSubService }: Props) 
                     </div>
                     <div className="service-template__subservice" onClick={() => setSubService(5)}>
                         <div className="service-template__subservice-details">
-                            <h2 className="service-template__subservice-title">Psicoterapia</h2>
+                            <h2 className="service-template__subservice-title">Consejería</h2>
                             <h3 className="service-template__subservice-pacients">Persona, pareja, o familia</h3>
                             <h4 className="service-template__subservice-open-hours">Lunes a sábados - 11 - 19 hs UTC/GMT+2 (Berlin)</h4>
                         </div>
                         <div className="service-template__subservice-price">
                             <h4 className="service-template__subservice-price-text">US $50</h4>
+                        </div>
+                    </div>
+                    <div className="service-template__subservice" onClick={() => setSubService(6)}>
+                        <div className="service-template__subservice-details">
+                            <h2 className="service-template__subservice-title">Coaching</h2>
+                            <h3 className="service-template__subservice-pacients">Personal</h3>
+                            <h4 className="service-template__subservice-open-hours">4 Semanas - 20 hs</h4>
+                        </div>
+                        <div className="service-template__subservice-price">
+                            <h4 className="service-template__subservice-price-text">US $800</h4>
                         </div>
                     </div>
                 </div>

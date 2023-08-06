@@ -94,16 +94,20 @@ export const eventHeaders = [
         value: 'name'
     },
     {
-        name: 'DÍA',
-        value: 'day'
-    },
-    {
-        name: 'HORARIO',
-        value: 'time'
+        name: 'DÍA Y HORA',
+        value: 'date'
     },
     {
         name: 'DURACIÓN (HS)',
         value: 'duration'
+    },
+    {
+        name: 'PARTICIPANTES',
+        value: 'participants'
+    },
+    {
+        name: 'ES VIRTUAL',
+        value: 'isVirtual'
     },
     {
         name: 'PRECIO (US $)',

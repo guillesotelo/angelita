@@ -115,12 +115,9 @@
         &-about {
             &-image {
                 width: 80%;
-                // margin: 2vw;
-                // border-radius: 50%;
                 border-radius: 1vw;
                 box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
-                left: 0;
-                top: 0;
+                margin: auto 0;
             }
 
             &-foot-text {
@@ -138,6 +135,7 @@
                 width: 100%;
                 object-fit: cover;
                 align-self: center;
+                animation: fade-in 2s forwards;
             }
         }
 

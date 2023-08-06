@@ -8,7 +8,6 @@ import InputField from '../../components/InputField/InputField'
 import Button from '../../components/Button/Button'
 import { toast } from 'react-hot-toast'
 import Dropdown from '../../components/Dropdown/Dropdown'
-import { SERVICES } from '../../constants/services'
 import Calendar from 'react-calendar'
 import { TileDisabledFunc } from 'react-calendar/dist/cjs/shared/types'
 import { AppContext } from '../../AppContext'
@@ -21,6 +20,28 @@ import { DISCOUNTS } from '../../constants/misc'
 
 type Props = {}
 
+const voidEvent = {
+    name: '',
+    endTime: null,
+    duration: 'Sin tope',
+    description: '',
+    discount: 'Sin descuento',
+    imageUrl: '',
+    price: 0,
+    link: '',
+    linkPassword: '',
+    isVirtual: true,
+}
+const voidService = {
+    name: '',
+    type: '',
+    description: '',
+    imageUrl: '',
+    price: 0,
+    link: '',
+    linkPassword: '',
+}
+
 export default function Booking({ }: Props) {
     const [bookings, setBookings] = useState<dataObj[]>([])
     const [selected, setSelected] = useState<number>(-1)
@@ -29,7 +50,7 @@ export default function Booking({ }: Props) {
     const [tryToRemove, setTryToRemove] = useState<boolean>(false)
     const [isNewBooking, setIsNewBooking] = useState<boolean>(false)
     const [isPaid, setIsPaid] = useState<string>('')
-    const [serviceSelected, setServiceSelected] = useState<dataObj>({})
+    const [bookingSelected, setBookingSelected] = useState<dataObj>({})
     const [discount, setDiscount] = useState<string>('')
     const [quantity, setQuantity] = useState<string>('1 sesión')
     const [totalPrice, setTotalPrice] = useState<string>('')
@@ -38,25 +59,26 @@ export default function Booking({ }: Props) {
     const [eventClicked, setEventClicked] = useState<dataObj>({})
     const [date, setDate] = useState<any>(null)
     const [selectedDates, setSelectedDates] = useState<any>([])
-    const [view, setView] = useState('Calendario')
+    const [view, setView] = useState(localStorage.getItem('bookingView') || 'Calendario')
     const [dbServices, setDbServices] = useState<dataObj[]>([])
     const [dbServiceSelected, setDbServiceSelected] = useState<number>(-1)
     const [isNewService, setIsNewService] = useState(false)
     const [tryToRemoveService, setTryToRemoveService] = useState(false)
-    const [serviceData, setServiceData] = useState<dataObj>({})
+    const [serviceData, setServiceData] = useState<dataObj>(voidService)
     const [events, setEvents] = useState<dataObj[]>([])
     const [eventSelected, setEventSelected] = useState<number>(-1)
     const [isNewEvent, setIsNewEvent] = useState(false)
     const [tryToRemoveEvent, setTryToRemoveEvent] = useState(false)
-    const [eventData, setEventData] = useState<dataObj>({})
+    const [eventData, setEventData] = useState<dataObj>(voidEvent)
+    const [endTime, setEndTime] = useState<any>(null)
     const history = useHistory()
-    const { isMobile, isLoggedIn } = useContext(AppContext)
+    const { isMobile, isLoggedIn, setIsLoggedIn } = useContext(AppContext)
 
-    console.log('events', events)
-    console.log('dbServices', dbServices)
+    console.log('eventData', eventData)
+
 
     useEffect(() => {
-        if (!isLoggedIn) history.push('/')
+        verifyUser()
         window.scrollTo({ top: 0, behavior: 'smooth' })
         getBookings()
         getServices()
@@ -66,7 +88,7 @@ export default function Booking({ }: Props) {
     useEffect(() => {
         if (selected !== -1) {
             setData(bookings[selected])
-            setServiceSelected(bookings[selected])
+            setBookingSelected(bookings[selected])
             setDate(bookings[selected].dateObject ? JSON.parse(bookings[selected].dateObject) : null)
             setSelectedDates(bookings[selected].dateObjects ? JSON.parse(bookings[selected].dateObjects).map((date: string) => new Date(date)) : [])
             setQuantity(`${bookings[selected].realQty} ${bookings[selected].realQty === 1 ? 'sesión' : 'sesiones'}`)
@@ -84,6 +106,8 @@ export default function Booking({ }: Props) {
     useEffect(() => {
         if (eventSelected !== -1) {
             setEventData(events[eventSelected])
+            setDate(JSON.parse(events[eventSelected].dateObject || 'null'))
+            setEndTime(JSON.parse(events[eventSelected].endTime || 'null'))
         }
     }, [eventSelected])
 
@@ -95,14 +119,14 @@ export default function Booking({ }: Props) {
             modalBehaviour()
             setEventClicked({})
         }
-    }, [serviceSelected, quantity])
+    }, [bookingSelected, quantity])
 
     useEffect(() => {
         if (isNewBooking) {
-            setData(serviceSelected)
+            setData(bookingSelected)
             setQuantity('1 sesión')
         }
-    }, [serviceSelected])
+    }, [bookingSelected])
 
     useEffect(() => {
         setOpenCalendar(false)
@@ -111,6 +135,11 @@ export default function Booking({ }: Props) {
     useEffect(() => {
         setOpenCalendars({})
     }, [selectedDates])
+
+    useEffect(() => {
+        localStorage.setItem('bookingView', view)
+        discardChanges()
+    }, [view])
 
     useEffect(() => {
         const body = document.querySelector('body')
@@ -123,6 +152,19 @@ export default function Booking({ }: Props) {
             if (header) header.style.filter = 'unset'
         }
     }, [selected])
+
+    const verifyUser = async () => {
+        try {
+            const isLodded = await verifyToken()
+            if (!isLodded || !isLodded.token) {
+                setIsLoggedIn(false)
+                localStorage.clear()
+                history.push('/')
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }
 
     const getServices = async () => {
         try {
@@ -163,14 +205,6 @@ export default function Booking({ }: Props) {
         }
     }
 
-    const getLocalServices = () => {
-        const services: dataObj[] = []
-        Object.keys(SERVICES).forEach(index => {
-            if (String(index).length > 1) services.push(SERVICES[index])
-        })
-        return services
-    }
-
     const updateData = (key: string, e: { [key: string | number]: any }) => {
         const value = e.target.value
         setData({ ...data, [key]: value })
@@ -195,17 +229,24 @@ export default function Booking({ }: Props) {
         setTotalPrice('')
         setIsPaid('')
         setDiscount('')
+
         setOpenCalendar(false)
         setOpenCalendars({ ...{} })
         setDate(null)
         setSelectedDates([])
-        setServiceSelected({})
-        setEventClicked({})
-        setIsNewService(false)
-        setIsNewEvent(false)
+        setBookingSelected({ ...{} })
+        setEventClicked({ ...{} })
+
         setDbServiceSelected(-1)
-        setEventSelected(-1)
+        setIsNewService(false)
         setTryToRemoveService(false)
+        setServiceData(voidService)
+
+        setEventSelected(-1)
+        setIsNewEvent(false)
+        setTryToRemoveEvent(false)
+        setEventData(voidEvent)
+        setEndTime(null)
     }
 
     const saveChanges = async () => {
@@ -245,7 +286,7 @@ export default function Booking({ }: Props) {
     }
 
     const getImage = () => {
-        return serviceSelected.imageUrl || data.imageUrl || 'https://i.postimg.cc/rwHVQg5k/angelita-logo.png'
+        return bookingSelected.imageUrl || data.imageUrl || 'https://i.postimg.cc/rwHVQg5k/angelita-logo.png'
     }
 
     const removeBooking = async () => {
@@ -281,23 +322,23 @@ export default function Booking({ }: Props) {
     }
 
     const getServiceData = (data: string | number) => {
-        return serviceSelected[data]
+        return bookingSelected[data]
     }
 
     const getStaticServiceData = (data: string | number) => {
         let service: dataObj = {}
-        Object.values(SERVICES).forEach((svc: dataObj) => {
-            if (svc.name === serviceSelected.name) service = svc
+        dbServices.forEach((svc: dataObj) => {
+            if (svc.name === bookingSelected.name) service = svc
         })
         return service[data] || ''
     }
 
     const getPrice = () => {
-        if (serviceSelected.price) {
-            const { price, discount } = serviceSelected
+        if (bookingSelected.price) {
+            const { price, discount } = bookingSelected
             const hours = getQuantity()
             if (discount) {
-                if (discount == '>2=70%') {
+                if (discount.includes('30%')) {
                     setDiscount('30% OFF')
                     const hasDiscount = hours > 1
                     return hasDiscount ?
@@ -356,13 +397,13 @@ export default function Booking({ }: Props) {
         }
     }
 
-    const getBookingSlots = (date: Date) => {
+    const getBookingSlots = (date: Date, start: number | null = null, end: number | null = null) => {
         const timeSlots = []
         const unavailableTime = getBookedSlots(bookings, true)
         const startTime = new Date(date)
         const endTime = new Date(date)
-        startTime.setHours(data.startTime || 9, 0, 0, 0)
-        endTime.setHours(data.endTime || 18, 0, 0, 0)
+        startTime.setHours(start || data.startTime || 9, 0, 0, 0)
+        endTime.setHours(end || data.endTime || 18, 0, 0, 0)
         const step = 60 * 60 * 1000
 
         for (let currentTime = startTime; currentTime <= endTime; currentTime.setTime(currentTime.getTime() + step)) {
@@ -463,10 +504,23 @@ export default function Booking({ }: Props) {
         }
     }
 
-    const saveEventData = async () => {
+    const saveEventData = async (duplicate: boolean = false) => {
         try {
             setLoading(true)
-            const saved = isNewEvent ? await createEvent(eventData) : await updateEvent(eventData)
+            const event: dataObj = {
+                ...eventData,
+                dateObject: JSON.stringify(date),
+                endTime: JSON.stringify(endTime),
+                duration: getDuration(date, endTime),
+                date: getDateAndTime(date)
+            }
+            if (duplicate) {
+                delete event['_id']
+                event.name = `${event.name} (copy)`
+            }
+
+            const saved = isNewEvent || duplicate ? await createEvent(event) : await updateEvent(event)
+
             if (saved && saved._id) {
                 toast.success('Evento guardado')
                 discardChanges()
@@ -517,10 +571,18 @@ export default function Booking({ }: Props) {
         }
     }
 
+    const getDuration = (start: any, end: any) => {
+        if (start && end) return new Date(end).getHours() - new Date(start).getHours()
+        return 0
+    }
+
     const handleCreateButton = () => {
-        if (view === 'Servicios') return setIsNewService(true)
-        if (view === 'Eventos') return setIsNewEvent(true)
-        else return setIsNewBooking(true)
+        discardChanges()
+        return setTimeout(() => {
+            if (view === 'Servicios') return setIsNewService(true)
+            if (view === 'Eventos') return setIsNewEvent(true)
+            else return setIsNewBooking(true)
+        }, 200)
     }
 
     const renderModal = () => {
@@ -547,7 +609,7 @@ export default function Booking({ }: Props) {
                                 <div className="booking__col">
                                     <div className="booking__no-edit-data">
                                         <h2 className="booking__data-label">Total</h2>
-                                        <h2 className="booking__data-value">{serviceSelected.currency || 'USD'} ${serviceSelected.realPrice}</h2>
+                                        <h2 className="booking__data-value">{bookingSelected.currency || 'USD'} ${bookingSelected.realPrice}</h2>
                                     </div>
                                 </div>
                             </div>
@@ -570,10 +632,10 @@ export default function Booking({ }: Props) {
                                 {isNewBooking ?
                                     <Dropdown
                                         label='Servicio'
-                                        options={getLocalServices()}
-                                        selected={serviceSelected}
-                                        setSelected={setServiceSelected}
-                                        value={serviceSelected.name}
+                                        options={dbServices}
+                                        selected={bookingSelected}
+                                        setSelected={setBookingSelected}
+                                        value={bookingSelected.name}
                                         objKey='name'
                                     />
                                     :
@@ -675,7 +737,7 @@ export default function Booking({ }: Props) {
                                                                 maxHeight='10rem'
                                                             />
                                                             :
-                                                            <h2 className="booking__data-value">{getStaticServiceData('time')}</h2>
+                                                            <h2 className="booking__data-value">{data.time}</h2>
                                                         }
                                                     </>
                                                 }
@@ -686,7 +748,7 @@ export default function Booking({ }: Props) {
                             <div className="booking__col">
                                 <div className="booking__no-edit-data">
                                     <h2 className="booking__data-label">Agenda</h2>
-                                    <h2 className="booking__data-value">{getStaticServiceData('day')} - {getStaticServiceData('time')}</h2>
+                                    <h2 className="booking__data-value">{data.day} - {data.time}</h2>
                                 </div>
                                 <Dropdown
                                     label='Pago confirmado'
@@ -730,6 +792,7 @@ export default function Booking({ }: Props) {
                             <Button
                                 label={isNewBooking ? 'Crear' : 'Guardar'}
                                 handleClick={saveChanges}
+                                bgColor='#87d18d'
                             />
                         </div>
                         : ''}
@@ -766,58 +829,114 @@ export default function Booking({ }: Props) {
                             updateData={updateServiceData}
                             value={serviceData.name}
                         />
+                        <div className='booking__sidebar-event-row'>
+                            <InputField
+                                label='Descripción'
+                                name="description"
+                                updateData={updateServiceData}
+                                value={serviceData.description}
+                                type='textarea'
+                                rows={5}
+                            />
+                        </div>
+                        <div className='booking__sidebar-event-row'>
+                            <InputField
+                                label='Imagen (url)'
+                                name="imageUrl"
+                                updateData={updateServiceData}
+                                value={serviceData.imageUrl}
+                                placeholder='https://url-de-imagen.png'
+                            />
+                            {serviceData.imageUrl ?
+                                <img src={serviceData.imageUrl} className='booking__sidebar-event-image' alt='Imagen del servicio' />
+                                : ''}
+                        </div>
                         <InputField
                             label='Tipo'
                             name="type"
                             updateData={updateServiceData}
                             value={serviceData.type}
                         />
-                        <Dropdown
-                            label='Días'
-                            options={['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Lunes a sábados', 'Jueves y sábados', '1er sábado del mes']}
-                            selected={serviceData.day}
-                            setSelected={value => setServiceData({ ...serviceData, 'day': value })}
-                            value={serviceData.day}
-                        />
-                        {serviceData.time && serviceData.time === 'Elegir otro...' ?
-                            <div className='booking__sidebar-timeselect'>
-                                <InputField
-                                    label='Desde'
-                                    name="startTime"
-                                    updateData={updateServiceData}
-                                    value={serviceData.startTime}
-                                    placeholder='Ej: 11'
-                                    type='number'
-                                />
-                                <InputField
-                                    label='Hasta'
-                                    name="endTime"
-                                    updateData={updateServiceData}
-                                    value={serviceData.endTime}
-                                    placeholder='Ej: 19'
-                                    type='number'
-                                />
-                                <Button
-                                    label='Cerrar'
-                                    handleClick={() => setServiceData({ ...serviceData, 'time': dbServices[dbServiceSelected].time })}
-                                    bgColor='transparent'
-                                    style={{ alignSelf: 'flex-end' }}
-                                />
-                            </div>
-                            : <Dropdown
-                                label='Horario'
-                                options={['11-19hs (Berlin)', '16hs (Berlin)', 'Elegir otro...']}
-                                selected={serviceData.time}
-                                setSelected={value => setServiceData({ ...serviceData, 'time': value })}
-                                value={serviceData.time}
-                            />}
-                        <Dropdown
-                            label='Es evento'
-                            options={['Si', 'No']}
-                            selected={serviceData.isEvent}
-                            setSelected={value => setServiceData({ ...serviceData, 'isEvent': value ? true : false })}
-                            value={serviceData.isEvent ? 'Si' : 'No'}
-                        />
+                        <div className='booking__sidebar-event-row'>
+                            <Dropdown
+                                label='Días'
+                                options={['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Lunes a sábados', 'Jueves y sábados', '1er sábado del mes']}
+                                selected={serviceData.day}
+                                setSelected={value => setServiceData({ ...serviceData, 'day': value })}
+                                value={serviceData.day}
+                            />
+                            {serviceData.time && serviceData.time === 'Elegir otro...' ?
+                                <div className='booking__sidebar-timeselect'>
+                                    <InputField
+                                        label='Desde'
+                                        name="startTime"
+                                        updateData={updateServiceData}
+                                        value={serviceData.startTime}
+                                        placeholder='Ej: 11'
+                                        type='number'
+                                    />
+                                    <InputField
+                                        label='Hasta'
+                                        name="endTime"
+                                        updateData={updateServiceData}
+                                        value={serviceData.endTime}
+                                        placeholder='Ej: 19'
+                                        type='number'
+                                    />
+                                    <Button
+                                        label='Cerrar'
+                                        handleClick={() => setServiceData({ ...serviceData, 'time': dbServices[dbServiceSelected].time })}
+                                        bgColor='lightgray'
+                                        style={{ alignSelf: 'flex-end' }}
+                                    />
+                                </div>
+                                : <Dropdown
+                                    label='Horario'
+                                    options={['11-19hs (Berlin)', '16hs (Berlin)', 'Elegir otro...']}
+                                    selected={serviceData.time}
+                                    setSelected={value => setServiceData({ ...serviceData, 'time': value })}
+                                    value={serviceData.time}
+                                />}
+                        </div>
+                        <div className='booking__sidebar-event-row'>
+                            <InputField
+                                label='Precio (US $)'
+                                name="price"
+                                updateData={updateServiceData}
+                                value={serviceData.price}
+                                type='number'
+                                style={{ width: '20%' }}
+                            />
+                            <Dropdown
+                                label='Descuento'
+                                options={DISCOUNTS}
+                                selected={serviceData.discount}
+                                setSelected={value => setServiceData({ ...serviceData, 'discount': value })}
+                                value={serviceData.discount}
+                            />
+                            <Dropdown
+                                label='Es evento'
+                                options={['Si', 'No']}
+                                selected={serviceData.isEvent}
+                                setSelected={value => setServiceData({ ...serviceData, 'isEvent': value === 'Si' ? true : false })}
+                                value={serviceData.isEvent ? 'Si' : 'No'}
+                            />
+                        </div>
+                        <div className='booking__sidebar-event-row'>
+                            <InputField
+                                label='Link de reunión'
+                                name="link"
+                                updateData={updateServiceData}
+                                value={serviceData.link}
+                                placeholder='https://url-de-reunion'
+                            />
+                            <InputField
+                                label='Contraseña (opcional)'
+                                name="linkPassword"
+                                updateData={updateServiceData}
+                                value={serviceData.linkPassword}
+                            />
+                        </div>
                     </div>
                 }
                 {!tryToRemoveService ?
@@ -836,6 +955,7 @@ export default function Booking({ }: Props) {
                         <Button
                             label='Guardar'
                             handleClick={saveServiceData}
+                            bgColor='#87d18d'
                         />
                     </div>
                     : ''
@@ -883,6 +1003,41 @@ export default function Booking({ }: Props) {
                             />
                         </div>
                         <div className='booking__sidebar-event-row'>
+                            {openCalendar ?
+                                <Calendar
+                                    locale='es'
+                                    onChange={setDate}
+                                    value={date}
+                                    // tileDisabled={tileDisabled}
+                                    className='react-calendar'
+                                />
+                                : ''}
+                            <Button
+                                label={date ? getDate(date) : 'Seleccionar fecha'}
+                                handleClick={() => setOpenCalendar(true)}
+                                bgColor="#B0BCEB"
+                                style={{ marginTop: '1rem' }}
+                            />
+                            <Dropdown
+                                label='Hora de inicio'
+                                options={getBookingSlots(date, 7, 21)}
+                                selected={date}
+                                setSelected={setDate}
+                                value={date}
+                                isTime={true}
+                                maxHeight='10rem'
+                            />
+                            <Dropdown
+                                label='Hora de finalización'
+                                options={getBookingSlots(date, 7, 21)}
+                                selected={endTime || date}
+                                setSelected={setEndTime}
+                                value={endTime || date}
+                                isTime={true}
+                                maxHeight='10rem'
+                            />
+                        </div>
+                        <div className='booking__sidebar-event-row'>
                             <InputField
                                 label='Descripción'
                                 name="description"
@@ -894,46 +1049,38 @@ export default function Booking({ }: Props) {
                         </div>
                         <div className='booking__sidebar-event-row'>
                             <InputField
-                                label='Precio (US $)'
-                                name="price"
-                                updateData={updateEventData}
-                                value={eventData.price}
-                                type='number'
-                            />
-                            <Dropdown
-                                label='Descuento'
-                                options={DISCOUNTS}
-                                selected={eventData.discount ? eventData.discount.label : ''}
-                                setSelected={value => setEventData({ ...eventData, 'discount': value.label })}
-                                value={eventData.discount ? eventData.discount.label : ''}
-                                objKey='label'
-                            />
-                        </div>
-                        <div className='booking__sidebar-event-row'>
-                            <InputField
-                                label='URL de Imagen'
+                                label='Imagen (url)'
                                 name="imageUrl"
                                 updateData={updateEventData}
                                 value={eventData.imageUrl}
                                 placeholder='https://url-de-imagen.png'
                             />
                             {eventData.imageUrl ?
-                                <img src={eventData.imageUrl} className='booking__sidebar-event-image' alt='Imagen del Evento'/>
+                                <img src={eventData.imageUrl} className='booking__sidebar-event-image' alt='Imagen del Evento' />
                                 : ''}
                         </div>
                         <div className='booking__sidebar-event-row'>
                             <InputField
-                                label='Link del evento'
-                                name="link"
+                                label='Precio (US $)'
+                                name="price"
                                 updateData={updateEventData}
-                                value={eventData.link}
-                                placeholder='https://url-de-reunion'
+                                value={eventData.price}
+                                type='number'
+                                style={{ width: '20%' }}
                             />
-                            <InputField
-                                label='Contraseña del evento (opcional)'
-                                name="linkPassword"
-                                updateData={updateEventData}
-                                value={eventData.linkPassword}
+                            <Dropdown
+                                label='Descuento'
+                                options={DISCOUNTS}
+                                selected={eventData.discount}
+                                setSelected={value => setEventData({ ...eventData, 'discount': value })}
+                                value={eventData.discount}
+                            />
+                            <Dropdown
+                                label='Máxima asistencia'
+                                options={Array.from({ length: 100 }).map((_, i) => i === 0 ? 'Sin tope' : i + 1)}
+                                selected={eventData.maxPax}
+                                setSelected={value => setEventData({ ...eventData, 'maxPax': value })}
+                                value={eventData.maxPax || 'Sin tope'}
                             />
                         </div>
                         <div className='booking__sidebar-event-row'>
@@ -942,7 +1089,20 @@ export default function Booking({ }: Props) {
                                 options={['Si', 'No']}
                                 selected={eventData.isVirtual}
                                 setSelected={value => setEventData({ ...eventData, 'isVirtual': value ? true : false })}
-                                value={eventData.isVirtual ? 'Si' : 'No'}
+                                value={eventData.isVirtual === false ? 'No' : 'Si'}
+                            />
+                            <InputField
+                                label='Link'
+                                name="link"
+                                updateData={updateEventData}
+                                value={eventData.link}
+                                placeholder='https://url-de-reunion'
+                            />
+                            <InputField
+                                label='Contraseña (opcional)'
+                                name="linkPassword"
+                                updateData={updateEventData}
+                                value={eventData.linkPassword}
                             />
                         </div>
                     </div>
@@ -960,9 +1120,16 @@ export default function Booking({ }: Props) {
                                 handleClick={() => setTryToRemoveEvent(true)}
                                 bgColor='#ffacac'
                             /> : ''}
+                        {!isNewEvent && eventSelected !== -1 ?
+                            <Button
+                                label='Duplicar'
+                                handleClick={() => saveEventData(true)}
+                                bgColor='#B0BCEB'
+                            /> : ''}
                         <Button
                             label='Guardar'
                             handleClick={saveEventData}
+                            bgColor='#87d18d'
                         />
                     </div>
                     : ''

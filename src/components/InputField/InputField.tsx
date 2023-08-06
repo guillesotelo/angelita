@@ -10,11 +10,12 @@ type Props = {
     value?: string | number
     cols?: number
     rows?: number
+    style?: { [key: string | number]: any }
 }
 
-export default function InputField({ value, name, label, updateData, className, type, placeholder, cols, rows }: Props) {
+export default function InputField({ value, name, label, updateData, className, type, placeholder, cols, rows, style }: Props) {
     return type === 'textarea' ?
-        <div className="inputfield__container">
+        <div className="inputfield__container" style={style}>
             {label ? <h2 className="inputfield__label">{label}</h2> : ''}
             <textarea
                 className={className || 'textarea__default'}
@@ -26,7 +27,7 @@ export default function InputField({ value, name, label, updateData, className, 
             />
         </div>
         :
-        <div className="inputfield__container">
+        <div className="inputfield__container" style={style}>
             {label ? <h2 className="inputfield__label">{label}</h2> : ''}
             <input
                 type={type || 'text'}

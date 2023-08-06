@@ -167,9 +167,13 @@
             border-radius: 50%;
             padding: 0 .5vw;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
 
             &-text {
-                font-size: 1.5vw;
+                font-size: 1.2vw;
                 color: #373737;
 
                 &-voluntary {

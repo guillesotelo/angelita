@@ -8,6 +8,13 @@
 @import '../pages/Booking/booking.scss';
 
 .page {
+
+    &__container {
+        margin: 7rem 4vw 15vw 4vw;
+        min-height: 60vh;
+        position: relative;
+    }
+
     &__header {
         align-self: center;
 
@@ -17,12 +24,6 @@
             padding-bottom: 1.5vw;
             border-bottom: 1px solid gray;
         }
-    }
-
-    &__container {
-        margin: 8rem 4vw 15vw 4vw;
-        min-height: 60vh;
-        position: relative;
     }
 
     &__title {

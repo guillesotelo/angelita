@@ -3,12 +3,15 @@ import InputField from '../../components/InputField/InputField'
 import Button from '../../components/Button/Button'
 import { AppContext } from '../../AppContext'
 import { TEXT } from '../../constants/lang'
+import { sendContactEmail } from '../../services'
+import { toast } from 'react-hot-toast'
 
 type Props = {}
 
 export default function Contact({ }: Props) {
     const [data, setData] = useState({ email: '', name: '', message: '' })
     const [messageSent, setMessageSent] = useState(false)
+    const [loading, setLoading] = useState(false)
     const { lang, setLang, isMobile } = useContext(AppContext)
 
     const updateData = (key: string, e: { [key: string | number]: any }) => {
@@ -16,8 +19,21 @@ export default function Contact({ }: Props) {
         setData({ ...data, [key]: value })
     }
 
+    const sendEmail = async () => {
+        try {
+            setLoading(true)
+            const sent = await sendContactEmail(data)
+            if (sent && sent.message) setMessageSent(true)
+            else toast.error('Ocurrió un error. Inténtalo nuevamente')
+            setLoading(false)
+        } catch (err) {
+            console.error(err)
+            setLoading(false)
+        }
+    }
+
     return messageSent ?
-        <div className="contact__container">
+        <div className="contact__container" style={{ textAlign: 'center' }}>
             <h1 className="contact__title" > {TEXT[lang]['thank_you_msg']}</h1>
             <h4 className="contact__text">{TEXT[lang]['will_respond']}</h4>
         </div >
@@ -29,7 +45,7 @@ export default function Contact({ }: Props) {
                     <h3>{TEXT[lang]['have_a_question']}</h3>
                     <br /> <br /> <br /> <br />
                     <p>
-                    {TEXT[lang]['submit_policy']}
+                        {TEXT[lang]['submit_policy']}
                     </p>
                 </div>
                 <div className="contact__box">
@@ -54,8 +70,8 @@ export default function Contact({ }: Props) {
                     />
                     <Button
                         label={TEXT[lang]['sent']}
-                        handleClick={() => setMessageSent(true)}
-                        disabled={!data.email || !data.name || !data.message}
+                        handleClick={sendEmail}
+                        disabled={loading || !data.email || !data.name || !data.message}
                         style={{ alignSelf: 'center' }}
                     />
                 </div>
