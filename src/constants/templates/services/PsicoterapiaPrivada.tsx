@@ -44,7 +44,7 @@ export default function PsicoterapiaPrivada({ checkout, setSubService }: Props) 
                         <div className="service-template__subservice-details">
                             <h2 className="service-template__subservice-title">Coaching</h2>
                             <h3 className="service-template__subservice-pacients">Personal</h3>
-                            <h4 className="service-template__subservice-open-hours">4 Semanas - 20 hs</h4>
+                            <h4 className="service-template__subservice-open-hours">20 dás / 20 horas en 4 semanas. Fechas a coordinar.</h4>
                         </div>
                         <div className="service-template__subservice-price">
                             <h4 className="service-template__subservice-price-text">US $800</h4>

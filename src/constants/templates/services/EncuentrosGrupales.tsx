@@ -42,7 +42,7 @@ export default function EncuentrosGrupales({ checkout, setSubService }: Props) {
                     <div className="service-template__subservice" onClick={() => setSubService(3)}>
                         <div className="service-template__subservice-details">
                             <h2 className="service-template__subservice-title">Formación Psicológica</h2>
-                            <h3 className="service-template__subservice-subtitle">Taller mensual</h3>
+                            <h3 className="service-template__subservice-subtitle">Taller mensual. Fundamentos prácticos de la psicología.</h3>
                             {/* <h3 className="service-template__subservice-pacients"></h3> */}
                             <h4 className="service-template__subservice-open-hours">4 horas, 1er sábado del mes - 16 a 20 hs UTC/GMT+2 (Berlin)</h4>
                         </div>

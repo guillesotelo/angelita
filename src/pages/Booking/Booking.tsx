@@ -516,7 +516,7 @@ export default function Booking({ }: Props) {
             }
             if (duplicate) {
                 delete event['_id']
-                event.name = `${event.name} (copy)`
+                event.name = `${event.name} (copia)`
             }
 
             const saved = isNewEvent || duplicate ? await createEvent(event) : await updateEvent(event)
@@ -1138,7 +1138,7 @@ export default function Booking({ }: Props) {
                             /> : ''}
                         <Button
                             label='Guardar'
-                            handleClick={saveEventData}
+                            handleClick={() => saveEventData(false)}
                             bgColor='#87d18d'
                         />
                     </div>

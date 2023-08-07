@@ -7,7 +7,7 @@ export default function Mission({ }: Props) {
   const { lang, isMobile } = useContext(AppContext)
   window.scrollTo({ top: 0, behavior: 'smooth' })
   return (
-    <div className="page__container" style={{ padding: !isMobile ? '0 20vw' : '' }}>
+    <div className="page__container" style={{ padding: !isMobile ? '.5rem 25rem' : '' }}>
       <h1 className="page__title">Con una Misión</h1>
       <p className="page__text">
         Quiero promover una psicología afectuosa, cercana, de igual a igual, asequible en todos los sentidos, donde podamos, consultante y terapeuta, sanar y expandirnos a través de la experiencia del ser libre.

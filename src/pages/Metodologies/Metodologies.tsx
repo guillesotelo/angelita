@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AppContext } from '../../AppContext'
 
 type Props = {}
 
 export default function Metodologies({ }: Props) {
+    const { lang, isMobile } = useContext(AppContext)
     window.scrollTo({ top: 0, behavior: 'smooth' })
+    
     return (
-        <div className="page__container">
+        <div className="page__container" style={{ padding: !isMobile ? '.5rem 25rem' : '' }}>
             <h1 className="page__title">Metodología en Sesión</h1>
             <p className="page__text">
                 <strong>Afecto - Formación – Reflexión - Interactividad – Práctica</strong>

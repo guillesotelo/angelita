@@ -295,43 +295,31 @@ export default function Home() {
         <div className="home__section-discounts scroll-item"></div>
         {renderDiscounts ?
             <div className="home__section">
-                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.3s', color: '#EBAA59', fontSize: '2.2vw', alignSelf: 'center' }}>DESCUENTOS ESPECIALES</h2>
+                <h2 className="home__section-title scroll-item" style={{ color: '#EBAA59', fontSize: '2.2vw', alignSelf: 'center' }}>DESCUENTOS ESPECIALES</h2>
                 <div className="home__discount-row" >
-                    <div className="home__discount-card scroll-item">
-                        <p className="home__section-text" style={{ animationDelay: '.4s', textAlign: 'center', fontSize: '1.2rem' }}>
-                            <strong style={{ fontSize: '1.5rem' }}>20%</strong>
-                            <br />
-                            En todos los servicios a residentes en Sudamérica
-                        </p>
+                    <div className="home__discount-card" >
+                        <p className="home__discount-percentage scroll-item">20%</p>
+                        <p className="home__discount-text scroll-item">En todos los servicios a residentes en Sudamérica</p>
                     </div>
-                    <div className="home__discount-card scroll-item">
-                        <p className="home__section-text" style={{ animationDelay: '.4s', textAlign: 'center', fontSize: '1.2rem' }}>
-                            <strong style={{ fontSize: '1.5rem' }}>10%</strong>
-                            <br />
-                            En paquetes de 4 a 6 sesiones consecutivas en cualquier servicio
-                        </p>
+                    <div className="home__discount-card">
+                        <p className="home__discount-percentage scroll-item">10%</p>
+                        <p className="home__discount-text scroll-item" >En paquetes de 4 a 6 sesiones consecutivas en cualquier servicio</p>
                     </div>
                 </div>
                 <div className="home__discount-row">
-                    <div className="home__discount-card scroll-item">
-                        <p className="home__section-text" style={{ animationDelay: '.4s', textAlign: 'center', fontSize: '1.2rem' }}>
-                            <strong style={{ fontSize: '1.5rem' }}>15%</strong>
-                            <br />
-                            En la primer compra de paquete de 4 a 6 sesiones consecutivas en cualquier servicio
-                        </p>
+                    <div className="home__discount-card">
+                        <p className="home__discount-percentage scroll-item">15%</p>
+                        <p className="home__discount-text scroll-item" >En la primer compra de paquete de 4 a 6 sesiones consecutivas en cualquier servicio</p>
                     </div>
-                    <div className="home__discount-card scroll-item">
-                        <p className="home__section-text" style={{ animationDelay: '.4s', textAlign: 'center', fontSize: '1.2rem' }}>
-                            <strong style={{ fontSize: '1.5rem' }}>Casos de Insolvencia</strong>
-                            <br />
-                            <Button
-                                label='Leer más'
-                                handleClick={() => history.push('/descuentos')}
-                                bgColor='#B0BCEB'
-                                textColor='#fff'
-                                style={{ marginTop: '1rem', width: 'fit-content' }}
-                            />
-                        </p>
+                    <div className="home__discount-card">
+                        <p className="home__discount-percentage scroll-item" style={{ fontSize: '1.5rem', fontFamily: 'unset' }}>Casos de Insolvencia</p>
+                        <Button
+                            label='Leer más'
+                            handleClick={() => history.push('/descuentos')}
+                            bgColor='#B0BCEB'
+                            textColor='#fff'
+                            style={{ marginTop: '1rem', width: 'fit-content' }}
+                        />
                     </div>
                 </div>
             </div>

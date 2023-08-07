@@ -16,20 +16,27 @@ export default function Coaching({ checkout }: Props) {
                     <h4 className="service-template__open-hours" style={{ margin: 0 }}>
                         <strong>Personal</strong>
                         <br />
-                        Lunes a sábado.
+                        20 horas - 20 días - 1 mes.
+                        <br />
+                        Luego de la reserva, se coordinan directamente los dás y horarios.
                         <br />
                         Entre 11 - 19 hs UTC/GMT+2 (Berlin).
                     </h4>
                     <p className="service-template__body">
-                        El coaching psicológico es un proceso guiado que busca potenciar el bienestar emocional y personal. A través de conversaciones confidenciales, el coach colabora con el individuo para identificar objetivos, superar desafíos y desarrollar estrategias para el crecimiento y el cambio positivo.
+                        Como en un Gimnasio, cada día, de Lunes a Viernes de manera INTENSIVA y ACOMPAÑADA, agendaremos un encuentro para fortalecer y reforzar cada área del  alcance psicológico que necesites entrenar para instaurar calma, dominio, paz, dicha y solvencia mental en aquellos asuntos personales que deseas trabajar,  usando tus propios recursos y valores, solo que cuestionando cada resistencia, limitación, distorsión a nivel de creencias
+                        que surja en el día a día; esto, a cualquier nivel en el que se presente: identidad,  afecto, relaciones, rutinas, proyectos, trabajo y descanso.
+                        <br/>
+                        Cada semana trabajaremos un módulo en específico: Identidad, Relaciones, Valores, Decisiones.
+                        <br/>
+                        Cada semana programaremos los encuentros de la siguiente semana. Trabajaremos 1 hora diaria de manera Intensiva y haremos todo lo que esté al alcance para no faltar a ninguna sesión. Si hay enfermedad o debilidad de algún tipo, será el escenario perfecto para trabajar esa debilidad a nivel mental.
                     </p>
-                    <div className="service-template__row" style={{ transform: 'scale(.85)' }}>
+                    <div className="service-template__row">
                         <h4 className="service-template__open-hours" style={{ margin: 0 }}>4 Semanas - 20 horas</h4>
                         <div className="service-template__prices">
                             <h4 className="service-template__prices-text"><strong>US $800</strong></h4>
                         </div>
                     </div>
-                    <button className="service-template__btn" onClick={() => checkout('64ca5fd4baf72a66cc29c695')}>Reservar</button>
+                    <button className="service-template__btn" onClick={() => checkout('64cf75c86c46de4d4f1f7f59')}>Reservar</button>
                 </div>
             </div>
         </div>
