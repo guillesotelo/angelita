@@ -8,7 +8,7 @@ export default function Discounts({ }: Props) {
     window.scrollTo({ top: 0, behavior: 'smooth' })
 
     return (
-        <div className="page__container" style={{ padding: !isMobile ? '.5rem 25rem' : '' }}>
+        <div className="page__container" style={{ width: !isMobile ? '50%' : '' }}>
             <h1 className="page__title">Casos de Insolvencia</h1>
             <p className="page__text">
                 Hay ocasiones en las cuales NO puede costearse el valor total de la asesoría psicoterapéutica debido a la precariedad económica, y en este caso el precio de la sesión puede ser acordado temporalmente y en ningún caso será un impedimento para recibir la ayuda profesional que pueda necesitar.

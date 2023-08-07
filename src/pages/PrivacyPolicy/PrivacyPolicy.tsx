@@ -8,7 +8,7 @@ export default function PrivacyPolicy({ }: Props) {
     const { lang, isMobile } = useContext(AppContext)
     window.scrollTo({ top: 0, behavior: 'smooth' })
     return (
-        <div className="privacy__container" style={{ padding: !isMobile ? '.5rem 25rem' : '' }}>
+        <div className="privacy__container" style={{ width: !isMobile ? '50%' : '' }}>
             <div style={{ width: '100%' }} dangerouslySetInnerHTML={{ __html: TEXT[lang]['privacy_policies'] }} />
         </div>
     )
