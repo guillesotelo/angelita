@@ -30,7 +30,7 @@ function Payment({ checkout }: Props) {
     const [dbServices, setDbServices] = useState<dataObj[]>([])
     const history = useHistory()
 
-    console.log('bookings', bookings)
+    // console.log('bookings', bookings)
 
     useEffect(() => {
         setQuantity(`1 sesión (${getHours(1)})`)
@@ -185,8 +185,8 @@ function Payment({ checkout }: Props) {
 
     const getDateAndTime = (date: Date) => {
         return Array.isArray(date) ?
-            date.map((d: Date) => new Date(d).toLocaleString([], { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })).join(' - ') :
-            new Date(date).toLocaleString([], { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })
+            date.map((d: Date) => new Date(d).toLocaleString("es-ES", { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })).join(' - ') :
+            new Date(date).toLocaleString("es-ES", { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })
     }
 
     const getDate = (date: Date) => {
@@ -205,18 +205,17 @@ function Payment({ checkout }: Props) {
         const serviceDay = currentService.day || ''
         const allSlots = getBookedSlots(bookings, false)
         let count = 0
+        let processedDates: any[] = []
 
         bookings.forEach(booking => {
             if (booking.serviceId === '64ca5fd4baf72a66cc29c695' // Psicologia
                 || booking.serviceId === '64ca5fd4baf72a66cc29c693') { // Consejeria
                 allSlots.forEach(d => {
-                    if (d.getDay() === day &&
-                        d.getMonth() === date.getMonth() &&
-                        d.getFullYear() === date.getFullYear()) {
+                    if (!processedDates.includes(d) && d.toLocaleDateString() === date.toLocaleDateString()) {
+                        processedDates.push(d)
                         count++
                     }
-                }
-                )
+                })
             }
         })
 
@@ -224,10 +223,10 @@ function Payment({ checkout }: Props) {
             if (serviceDay === 'Martes') return day !== 2 || isTodayOrBefore
             if (serviceDay === 'Miércoles') return day !== 3 || isTodayOrBefore
             if (serviceDay === '1er sábado del mes') return !isFirstSaturdayOfMonth(date) || isTodayOrBefore
-            if (serviceDay === 'Lunes a sábado') return day === 0 || isTodayOrBefore
+            if (serviceDay === 'Lunes a sábado') return day === 0 || isTodayOrBefore || count > 1
             if (serviceDay === 'Jueves y sábado') return day !== 4 && day !== 6 || isTodayOrBefore
         }
-        return count > 1 || false
+        return false
     }
 
     const isFirstSaturdayOfMonth = (date: Date) => {

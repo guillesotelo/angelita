@@ -11,7 +11,7 @@ export default function EventCard({ event }: Props) {
     useEffect(() => {
         if (event && event.dateObject) {
             const date = JSON.parse(event.dateObject)
-            const parsedDate = new Date(date).toLocaleDateString('es-AR', dateOptions)
+            const parsedDate = new Date(date).toLocaleDateString("es-ES", dateOptions)
             setEventDate(parsedDate.split(' ')
                 .map(word => word.split('')
                     .map((letter, i) => i === 0 && word !== 'de' ? letter.toUpperCase() : letter)
