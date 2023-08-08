@@ -74,8 +74,7 @@ export default function Booking({ }: Props) {
     const history = useHistory()
     const { isMobile, isLoggedIn, setIsLoggedIn } = useContext(AppContext)
 
-    console.log('dbServices', dbServices)
-    console.log('events', events)
+    // console.log('dbServices', dbServices)
 
     useEffect(() => {
         verifyUser()
@@ -252,9 +251,10 @@ export default function Booking({ }: Props) {
     const saveChanges = async () => {
         setLoading(true)
         try {
-            const dates = selectedDates.length ? selectedDates : date
-            const bookingData = {
+            const dates = selectedDates.length ? selectedDates : date ? date : new Date()
+            const bookingData: dataObj = {
                 ...data,
+                serviceId: isNewBooking ? bookingSelected._id : data.serviceId,
                 date: getDateAndTime(dates),
                 dateObject: JSON.stringify(date),
                 dateObjects: JSON.stringify(selectedDates),
@@ -265,8 +265,7 @@ export default function Booking({ }: Props) {
                 image: getImage(),
                 isPaid: isPaid === 'Si' ? true : false
             }
-
-            console.log('bookingData', bookingData)
+            if (isNewBooking) delete bookingData._id
 
             const saved = isNewBooking ? await createBooking(bookingData) : await updateBooking(bookingData)
 
@@ -651,13 +650,13 @@ export default function Booking({ }: Props) {
                                     label='Nombre completo'
                                     name="username"
                                     updateData={updateData}
-                                    value={data.username}
+                                    value={data.username || ''}
                                 />
                                 <InputField
                                     label='País de residencia'
                                     name="country"
                                     updateData={updateData}
-                                    value={data.country}
+                                    value={data.country || ''}
                                 />
                                 <Dropdown
                                     label='Cantidad'
@@ -761,13 +760,13 @@ export default function Booking({ }: Props) {
                                     label='Correo electrónico'
                                     name="email"
                                     updateData={updateData}
-                                    value={data.email}
+                                    value={data.email || ''}
                                 />
                                 <InputField
                                     label='Teléfono'
                                     name="phone"
                                     updateData={updateData}
-                                    value={data.phone}
+                                    value={data.phone || ''}
                                 />
                                 <div className="booking__no-edit-data">
                                     <h2 className="booking__data-label">{isNewBooking ? 'Precio final' : data.isPaid ? 'Monto registrado' : 'Monto total'}</h2>
@@ -792,6 +791,7 @@ export default function Booking({ }: Props) {
                             <Button
                                 label={isNewBooking ? 'Crear' : 'Guardar'}
                                 handleClick={saveChanges}
+                                disabled={loading}
                                 bgColor='#87d18d'
                             />
                         </div>
@@ -862,7 +862,7 @@ export default function Booking({ }: Props) {
                                 label='Duración'
                                 name="duration"
                                 updateData={updateServiceData}
-                                value={serviceData.duration || null}
+                                value={serviceData.duration || ''}
                                 type='number'
                                 style={{ width: '20%' }}
                             />
@@ -881,7 +881,7 @@ export default function Booking({ }: Props) {
                                         label='Desde'
                                         name="startTime"
                                         updateData={updateServiceData}
-                                        value={serviceData.startTime || null}
+                                        value={serviceData.startTime || ''}
                                         placeholder='Ej: 11'
                                         type='number'
                                     />
@@ -889,7 +889,7 @@ export default function Booking({ }: Props) {
                                         label='Hasta'
                                         name="endTime"
                                         updateData={updateServiceData}
-                                        value={serviceData.endTime || null}
+                                        value={serviceData.endTime || ''}
                                         placeholder='Ej: 19'
                                         type='number'
                                     />
@@ -913,7 +913,7 @@ export default function Booking({ }: Props) {
                                 label='Precio (US $)'
                                 name="price"
                                 updateData={updateServiceData}
-                                value={serviceData.price || null}
+                                value={serviceData.price || ''}
                                 type='number'
                                 style={{ width: '20%' }}
                             />
@@ -1074,7 +1074,7 @@ export default function Booking({ }: Props) {
                                 label='Precio (US $)'
                                 name="price"
                                 updateData={updateEventData}
-                                value={eventData.price || null}
+                                value={eventData.price || ''}
                                 type='number'
                                 style={{ width: '20%' }}
                             />

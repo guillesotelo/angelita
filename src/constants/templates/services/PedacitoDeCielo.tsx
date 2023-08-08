@@ -29,8 +29,8 @@ export default function PedacitoDeCielo({ checkout }: Props) {
                         Causas y efectos de las alteraciones psicológicas, Identidad, propósito, valores, regulación emocional, sentimientos y afectos, relacionamiento,  pareja, traumas, herramientas terapéuticas.
                     </p>
                     <div className="service-template__row">
-                        <div className="service-template__prices" style={{ width: 'fit-content', height: 'fit-content' }}>
-                            <h4 className="service-template__prices-text"><strong>$<br />Aporte<br />voluntario</strong></h4>
+                        <div className="service-template__prices" style={{ width: '6rem', height: '6rem' }}>
+                            <h4 className="service-template__prices-text" style={{ fontSize: '.9rem' }}><strong>Aporte<br />voluntario</strong></h4>
                         </div>
                     </div>
                     <button className="service-template__btn" onClick={() => checkout('64ca5fd4baf72a66cc29c68f')}>Reservar</button>

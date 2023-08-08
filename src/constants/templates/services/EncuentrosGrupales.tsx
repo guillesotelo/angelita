@@ -36,7 +36,7 @@ export default function EncuentrosGrupales({ checkout, setSubService }: Props) {
                             <h4 className="service-template__subservice-open-hours">1 hora, miércoles - 16 hs UTC/GMT+2 (Berlin)</h4>
                         </div>
                         <div className="service-template__subservice-price">
-                            <h4 className="service-template__subservice-price-text-voluntary">$<br />Aporte<br />voluntario</h4>
+                            <h4 className="service-template__subservice-price-text-voluntary" style={{ fontSize: '.9rem' }}>Aporte voluntario</h4>
                         </div>
                     </div>
                     <div className="service-template__subservice" onClick={() => setSubService(3)}>

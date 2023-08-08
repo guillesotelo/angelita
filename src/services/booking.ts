@@ -34,7 +34,6 @@ const createBooking = async (data: { [key: string | number]: any }) => {
 
 const updateBooking = async (data: { [key: string | number]: any }) => {
     try {
-        console.log(data)
         const booking = await axios.post(`${API_URL}/api/booking/update`, data, getConfig())
         return booking.data
     } catch (err) { console.log(err) }

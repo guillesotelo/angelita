@@ -10,8 +10,13 @@ export default function EventCard({ event }: Props) {
 
     useEffect(() => {
         if (event && event.dateObject) {
-            const date = JSON.parse(event.dateObject) 
-            setEventDate(new Date(date).toLocaleDateString('es-AR', dateOptions))
+            const date = JSON.parse(event.dateObject)
+            const parsedDate = new Date(date).toLocaleDateString('es-AR', dateOptions)
+            setEventDate(parsedDate.split(' ')
+                .map(word => word.split('')
+                    .map((letter, i) => i === 0 && word !== 'de' ? letter.toUpperCase() : letter)
+                    .join(''))
+                .join(' '))
         }
     }, [])
     console.log(event)
@@ -23,7 +28,7 @@ export default function EventCard({ event }: Props) {
         hour: 'numeric',
         minute: 'numeric',
         hour12: false,
-    }as Intl.DateTimeFormatOptions
+    } as Intl.DateTimeFormatOptions
 
     return (
         <div className="home__event-row">

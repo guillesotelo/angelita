@@ -12,9 +12,7 @@ import Payment from '../../components/Payment/Payment'
 import ProfilePicture4 from '../../assets/images/angela4.png'
 import MissionImage from '../../assets/images/mission.png'
 import ToolsImage from '../../assets/images/tools.png'
-import ImageEvent1 from '../../assets/images/coffee/image30.png'
-import ImageEvent2 from '../../assets/images/coffee/image35.png'
-import ImageEvent3 from '../../assets/images/coffee/image24.png'
+import priceTag from '../../assets/illustrations/pricetag.svg'
 import AngelitaIsoLogo from '../../assets/logos/isologo.svg'
 import AngelitaLogo from '../../assets/logos/angelita_logo.png'
 import PresentationImage from '../../assets/images/presentation.png'
@@ -294,31 +292,35 @@ export default function Home() {
 
         <div className="home__section-discounts scroll-item"></div>
         {renderDiscounts ?
-            <div className="home__section">
+            <div className="home__section" style={{ backgroundColor: '#f3f3f3' }}>
                 <h2 className="home__section-title scroll-item" style={{ color: '#EBAA59', fontSize: '2.2vw', alignSelf: 'center' }}>DESCUENTOS ESPECIALES</h2>
                 <div className="home__discount-row" >
                     <div className="home__discount-card" >
+                        <img src={priceTag} alt="Evento" className="home__discount-pricetag" />
                         <p className="home__discount-percentage scroll-item">20%</p>
                         <p className="home__discount-text scroll-item">En todos los servicios a residentes en Sudamérica</p>
                     </div>
                     <div className="home__discount-card">
+                        <img src={priceTag} alt="Evento" className="home__discount-pricetag" />
                         <p className="home__discount-percentage scroll-item">10%</p>
                         <p className="home__discount-text scroll-item" >En paquetes de 4 a 6 sesiones consecutivas en cualquier servicio</p>
                     </div>
                 </div>
                 <div className="home__discount-row">
                     <div className="home__discount-card">
+                        <img src={priceTag} alt="Evento" className="home__discount-pricetag" />
                         <p className="home__discount-percentage scroll-item">15%</p>
                         <p className="home__discount-text scroll-item" >En la primer compra de paquete de 4 a 6 sesiones consecutivas en cualquier servicio</p>
                     </div>
                     <div className="home__discount-card">
-                        <p className="home__discount-percentage scroll-item" style={{ fontSize: '1.5rem', fontFamily: 'unset' }}>Casos de Insolvencia</p>
+                        <img src={priceTag} alt="Evento" className="home__discount-pricetag" />
+                        <p className="home__discount-percentage scroll-item" style={{ fontSize: '1.5rem', width: '50%',fontFamily: 'unset' }}>Casos de Insolvencia</p>
                         <Button
                             label='Leer más'
                             handleClick={() => history.push('/descuentos')}
                             bgColor='#B0BCEB'
                             textColor='#fff'
-                            style={{ marginTop: '1rem', width: 'fit-content' }}
+                            style={{ width: 'fit-content', zIndex: '2' }}
                         />
                     </div>
                 </div>
@@ -356,7 +358,7 @@ export default function Home() {
 
         <div className="home__section-pres scroll-item"></div>
         {renderPresentation ?
-            <div className="home__section" style={{ backgroundColor: '#fff' }}>
+            <div className="home__section" style={{ backgroundColor: '#f3f3f3' }}>
                 <div className="home__section-row">
                     <div className="home__section-col2 scroll-item" style={{ width: '30%' }} >
                         <img src={PresentationImage} alt="Presentacion" className="home__section-pres-image" />

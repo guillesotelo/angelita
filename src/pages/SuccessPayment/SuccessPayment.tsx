@@ -59,11 +59,12 @@ export default function SuccessPayment({ }: Props) {
                     <div className="success-payment__book">
                         <h4 className="success-payment__subtitle">Información sobre tu reserva</h4>
                         <h4 className="success-payment__book-label"><strong>Servicio:</strong> {paymentInfo.name}</h4>
-                        <h4 className="success-payment__book-label"><strong>Cantidad:</strong> {paymentInfo.realQty}</h4>
+                        {paymentInfo.name !== 'Coaching' ? <h4 className="success-payment__book-label"><strong>Cantidad:</strong> {paymentInfo.realQty}</h4> : ''}
                         <h4 className="success-payment__book-label"><strong>Cuándo:</strong> {paymentInfo.date}</h4>
                         <br />
                         <h4 className="success-payment__book-label"><strong>Total: </strong>US ${paymentInfo.realPrice}</h4>
                         <br />
+                        {paymentInfo.name === 'Coaching' ? <h4 className="success-payment__book-label" style={{ color: '#d11919' }}>Recuerda <a href='https://angelita.vercel.app/contacto'>contactarte</a> conmigo para coordinar la fecha de inicio.</h4> : ''}
                         {message ? <h4 className="payment__message">{message}</h4>
                             :
                             <p>
