@@ -34,21 +34,26 @@ export default function Home() {
     const [renderDiscounts, setRenderDiscounts] = useState(false)
     const [renderTools, setRenderTools] = useState(false)
     const [renderEvents, setRenderEvents] = useState(false)
-    const [checkout, setCheckout] = useState('')
-    const [service, setService] = useState(0)
     const [subService, setSubService] = useState(0)
-    const [renderAll, setRenderAll] = useState(false)
     const [date, setDate] = useState<any>(new Date())
     const [events, setEvents] = useState<dataObj[]>([])
+    const [filteredEvents, setFilteredEvents] = useState<dataObj[]>([])
+    const [dateChanged, setDateChanged] = useState(false)
+    const [eventId, setEventId] = useState('')
     const history = useHistory()
-    const { lang, isMobile } = useContext(AppContext)
+    const { lang, isMobile, renderAll, setRenderAll, service, setService, checkout, setCheckout } = useContext(AppContext)
 
     useEffect(() => {
         activateRenderEffects()
         const sectionId = new URLSearchParams(document.location.search).get('sectionId')
         const _service = new URLSearchParams(document.location.search).get('service')
+        const _checkout = new URLSearchParams(document.location.search).get('checkout')
+        const event = new URLSearchParams(document.location.search).get('eventId')
+
+        setEventId(event || '')
 
         if (_service) setService(parseInt(_service))
+        if (_checkout) setCheckout(_checkout)
         if (sectionId) {
             setTimeout(() => {
                 scrollToSection(sectionId)
@@ -78,13 +83,31 @@ export default function Home() {
         }
     }, [service])
 
+    useEffect(() => {
+        filterEvents()
+    }, [date])
+
+    useEffect(() => {
+        if (filteredEvents.length !== events.length) setDateChanged(true)
+        else setDateChanged(false)
+    }, [filteredEvents, events])
+
     const getEvents = async () => {
         try {
             const allEvents = await getAllEvents()
-            if (allEvents && allEvents.length) setEvents(allEvents)
+            if (allEvents && allEvents.length) {
+                setFilteredEvents(allEvents)
+                setEvents(allEvents)
+            }
         } catch (err) {
             console.error(err)
         }
+    }
+
+    const filterEvents = () => {
+        const filtered = events.filter(event =>
+            new Date(JSON.parse(event.dateObject)).toLocaleDateString() === date.toLocaleDateString())
+        setFilteredEvents(filtered)
     }
 
     const scrollToSection = (section: string) => {
@@ -158,7 +181,7 @@ export default function Home() {
     }
 
     return <div className="home__container" id='home__container'>
-        <div className="home__bg-video-container" style={{ filter: service ? 'blur(10px)' : '' }}>
+        <div className="home__bg-video-container" style={{ filter: service || checkout ? 'blur(10px)' : '' }}>
             <video className="home__bg-video" autoPlay loop muted>
                 <source src={BGVideo} type="video/mp4" />
                 Your browser does not support the video tag.
@@ -170,13 +193,13 @@ export default function Home() {
             </div>
         </div>
 
-        <Header setRenderAll={setRenderAll} setService={setService} style={{ filter: service ? 'blur(10px)' : '' }} />
+        <Header style={{ filter: service || checkout ? 'blur(10px)' : '' }} />
 
         <WhatsAppButton phoneNumber={34650609282} message={whatsappMessage} />
 
         <div className="home__section-about scroll-item"></div>
         {renderSectionAbout ?
-            <div className="home__section" id='sobre-mi' style={{ backgroundColor: '#fff', filter: service ? 'blur(10px)' : '' }}>
+            <div className="home__section" id='sobre-mi' style={{ backgroundColor: '#fff', filter: service || checkout ? 'blur(10px)' : '' }}>
                 <div className="home__section-row">
                     <div className="home__section-col1" style={{ width: '60%', textAlign: 'justify' }}>
                         <h2 className="home__section-title scroll-item" style={{ animationDelay: '.4s', alignSelf: 'flex-start', color: '#EBAA59' }}>Hola, soy&nbsp;<strong>Angelita</strong></h2>
@@ -204,7 +227,7 @@ export default function Home() {
 
         <div className="home__section-mission scroll-item"></div>
         {renderMission ?
-            <div className="home__section" style={{ backgroundColor: '#B0BCEB', padding: 0, filter: service ? 'blur(10px)' : '' }}>
+            <div className="home__section" style={{ backgroundColor: '#B0BCEB', padding: 0, filter: service || checkout ? 'blur(10px)' : '' }}>
                 <div className="home__section-row" style={{ justifyContent: 'normal' }}>
                     <div className="home__section-col1" style={{ width: '55%' }}>
                         <img src={MissionImage} alt="Mision" className="home__section-mission-image" />
@@ -214,13 +237,14 @@ export default function Home() {
                         <p className="home__section-text scroll-item" style={{ animationDelay: '.8s' }}>
                             Quiero promover una psicología afectuosa, cercana, de igual a igual, asequible en todos los sentidos, donde podamos sanar y expandirnos a través de la experiencia del ser libre.                            <br />
                             <br />
-                            Busco disfrutar mi labor, vocación y propósito, y encontrar constantemente la manera de dignificar esta profesión y quienes la consultan.                        </p>
+                            Busco disfrutar mi labor, vocación y propósito, y encontrar constantemente la manera de dignificar esta profesión y quienes la consultan.
+                        </p>
                         <div className='scroll-item'>
                             <Button
                                 label='Leer más'
                                 handleClick={() => history.push('/mision')}
-                                bgColor='#fff'
                                 style={{ marginTop: '4vw' }}
+                                className='button__bright'
                             />
                         </div>
                     </div>
@@ -228,23 +252,27 @@ export default function Home() {
             </div>
             : ''}
 
-        {service ?
+        {service || checkout ?
             <div className='home__modal-wrapper'>
                 <div className='home__modal-container'>
                     <h4 className="home__modal-close" onClick={() => {
                         setService(0)
                         setSubService(0)
                         setCheckout('')
+                        setEventId('')
+                        window.history.replaceState(null, '', window.location.pathname)
                         setTimeout(() => scrollToSection('servicios'), 100)
                     }}>X</h4>
-                    {!checkout ?
+                    {checkout ?
+                        <Payment checkout={checkout} eventId={eventId} />
+                        :
                         <ServiceTemplates
                             service={service}
                             subService={subService}
                             setSubService={setSubService}
                             checkout={(val) => setCheckout(val)}
                         />
-                        : <Payment checkout={checkout} />}
+                    }
                 </div >
             </div >
             : ''
@@ -252,7 +280,7 @@ export default function Home() {
 
         <div className="home__section-services scroll-item"></div>
         {renderServices ?
-            <div className="home__section" id='servicios' style={{ filter: service ? 'blur(10px)' : '' }}>
+            <div className="home__section" id='servicios' style={{ filter: service || checkout ? 'blur(10px)' : '' }}>
                 <h2 className="home__section-title scroll-item" style={{ alignSelf: 'center', color: '#B0BCEB', fontSize: '3vw', margin: 0 }}>
                     SERVICIOS
                 </h2>
@@ -292,7 +320,7 @@ export default function Home() {
 
         <div className="home__section-discounts scroll-item"></div>
         {renderDiscounts ?
-            <div className="home__section" style={{ backgroundColor: '#f3f3f3' }}>
+            <div className="home__section" style={{ backgroundColor: '#f3f3f3', filter: service || checkout ? 'blur(10px)' : '' }}>
                 <h2 className="home__section-title scroll-item" style={{ color: '#EBAA59', fontSize: '2.2vw', alignSelf: 'center' }}>DESCUENTOS ESPECIALES</h2>
                 <div className="home__discount-row" >
                     <div className="home__discount-card" >
@@ -314,7 +342,7 @@ export default function Home() {
                     </div>
                     <div className="home__discount-card">
                         <img src={priceTag} alt="Evento" className="home__discount-pricetag" />
-                        <p className="home__discount-percentage scroll-item" style={{ fontSize: '1.5rem', width: '50%',fontFamily: 'unset' }}>Casos de Insolvencia</p>
+                        <p className="home__discount-percentage scroll-item" style={{ fontSize: '1.5rem', width: '50%', fontFamily: 'unset' }}>Casos de Insolvencia</p>
                         <Button
                             label='Leer más'
                             handleClick={() => history.push('/descuentos')}
@@ -329,7 +357,7 @@ export default function Home() {
 
         <div className="home__section-prof scroll-item"></div>
         {renderProfesionYServicio ?
-            <div className="home__section">
+            <div className="home__section" style={{ filter: service || checkout ? 'blur(10px)' : '' }}>
                 <div className="home__section-row" style={{ alignItems: 'center' }}>
                     <div className="home__section-col1" style={{ textAlign: 'justify', width: '100%' }}>
                         <h2 className="home__section-title scroll-item" style={{ animationDelay: '.3s', color: '#B0BCEB', fontSize: '2.2vw' }}>Amor. Vocación. Interacción. Comprensión. Expansión</h2>
@@ -358,7 +386,7 @@ export default function Home() {
 
         <div className="home__section-pres scroll-item"></div>
         {renderPresentation ?
-            <div className="home__section" style={{ backgroundColor: '#f3f3f3' }}>
+            <div className="home__section" style={{ backgroundColor: '#f3f3f3', filter: service || checkout ? 'blur(10px)' : '' }}>
                 <div className="home__section-row">
                     <div className="home__section-col2 scroll-item" style={{ width: '30%' }} >
                         <img src={PresentationImage} alt="Presentacion" className="home__section-pres-image" />
@@ -387,7 +415,7 @@ export default function Home() {
 
         <div className="home__section-symptoms scroll-item"></div>
         {renderSymptoms ?
-            <div className="home__section" style={{ backgroundColor: '#fff' }}>
+            <div className="home__section" style={{ backgroundColor: '#fff', filter: service || checkout ? 'blur(10px)' : '' }}>
                 <h2 className="home__section-symptoms-title scroll-item" style={{ color: '#EBCE98', textAlign: 'center', alignSelf: 'center', fontSize: '1.6rem' }}>SÍNTOMAS DE QUE PODRÍAS NECESITAR ASESORÍA PSICOLÓGICA</h2>
                 <div className="home__section-row" style={{ height: 'fit-content', justifyContent: 'center', marginTop: '4rem' }}>
                     <div className="home__section-col1" style={{ width: '45%', textAlign: 'justify' }}>
@@ -430,7 +458,7 @@ export default function Home() {
 
         <div className="home__section-tools scroll-item"></div>
         {renderTools ?
-            <div className="home__section" style={{ backgroundColor: '#fff' }}>
+            <div className="home__section" style={{ backgroundColor: '#fff', filter: service || checkout ? 'blur(10px)' : '' }}>
                 <div className="home__section-row" style={{ height: 'fit-content', alignItems: 'flex-start' }}>
                     <div className="home__section-col1" style={{ width: '35%', alignItems: 'flex-start' }}>
                         <h2 className="home__section-tools-title scroll-item" style={{ color: '#B0BCEB', alignSelf: 'flex-start' }}>Herramientas Terapéuticas</h2>
@@ -508,7 +536,7 @@ export default function Home() {
 
         <div className="home__events scroll-item"></div>
         {renderEvents ?
-            <div className="home__section" id='eventos' style={{ backgroundColor: '#c8cfec' }}>
+            <div className="home__section" id='eventos' style={{ backgroundColor: '#c8cfec', filter: service || checkout ? 'blur(10px)' : '' }}>
                 <div className="home__section-row">
                     <div className="home__section-col1" style={{ width: '40%', textAlign: 'justify' }}>
                         <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s', alignSelf: 'flex-start', margin: 0 }}>Eventos</h2>
@@ -522,12 +550,24 @@ export default function Home() {
                     </div>
                     <div className="home__section-col2" style={{ width: '55%' }}>
                         <div className="home__event-list scroll-item">
-                            {events.map((event: dataObj, i: number) =>
+                            {!filteredEvents.length ?
+                                <div className="home__event-row" >
+                                    <h4 className="home__event-noevents">No hay eventos este día</h4>
+                                </div>
+                                : ''
+                            }
+                            {filteredEvents.map((event: dataObj, i: number) =>
                                 <EventCard
                                     key={i}
                                     event={event}
                                 />
                             )}
+                            {dateChanged ?
+                                <div className="home__event-row" onClick={() => setFilteredEvents(events)}>
+                                    <h4 className="home__event-seeall">Mostrar todos</h4>
+                                </div>
+                                : ''
+                            }
                         </div>
                     </div>
                 </div>
@@ -535,7 +575,7 @@ export default function Home() {
             : ''}
 
 
-        <div className="home__section-logo" style={{ backgroundColor: '#fff' }}>
+        <div className="home__section-logo" style={{ backgroundColor: '#fff', filter: service || checkout ? 'blur(10px)' : '' }}>
             <img src={AngelitaLogo} alt="Angelita" className="home__section-logo-image" />
         </div>
 

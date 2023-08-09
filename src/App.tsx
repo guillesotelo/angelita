@@ -18,6 +18,7 @@ import CheckoutError from './pages/CheckoutError/CheckoutError';
 import Booking from './pages/Booking/Booking';
 import RouteTracker from './components/RouteTracker/RouteTracker';
 import ReactGA from 'react-ga';
+import Event from './pages/Event/Event';
 const TRACKING_ID = "G-7BDD4BFJRQ";
 ReactGA.initialize(TRACKING_ID);
 
@@ -29,6 +30,9 @@ const App: React.FC = () => {
   const [search, setSearch] = useState<string[]>([])
   const [lang, setLang] = useState<string>(localLang)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [renderAll, setRenderAll] = useState(false)
+  const [service, setService] = useState(0)
+  const [checkout, setCheckout] = useState('')
   const location = useLocation()
 
   useEffect(() => {
@@ -44,6 +48,12 @@ const App: React.FC = () => {
       isMobile={isMobile}
       isLoggedIn={isLoggedIn}
       setIsLoggedIn={setIsLoggedIn}
+      renderAll={renderAll}
+      setRenderAll={setRenderAll}
+      service={service}
+      setService={setService}
+      checkout={checkout}
+      setCheckout={setCheckout}
     >
       <RouteTracker />
       <Switch>
@@ -138,6 +148,14 @@ const App: React.FC = () => {
           <div className='page__wrapper'>
             <Header />
             <Booking />
+            <Footer />
+          </div>
+        </Route>
+
+        <Route path="/event">
+          <div className='page__wrapper'>
+            <Header />
+            <Event />
             <Footer />
           </div>
         </Route>

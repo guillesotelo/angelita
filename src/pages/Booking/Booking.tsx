@@ -17,6 +17,7 @@ import moment from 'moment';
 import 'moment/locale/es'
 import { createEvent, deleteEvent, getAllEvents, updateEvent } from '../../services/event'
 import { DISCOUNTS } from '../../constants/misc'
+import Switch from '../../components/Switch/Switch'
 
 type Props = {}
 
@@ -71,6 +72,7 @@ export default function Booking({ }: Props) {
     const [tryToRemoveEvent, setTryToRemoveEvent] = useState(false)
     const [eventData, setEventData] = useState<dataObj>(voidEvent)
     const [endTime, setEndTime] = useState<any>(null)
+    const [sendEmail, setSendEmail] = useState(true)
     const history = useHistory()
     const { isMobile, isLoggedIn, setIsLoggedIn } = useContext(AppContext)
 
@@ -263,7 +265,8 @@ export default function Booking({ }: Props) {
                 realPrice: getPrice(),
                 priceInCents: Number(getPrice().replace('.', '')),
                 image: getImage(),
-                isPaid: isPaid === 'Si' ? true : false
+                isPaid: isPaid === 'Si' ? true : false,
+                sendEmail
             }
             if (isNewBooking) delete bookingData._id
 
@@ -381,8 +384,8 @@ export default function Booking({ }: Props) {
 
     const getDateAndTime = (date: Date) => {
         return Array.isArray(date) ?
-            date.map((d: Date) => new Date(d).toLocaleString([], { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })).join(' - ') :
-            new Date(date).toLocaleString([], { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })
+            date.map((d: Date) => new Date(d).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })).join(' - ') :
+            new Date(date).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })
     }
 
     const handleDateChange = (value: any, index: number): void => {
@@ -772,6 +775,15 @@ export default function Booking({ }: Props) {
                                     <h2 className="booking__data-label">{isNewBooking ? 'Precio final' : data.isPaid ? 'Monto registrado' : 'Monto total'}</h2>
                                     <h2 className="booking__data-value">US $ {isNewBooking ? totalPrice : data.realPrice}</h2>
                                 </div>
+                                {!isNewBooking ?
+                                    <Switch
+                                        label='Enviar email con cambios'
+                                        on='Si'
+                                        off='No'
+                                        value={sendEmail}
+                                        setValue={setSendEmail}
+                                    />
+                                    : ''}
                             </div>
                         </div>
                     }
@@ -1006,8 +1018,8 @@ export default function Booking({ }: Props) {
                             <Dropdown
                                 label='Servicio'
                                 options={dbServices.filter(service => service.isEvent)}
-                                selected={dbServices.find(service => service._id === eventData.service) || ''}
-                                setSelected={value => setEventData({ ...eventData, 'service': value })}
+                                selected={dbServices.find(service => service._id === eventData.serviceId) || ''}
+                                setSelected={value => setEventData({ ...eventData, 'serviceId': value })}
                                 value={eventData.service ? eventData.service.name : ''}
                                 objKey='name'
                             />

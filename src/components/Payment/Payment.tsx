@@ -7,12 +7,14 @@ import Calendar from "react-calendar"
 import { createBooking, createCheckoutSession, getAllBookings, getAllServices } from "../../services/"
 import InputField from "../InputField/InputField"
 import { useHistory } from "react-router-dom"
+import { getEventById } from "../../services/event"
 
 type Props = {
     checkout?: string
+    eventId?: string
 }
 
-function Payment({ checkout }: Props) {
+function Payment({ checkout, eventId }: Props) {
     const [data, setData] = useState({ username: '', email: '', country: '', phone: '' })
     const [bookings, setBookings] = useState<dataObj[]>([])
     const [message, setMessage] = useState<string | null>('')
@@ -27,16 +29,18 @@ function Payment({ checkout }: Props) {
     const [contribute, setContribute] = useState('')
     const [openCalendars, setOpenCalendars] = useState<dataObj>({})
     const [currentService, setCurrentService] = useState<dataObj>({})
+    const [event, setEvent] = useState<dataObj>({})
     const [dbServices, setDbServices] = useState<dataObj[]>([])
     const history = useHistory()
-
-    // console.log('bookings', bookings)
 
     useEffect(() => {
         setQuantity(`1 sesión (${getHours(1)})`)
         getServices()
         setCurrentService(getService())
         getBookings()
+
+        const eventId = new URLSearchParams(document.location.search).get('eventId')
+        if (eventId) getEvent(eventId)
     }, [])
 
     useEffect(() => {
@@ -74,6 +78,15 @@ function Payment({ checkout }: Props) {
             if (allServices && allServices.length) setDbServices(allServices)
         } catch (err) {
             console.error(err)
+        }
+    }
+
+    const getEvent = async (id: string) => {
+        try {
+            const _event = await getEventById(id)
+            if (_event && _event.name) setEvent(_event)
+        } catch (error) {
+            console.error(error)
         }
     }
 
@@ -141,7 +154,7 @@ function Payment({ checkout }: Props) {
         const qty = getQuantity()
         if (isProcessing || !data.username || !data.email) return true
         if (data.username.split(' ').length < 2 || !data.email.includes('@') || !data.email.includes('.')) return true
-        if (currentService.name !== 'Coaching') {
+        if (!event.name && currentService.name !== 'Coaching') {
             if (Number(getPrice()) > 0 && !date && !selectedDates.length) return true
             if (qty > 1 && (!selectedDates.length || selectedDates.length !== qty)) return true
         }
@@ -207,31 +220,28 @@ function Payment({ checkout }: Props) {
         let count = 0
         let processedDates: any[] = []
 
-        bookings.forEach(booking => {
-            if (booking.serviceId === '64ca5fd4baf72a66cc29c695' // Psicologia
-                || booking.serviceId === '64ca5fd4baf72a66cc29c693') { // Consejeria
-                allSlots.forEach(d => {
-                    if (!processedDates.includes(d) && d.toLocaleDateString() === date.toLocaleDateString()) {
-                        processedDates.push(d)
-                        count++
-                    }
-                })
-            }
-        })
+        if (currentService._id === '64ca5fd4baf72a66cc29c695'// Psicologia
+            || currentService.serviceId === '64ca5fd4baf72a66cc29c693') {// Consejeria
+            allSlots.forEach(d => {
+                if (!processedDates.includes(d) && d.toLocaleDateString() === date.toLocaleDateString()) {
+                    processedDates.push(d)
+                    count++
+                }
+            })
+        }
 
         if (serviceDay) {
-            if (serviceDay === 'Martes') return day !== 2 || isTodayOrBefore
-            if (serviceDay === 'Miércoles') return day !== 3 || isTodayOrBefore
-            if (serviceDay === '1er sábado del mes') return !isFirstSaturdayOfMonth(date) || isTodayOrBefore
+            if (serviceDay === 'Martes') return day !== 2 || isTodayOrBefore || count > 1
+            if (serviceDay === 'Miércoles') return day !== 3 || isTodayOrBefore || count > 1
+            if (serviceDay === '1er sábado del mes') return !isFirstSaturdayOfMonth(date) || isTodayOrBefore || count > 1
             if (serviceDay === 'Lunes a sábado') return day === 0 || isTodayOrBefore || count > 1
-            if (serviceDay === 'Jueves y sábado') return day !== 4 && day !== 6 || isTodayOrBefore
+            if (serviceDay === 'Jueves y sábado') return day !== 4 && day !== 6 || isTodayOrBefore || count > 1
         }
         return false
     }
 
     const isFirstSaturdayOfMonth = (date: Date) => {
-        const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1)
-        return firstDayOfMonth.getDay() === 6 && date.getDate() <= 7
+        return date.getDay() === 6 && date.getDate() <= 7
     }
 
     const handleDateChange = (value: any, index: number): void => {
@@ -313,42 +323,42 @@ function Payment({ checkout }: Props) {
 
     return (
         <div className="payment__container">
-            <h2 className="service-template__title" style={{ margin: 0 }}>Checkout: {currentService.name}</h2>
+            <h2 className="service-template__title" style={{ margin: 0 }}>Checkout: {event.name ? event.name : currentService.name}</h2>
             <div className="payment__contact-info">
                 <h4 className="payment__contact-info-title">Información de contacto</h4>
                 <div className="payment__contact-info-row">
                     <InputField
+                        label="Nombre completo"
                         name="username"
-                        placeholder="Tu nombre completo"
                         updateData={updateInfo}
                         value={data.username}
                     />
                     <InputField
+                        label="País donde resides (opcional)"
                         name="country"
-                        placeholder="País donde resides (opcional)"
                         updateData={updateInfo}
                         value={data.country}
                     />
                 </div>
                 <div className="payment__contact-info-row">
                     <InputField
+                        label="Email"
                         name="email"
-                        placeholder="Tu email"
                         updateData={updateInfo}
                         value={data.email}
                     />
                     <InputField
+                        label="Número de teléfono (opcional)"
                         name="phone"
-                        placeholder="Número de teléfono (opcional)"
                         updateData={updateInfo}
                         value={data.phone}
                     />
                 </div>
             </div>
             <div className="payment__form" >
-                <h4 className="payment__contact-info-title">Información del pago</h4>
+                {!event.name ? <h4 className="payment__contact-info-title">Información del pago</h4> : ''}
                 <div className="payment__contact-info-row">
-                    {currentService.name !== 'Coaching' ?
+                    {!event.name && currentService.name !== 'Coaching' ?
                         <Dropdown
                             label="Seleccioná la cantidad"
                             setSelected={setQuantity}
@@ -357,13 +367,21 @@ function Payment({ checkout }: Props) {
                             options={getQuantityOptions()}
                             maxHeight='15rem'
                         /> :
-                        <p>Luego de pagar la reserva, puedes contactarte conmigo para coordinar las fechas de los encuentros.
-                            <br />Recibirás toda la información en el correo que has proporcionado.
-                        </p>
+                        currentService.name === 'Coaching' ?
+                            <p>Luego de pagar la reserva, puedes contactarte conmigo para coordinar las fechas de los encuentros.
+                                <br />Recibirás toda la información en el correo que has proporcionado.
+                            </p>
+                            : ''
                     }
+                    {event.name ?
+                        <div className="booking__data">
+                            <h4 className="booking__data-label">Fecha y hora</h4>
+                            <h4 className="booking__data-value">{event.date}</h4>
+                        </div>
+                        : ''}
                     <h1 className="payment__total-amount"><span className="payment__total-text">Total</span> ${total}</h1>
                 </div>
-                {currentService.name !== 'Coaching' ?
+                {!event.name && currentService.name !== 'Coaching' ?
                     <div className="payment__contact-info-row">
                         {openCalendar ?
                             <Calendar
@@ -442,7 +460,7 @@ function Payment({ checkout }: Props) {
                     :
                     <div className="payment__btns">
                         {contribute ?
-                            <>s
+                            <>
                                 <Dropdown
                                     label="Seleccioná un inporte"
                                     setSelected={setContribute}

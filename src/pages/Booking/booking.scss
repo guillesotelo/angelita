@@ -2,7 +2,7 @@
     &__container {
         display: flex;
         flex-direction: column;
-        margin: 16vh 3vw 20vh 3vw;
+        margin: 16vh auto 20vh auto;
         position: relative;
         align-items: center;
         // padding-bottom: 25vw;
@@ -42,7 +42,7 @@
 
         &-label {
             margin: 0 0 .5vh 0;
-            font-size: .8vw;
+            font-size: .8rem;
             font-weight: normal;
             width: 100%;
             color: #696869;
@@ -78,7 +78,7 @@
     }
 
     &__sidebar {
-        margin: -7vh -2.5rem 0 0;
+        margin: -7vh -1.5rem 0 0;
         position: absolute;
         right: 0;
         top: 0;
@@ -120,13 +120,13 @@
     }
 
     &__sidebar-event {
-        margin: -7vh -2.5rem 0 0;
+        margin: -7vh -1.5rem 0 0;
         position: absolute;
         right: 0;
         top: 0;
         background-color: white;
         min-height: 120vh;
-        width: 40vw;
+        width: 38vw;
         border-left: 1px solid lightgray;
         padding: 2rem;
         overflow-y: auto;

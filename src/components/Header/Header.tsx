@@ -22,11 +22,9 @@ import { verifyToken } from '../../services'
 
 type Props = {
     style?: React.CSSProperties
-    setRenderAll?: (value: boolean) => void
-    setService?: (value: number) => void
 }
 
-export default function Header({ style, setRenderAll, setService }: Props) {
+export default function Header({ style }: Props) {
     const [postId, setPostId] = useState('')
     const [prompt, setPrompt] = useState('')
     const [deleteModal, setDeleteModal] = useState(false)
@@ -34,7 +32,7 @@ export default function Header({ style, setRenderAll, setService }: Props) {
     const [searchClicked, setSearchClicked] = useState(false)
     const history = useHistory()
     const location = useLocation()
-    const { lang, isMobile, setLang, search, setSearch, setIsLoggedIn, isLoggedIn } = useContext(AppContext)
+    const { lang, isMobile, setLang, search, setSearch, setIsLoggedIn, isLoggedIn, setRenderAll, setService } = useContext(AppContext)
 
     useEffect(() => {
         activateMenuClick()

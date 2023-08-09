@@ -8,6 +8,12 @@ type AppContextType = {
     setSearch: (search: string[]) => void
     isLoggedIn: boolean
     setIsLoggedIn: (value: boolean) => void
+    renderAll: boolean
+    setRenderAll: (value: boolean) => void
+    service: number
+    setService: (value: number) => void
+    checkout: string
+    setCheckout: (value: string) => void
 }
 
 export const AppContext = createContext<AppContextType>({} as AppContextType);
@@ -20,6 +26,12 @@ export const AppProvider: React.FC<AppContextType> = ({
     isLoggedIn,
     search,
     setSearch,
+    renderAll,
+    setRenderAll,
+    service,
+    setService,
+    checkout,
+    setCheckout,
     children
 }) => (
     <AppContext.Provider value={{
@@ -29,6 +41,12 @@ export const AppProvider: React.FC<AppContextType> = ({
         setSearch,
         isMobile,
         setIsLoggedIn,
-        isLoggedIn
+        isLoggedIn,
+        renderAll,
+        setRenderAll,
+        service,
+        setService,
+        checkout,
+        setCheckout,
     }}>{children}</AppContext.Provider>
 );

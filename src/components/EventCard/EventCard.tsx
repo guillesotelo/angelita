@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { dataObj } from '../../types'
+import { useHistory } from 'react-router-dom'
 
 type Props = {
     event?: dataObj
@@ -7,6 +8,7 @@ type Props = {
 
 export default function EventCard({ event }: Props) {
     const [eventDate, setEventDate] = useState('')
+    const history = useHistory()
 
     useEffect(() => {
         if (event && event.dateObject) {
@@ -19,7 +21,6 @@ export default function EventCard({ event }: Props) {
                 .join(' '))
         }
     }, [])
-    console.log(event)
 
     const dateOptions = {
         weekday: 'long',
@@ -31,7 +32,7 @@ export default function EventCard({ event }: Props) {
     } as Intl.DateTimeFormatOptions
 
     return (
-        <div className="home__event-row">
+        <div className="home__event-row" onClick={() => history.push(`/event?id=${event?._id || ''}`)}>
             <div className="home__event-schedule">
                 {eventDate}
             </div>
