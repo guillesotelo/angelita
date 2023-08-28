@@ -457,12 +457,98 @@
 @media only screen and (max-width: 640px) {
     .home {
         &__container {
-            padding: 22vw 0 60vw 0;
+            padding: 0 0 60vw 0;
         }
 
         &__postlist {
             gap: 6vw;
             margin-top: 5vw;
+        }
+
+
+        &__bg-video-container {
+            position: relative;
+            width: 100%;
+            height: 91vh;
+            animation: fade-in 1s ease-in;
+            /* 16:9 aspect ratio (9 / 16 = 0.5625 or 56.25%) */
+        }
+
+        &__bg-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 91vh;
+            object-fit: cover;
+        }
+
+        &__bg-video-overlay {
+            position: absolute;
+            color: white;
+            width: 100%;
+            height: 91vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.776));
+            animation: fade-in 1.5s ease-in;
+
+            &-title {
+                font-size: 5vw;
+                margin: 0;
+                font-weight: normal;
+                cursor: default;
+            }
+
+            &-subtitle {
+                font-size: 5.5vw;
+                margin: .5rem 0;
+                font-weight: normal;
+                cursor: default;
+            }
+
+            &-logo {
+                height: 35vw;
+                filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(205deg) brightness(108%) contrast(101%);
+            }
+        }
+
+        &__section {
+            height: fit-content;
+            padding: 20vw 5vw;
+            min-height: 70vh;
+
+            &-col {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+
+            &-title {
+                font-size: 8vw;
+            }
+
+            &-text {
+                font-size: 4vw;
+            }
+
+            &-about {
+                &-image {
+                    width: 100%;
+                    margin: 10vw 0;
+                    border-radius: 3vw;
+                }
+            }
+
+            &-mission {
+                &-image {
+                    width: 100%;
+                    margin-bottom: 5vw;
+                }
+            }
         }
     }
 }

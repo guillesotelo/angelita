@@ -14,6 +14,7 @@ import ImageLogo2 from '../../assets/logos/angelita_logo.png'
 import ImageLogo3 from '../../assets/logos/angelita_logo3.png'
 import LoginIcon from '../../assets/icons/login-icon.svg'
 import LogoutIcon from '../../assets/icons/logout-icon.svg'
+import CloseIcon from '../../assets/icons/close-icon.svg'
 import { toast } from 'react-hot-toast'
 import { APP_VERSION } from '../../constants/app'
 import { AppContext } from '../../AppContext'
@@ -30,6 +31,7 @@ export default function Header({ style }: Props) {
     const [deleteModal, setDeleteModal] = useState(false)
     const [menuToggle, setMenuToggle] = useState(false)
     const [searchClicked, setSearchClicked] = useState(false)
+    const [openMenu, setOpenMenu] = useState(false)
     const history = useHistory()
     const location = useLocation()
     const { lang, isMobile, setLang, search, setSearch, setIsLoggedIn, isLoggedIn, setRenderAll, setService } = useContext(AppContext)
@@ -150,8 +152,55 @@ export default function Header({ style }: Props) {
         history.push('/login')
     }
 
-    return (
-        <div className='header__container header--fixed' id='header__container' style={style}>
+    const renderMobile = () => {
+        return <div className='header__container header--fixed' id='header__container' style={style}>
+            <div className="header__menu-btn">
+                <img className='header__menu-btn-svg' onClick={() => setOpenMenu(!openMenu)} src={openMenu ? CloseIcon : Menu} alt="Menu" />
+            </div>
+            {openMenu ?
+                <div className="header__items">
+                    <div className="header__item" onClick={goHome}>
+                        <h4 className="header__item-text">Inicio</h4>
+                    </div>
+                    <div className="header__item">
+                        <div className="header__item-text" onClick={() => scrollToSection('servicios')}>Servicios</div>
+                        <div className="header__item-dropdown">
+                            <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 1)}>
+                                <h4 className="header__item-dropdown-text">Encuentros Grupales</h4>
+                            </div>
+                            <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 2)}>
+                                <h4 className="header__item-dropdown-text">Psicoterapia en Grupo</h4>
+                            </div>
+                            <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 3)}>
+                                <h4 className="header__item-dropdown-text">Psicoterapia Privada</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="header__item">
+                        <div className="header__item-text" onClick={() => scrollToSection('eventos')}>Eventos</div>
+                    </div>
+                    {isLoggedIn ?
+                        <div className="header__item">
+                            <div className="header__item-text" style={{ color: '#EBAA59' }} onClick={() => history.push('/booking')}>Booking</div>
+                        </div> : ''}
+                </div>
+                :
+                <div className="header__logo" onClick={goHome}>
+                    <img src={ImageLogo} alt="Logo" loading='lazy' className="header__logo-image" />
+                </div>}
+            {openMenu ? ''
+                :
+                <div className="header__logo">
+                    {isLoggedIn ?
+                        <img src={LogoutIcon} className="header__login-icon" onClick={logOut} />
+                        :
+                        <img src={LoginIcon} className="header__login-icon" onClick={login} />}
+                </div>}
+        </div>
+    }
+
+    const renderDeskrop = () => {
+        return <div className='header__container header--fixed' id='header__container' style={style}>
             <div className="header__logo" onClick={goHome}>
                 {/* <h4 className="header__logo-text">Angelita</h4> */}
                 <img src={ImageLogo} alt="Logo" loading='lazy' className="header__logo-image" />
@@ -189,5 +238,7 @@ export default function Header({ style }: Props) {
                     <img src={LoginIcon} className="header__login-icon" onClick={login} />}
             </div>
         </div>
-    )
+    }
+
+    return isMobile ? renderMobile() : renderDeskrop()
 }

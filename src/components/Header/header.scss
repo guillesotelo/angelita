@@ -191,82 +191,47 @@
         &__container {
             height: 20vw;
             text-align: center;
+            transition: .4s;
         }
 
         &__menu {
-            height: 20vw;
-
-            &-svg {
-                height: 7vw;
-                margin: 3vw 5vw;
-            }
-
-            &-sidebar {
-                &--hidden {
-                    margin-top: 20vw;
-                }
-
-                &--toggled {
-                    margin-top: 20vw;
-                    width: 70vw;
-                }
-            }
-
-            &-item {
-
-                &-text {
-                    font-size: 4vw;
-                    margin: 4.5vw 0;
+            &-btn {
+                &-svg {
+                    height: 2rem;
+                    padding: 1rem;
+                    filter: invert(83%) sepia(2%) saturate(10%) hue-rotate(314deg) brightness(100%) contrast(89%);
                 }
             }
         }
 
         &__logo {
-            height: 8vw;
-            border: none;
-            width: 65%;
-            text-align: center;
+            width: fit-content;
+            margin: 0;
+
+            &-image {
+                height: 1rem;
+                // width: 30vw;
+            }
+        }
+
+        &__items {
+            transition: .4s;
+            // gap: 2vw;
+            justify-content: space-evenly;
+        }
+
+        &__item {
+            // width: 20vw;
+            justify-content: center;
 
             &-text {
                 font-size: 4.5vw;
             }
-        }
 
-        &__search {
-            margin: 0 5vw;
-
-            &-svg {
-                height: 6vw;
-                // margin: 2vw 4vw;
-            }
-
-            &-input {
-                font-size: 4.5vw;
-                padding: 1.5vw;
+            &:hover .header__item-dropdown {
+                display: none !important;
             }
         }
-
-        &__delete-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgb(255, 255, 255);
-            padding: 4vw;
-            border-radius: 1.5vw;
-            box-shadow: 3px 3px 15px gray;
-            z-index: 2;
-            width: 60vw;
-
-            &-btns {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-                margin-top: 8vw;
-            }
-        }
-
 
     }
 }

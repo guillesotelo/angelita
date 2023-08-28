@@ -66,6 +66,7 @@
         cursor: pointer;
         align-items: center;
         transition: .3s;
+        overflow: hidden;
 
         &:hover {
             background-color: #f6f9ff !important;

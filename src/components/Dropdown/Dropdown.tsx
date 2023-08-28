@@ -52,7 +52,12 @@ export default function Dropdown(props: Props) {
     const renderSelectedItem = () => {
         return <div
             className='dropdown__select'
-            style={{ border: openDrop ? '1px solid #EBAA59' : '1px solid lightgray' }}
+            style={{
+                border: openDrop ? '1px solid #EBAA59' : '1px solid lightgray',
+                borderBottomRightRadius: openDrop ? 0 : '',
+                borderBottomLeftRadius: openDrop ? 0 : '',
+                backgroundColor: openDrop ? '#fff0de' : ''
+            }}
             onClick={() => setOpenDrop(!openDrop)}>
             <h4 className='dropdown__selected'>
                 {getSelectValue()}

@@ -11,6 +11,8 @@
         border: none;
         border: 1px solid transparent;
         min-height: 1.3rem;
+        overflow: hidden;
+        min-width: fit-content;
 
         &:hover {
             filter: brightness(110%);

@@ -104,7 +104,7 @@ export default function DataTable({ tableData, setTableData, tableHeaders, title
             )}
             {maxItems < tableData.length ?
                 <button className='datatable__lazy-btn' onClick={() => setMaxItems(maxItems + 10)}>{`Mostrar más ${name ? name : ''} ▼`}</button>
-                : tableData.length && tableData.length >= 10 && maxItems >= tableData.length && tableData.length ?
+                : tableData.length && tableData.length > 10 && maxItems >= tableData.length && tableData.length ?
                     <button className='datatable__lazy-btn' onClick={() => setMaxItems(maxItems - 10)}>{`Mostrar menos ▲`}</button>
                     : ''
             }

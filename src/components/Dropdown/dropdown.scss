@@ -6,6 +6,8 @@
         // margin: .5vw 0;
         background-color: transparent;
         width: 100%;
+        min-width: fit-content;
+        transition: .3s;
     }
 
     &__label {
@@ -24,10 +26,11 @@
         flex-direction: column;
         width: 100%;
         position: relative;
+        transition: .3s;
     }
 
     &__select {
-        border: 1px solid gray;
+        border: 1px solid lightgray;
         background-color: #fff;
         border-radius: 0.5rem;
         font-size: 1rem;
@@ -46,6 +49,7 @@
         cursor: pointer;
         width: 100%;
         position: relative;
+        transition: .3s;
     }
 
     &__selected {
@@ -58,6 +62,7 @@
         line-height: 1.3rem;
         font-weight: normal;
         padding: 0.5rem;
+        transition: .3s;
     }
 
     &__options {
@@ -75,6 +80,7 @@
         z-index: 2;
         max-height: 20vw;
         overflow-y: auto;
+        transition: .3s;
     }
 
     &__option {

@@ -18,6 +18,7 @@ import 'moment/locale/es'
 import { createEvent, deleteEvent, getAllEvents, updateEvent } from '../../services/event'
 import { DISCOUNTS } from '../../constants/misc'
 import Switch from '../../components/Switch/Switch'
+import Meet from '../../assets/icons/google-meet.svg'
 
 type Props = {}
 
@@ -596,7 +597,7 @@ export default function Booking({ }: Props) {
                         {isNewBooking && !data.name && !data.username ?
                             <h1 className='booking__title'>Nueva reserva</h1>
                             :
-                            <h1 className='booking__title'>{data.name} - {data.username}</h1>}
+                            <h1 className='booking__title'>{data.name} - {data.username}{bookingSelected._id ? ' (ID: ' + bookingSelected._id.substring(18) + ')' : ''}</h1>}
                     </div>
                     {tryToRemove ?
                         <div className="booking__col" style={{ width: '100%' }}>
@@ -1180,10 +1181,17 @@ export default function Booking({ }: Props) {
                 handleClick={handleCreateButton}
                 bgColor="#87d18d"
                 style={{
-                    width: 'fit-content',
+                    width: '30%',
                     alignSelf: 'flex-end',
                     filter: selected !== -1 || isNewBooking ? 'blur(10px)' : ''
                 }}
+            />
+            <Button
+                label='Gogle Meet'
+                handleClick={() => window.open('https://meet.google.com/', '_blank')}
+                bgColor='transparent'
+                style={{ width: '30%', alignSelf: 'flex-end', borderColor: 'lightgray' }}
+                svg={Meet}
             />
         </div>
 

@@ -22,10 +22,17 @@ export default function Button({ label, handleClick, className, bgColor, textCol
                 color: textColor || 'black',
                 opacity: disabled ? '.3' : '',
                 padding: '.2vw',
-                cursor: disabled ? 'not-allowed' : ''
+                cursor: disabled ? 'not-allowed' : '',
+                display: 'flex',
+                flexDirection: 'row',
+                minHeight: '2rem',
+                alignItems: 'center',
+                gap: '.5rem',
+                paddingInline: '.5rem'
             }}
         >
             <img src={svg} alt="Button" className='button__svg' />
+            {label || ''}
         </div>
         :
         <button
