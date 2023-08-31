@@ -114,6 +114,7 @@ function Payment({ checkout, eventId }: Props) {
             checkout,
             name: currentService.name,
             serviceId: currentService._id,
+            eventId: event._id || '',
             quantity: 1, // We pass the total amount with discounts if any
             realQty: getQuantity(),
             realPrice: getPrice(),

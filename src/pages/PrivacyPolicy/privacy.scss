@@ -5,3 +5,13 @@
         position: relative;
     }
 }
+
+@media only screen and (max-width: 640px) {
+    .privacy {
+        &__container {
+            margin: 7rem 4vw;
+            min-height: 60vh;
+            position: relative;
+        }
+    }
+}

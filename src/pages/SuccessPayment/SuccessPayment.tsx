@@ -49,17 +49,17 @@ export default function SuccessPayment({ }: Props) {
     return (
         <div className="success-payment__container">
             <div className='success-payment__wrapper'>
-                <h4 className="success-payment__title">{paymentInfo.name ? '¡Reserva confirmada!' : 'Ocurrió un error al confirmar tu reserva'}</h4>
-                {paymentInfo.name ?
+                {!loading ? <h4 className="success-payment__title">{paymentInfo.name ? '¡Reserva confirmada!' : 'Ocurrió un error al confirmar tu reserva'}</h4> : ''}
+                {loading ? '' : paymentInfo.name ?
                     <img alt="Compra exitosa" src={CheckIcon} className='success-payment__success-check' />
                     :
                     <img alt="Compra exitosa" src={ErrorIcon} className='success-payment__success-error' />
                 }
                 {loading ?
-                    <>
-                        <MoonLoader color='#0057ad' size={50} />
-                        <p>Cargando datos...</p>
-                    </>
+                    <div className='flex-col' style={{ marginTop: '5rem' }}>
+                        <MoonLoader color='#0057ad' size={70} />
+                        <p>Cargando los datos de tu reserva...</p>
+                    </div>
                     :
                     <div className="success-payment__book">
                         <h4 className="success-payment__subtitle">Información sobre tu reserva</h4>
@@ -79,11 +79,12 @@ export default function SuccessPayment({ }: Props) {
                     </div>}
 
 
-                <Button
-                    label='Volver'
-                    handleClick={() => history.push('/')}
-                    bgColor=""
-                />
+                {loading ? '' :
+                    <Button
+                        label='Volver'
+                        handleClick={() => history.push('/')}
+                        bgColor=""
+                    />}
             </div>
         </div>
     )

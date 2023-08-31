@@ -88,7 +88,7 @@
 
             &::placeholder {
                 color: #b5b5b5;
-                font-size: 6vw;
+                font-size: 1rem;
             }
         }
     }
@@ -97,16 +97,18 @@
         &__default {
             border: 1px solid lightgray;
             border-radius: 1.5vw;
-            font-size: 6vw;
+            font-size: 1rem;
             padding: 2vw;
             font-family: inherit;
             font-weight: normal;
+            font-family: 'Open Sans', sans-serif !important;
             resize: none;
         }
 
         &::placeholder {
             color: #b5b5b5;
-            font-size: 6vw;
+            font-size: 1rem;
+            font-family: 'Open Sans', sans-serif !important;
         }
     }
 }
