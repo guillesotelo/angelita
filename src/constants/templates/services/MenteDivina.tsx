@@ -15,8 +15,8 @@ export default function MenteDivina({ checkout }: Props) {
                     <img src={Image1} alt="Psicoterapia Privada" loading="lazy" className="service-template__image" />
                 </div>
                 <div className="service-template__col2">
-                    <h4 className="service-template__open-hours" style={{ margin: 0 }}>
-                        Pareja, relaciones, familia y más
+                    <h4 className="service-template__open-hours">
+                        <strong>Pareja, relaciones, familia y más</strong>
                         <br />
                         Martes 16 hs UTC/GMT+2 (Berlin)
                         <br />

@@ -72,7 +72,7 @@
         &__default {
             border: 1px solid lightgray;
             border-radius: 1.5vw;
-            font-size: 6vw;
+            font-size: 1rem;
             padding: 1.5vw;
             font-weight: normal;
 
@@ -92,9 +92,7 @@
             }
         }
     }
-}
 
-@media only screen and (max-width: 640px) {
     .textarea {
         &__default {
             border: 1px solid lightgray;

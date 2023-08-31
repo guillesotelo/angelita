@@ -16,7 +16,7 @@ export default function PedacitoDeCielo({ checkout }: Props) {
                     <img src={Image1} alt="Psicoterapia Privada" loading="lazy" className="service-template__image" />
                 </div>
                 <div className="service-template__col2">
-                    <h4 className="service-template__open-hours" style={{ margin: 0 }}>
+                    <h4 className="service-template__open-hours">
                         Miércoles 16 hs UTC/GMT+2 (Berlin)
                         <br />
                         Sesión de 1 hora

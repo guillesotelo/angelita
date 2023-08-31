@@ -17,7 +17,7 @@ export default function PsicoterapiaEnGrupo({ checkout, setSubService }: Props) 
                     <img src={Image2} alt="Psicoterapia Privada" loading="lazy" className="service-template__image" />
                 </div>
                 <div className="service-template__col2">
-                    <h4 className="service-template__open-hours" style={{ margin: 0 }}>
+                    <h4 className="service-template__open-hours">
                         Jueves y Sábado.
                         <br />
                         16 hs UTC/GMT+2 (Berlin). Sesión de 1 hora.

@@ -52,4 +52,103 @@
             font-size: 1.2rem;
         }
     }
+
+    &__message {
+        font-size: 1rem;
+        font-weight: normal;
+        text-align: center;
+        margin: 0;
+        background-color: #e8fde9;
+        padding: .6rem;
+        border-radius: 1vw;
+        border: 1px solid #9bce9e;
+        margin-top: 1rem;
+
+        &-error {
+            background-color: #ffdede;
+            border: 1px solid #dbb1b1;
+            font-size: 1rem;
+            font-weight: normal;
+            text-align: center;
+            margin: 0;
+            padding: .6rem;
+            border-radius: 1vw;
+            margin-top: 1rem;
+        }
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .success-payment {
+        &__container {
+            display: flex;
+            flex-direction: column;
+            margin: 13vh 5vw 25vh 5vw;
+            position: relative;
+            align-items: center;
+        }
+
+        &__wrapper {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            align-items: center;
+            gap: 6vw;
+            width: 100%;
+        }
+
+        &__success-check {
+            height: 12vh;
+            filter: invert(59%) sepia(77%) saturate(357%) hue-rotate(73deg) brightness(99%) contrast(91%);
+        }
+
+        &__success-error {
+            height: 12vh;
+            filter: invert(65%) sepia(62%) saturate(1518%) hue-rotate(0deg) brightness(104%) contrast(102%);
+        }
+
+        &__title {
+            font-weight: normal;
+            font-size: 6vw;
+            text-align: center;
+            margin: 0;
+            max-width: 80%;
+        }
+
+        &__subtitle {
+            font-weight: normal;
+            font-size: 5vw;
+            margin: 0 0 1vw 0;
+            text-align: center;
+            margin-bottom: 4vw;
+            border-top: 1px solid gray;
+            padding-top: 1rem;
+        }
+
+        &__book {
+            display: flex;
+            flex-direction: column;
+            border: none;
+            border-radius: 3vw;
+            padding: 1vw;
+
+            &-label {
+                margin: .3vw 0;
+                font-weight: normal;
+                font-size: 1.1rem;
+            }
+        }
+
+        &__message {
+            font-size: 1rem;
+            font-weight: normal;
+            text-align: center;
+            margin: 0;
+            background-color: #e8fde9;
+            padding: .6rem;
+            border-radius: 1vw;
+            border: 1px solid #9bce9e;
+            margin-top: 1rem;
+        }
+    }
 }

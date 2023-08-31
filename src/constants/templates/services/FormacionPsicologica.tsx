@@ -16,7 +16,7 @@ export default function FormacionPsicologica({ checkout }: Props) {
                     <img src={Image1} alt="Consejería Virtual (sin continuidad)" loading="lazy" className="service-template__image" />
                 </div>
                 <div className="service-template__col2">
-                    <h4 className="service-template__open-hours" style={{ margin: 0 }}>
+                    <h4 className="service-template__open-hours">
                         <br />
                         1er sábado del mes
                         <br />

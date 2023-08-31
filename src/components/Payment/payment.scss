@@ -107,3 +107,123 @@
         border: 1px solid #dbb1b1;
     }
 }
+
+@media only screen and (max-width: 640px) {
+    .payment {
+        &__container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5vw;
+            width: 80vw;
+            padding: 5vw 5vw 1vw 5vw;
+            min-height: fit-content;
+        }
+
+        &__contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: .3rem;
+
+            &-row {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                justify-content: space-between;
+                gap: .6rem;
+            }
+
+            &-title {
+                font-size: 4.5vw;
+                margin: 3vw 0 0 0;
+            }
+        }
+
+        &__form {
+            display: flex;
+            flex-direction: column;
+            // align-items: center;
+            gap: 3vw;
+            min-height: fit-content;
+            width: 80vw;
+        }
+
+        &__total-amount {
+            font-size: 7.5vw;
+            width: 80vw;
+            color: #EBAA59;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            gap: 2vw;
+            align-items: flex-end;
+            margin: .5rem 0;
+        }
+
+        &__total-text {
+            font-size: 5vw;
+            margin: .2vw 0;
+        }
+
+        &__btns {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        &__various-dates {
+            display: block;
+
+            &-item {
+                display: flex;
+                flex-direction: column;
+                align-items: baseline;
+                justify-content: space-between;
+                gap: .5rem;
+                border: 1px solid #B0BCEB;
+                border-radius: .5rem;
+                padding: .7rem;
+                position: unset;
+                margin-bottom: 1.5rem;
+
+                &>button {
+                    width: 100% !important;
+                }
+
+                &-label {
+                    font-size: 1rem;
+                    font-weight: bold;
+                    color: #B0BCEB;
+                    margin: 0;
+                    width: 100%;
+                    text-align: left;
+                    white-space: nowrap;
+                }
+            }
+        }
+
+        &__date-col {
+            font-weight: normal;
+            margin: 0;
+        }
+
+        &__loading-methods {
+            font-size: 1.2vw;
+            font-weight: normal;
+            text-align: center;
+        }
+
+        &__message {
+            font-size: 1rem;
+            font-weight: normal;
+            text-align: center;
+            margin: 0;
+            background-color: #ffdede;
+            padding: .6rem;
+            border-radius: 1vw;
+            border: 1px solid #dbb1b1;
+        }
+    }
+}

@@ -136,6 +136,13 @@ tr:nth-child(even) {
 
 @media only screen and (max-width: 640px) {
     .page {
+        &__container {
+            margin: 7rem auto 15vw auto;
+            min-height: 60vh;
+            position: relative;
+            padding: 0 7vw 15vw 7vw;
+        }
+
         &__header {
 
             &-title {
@@ -147,4 +154,5 @@ tr:nth-child(even) {
             }
         }
     }
+    
 }

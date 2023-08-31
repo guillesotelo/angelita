@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { dataObj } from '../../types'
 import CheckIcon from '../../assets/icons/check-icon.svg'
+import ErrorIcon from '../../assets/icons/error-icon.svg'
 import Button from '../../components/Button/Button'
 import { useHistory } from 'react-router-dom'
 import { confirmPayment } from '../../services'
@@ -48,8 +49,12 @@ export default function SuccessPayment({ }: Props) {
     return (
         <div className="success-payment__container">
             <div className='success-payment__wrapper'>
-                <h4 className="success-payment__title">¡Reserva confirmada!</h4>
-                <img alt="Compra exitosa" src={CheckIcon} className='success-payment__success-check' />
+                <h4 className="success-payment__title">{paymentInfo.name ? '¡Reserva confirmada!' : 'Ocurrió un error al confirmar tu reserva'}</h4>
+                {paymentInfo.name ?
+                    <img alt="Compra exitosa" src={CheckIcon} className='success-payment__success-check' />
+                    :
+                    <img alt="Compra exitosa" src={ErrorIcon} className='success-payment__success-error' />
+                }
                 {loading ?
                     <>
                         <MoonLoader color='#0057ad' size={50} />
@@ -58,16 +63,15 @@ export default function SuccessPayment({ }: Props) {
                     :
                     <div className="success-payment__book">
                         <h4 className="success-payment__subtitle">Información sobre tu reserva</h4>
-                        <h4 className="success-payment__book-label"><strong>Servicio:</strong> {paymentInfo.name}</h4>
-                        {paymentInfo.name !== 'Coaching' ? <h4 className="success-payment__book-label"><strong>Cantidad:</strong> {paymentInfo.realQty}</h4> : ''}
-                        <h4 className="success-payment__book-label"><strong>Cuándo:</strong> {paymentInfo.date}</h4>
-                        <br />
-                        <h4 className="success-payment__book-label"><strong>Total: </strong>US ${paymentInfo.realPrice}</h4>
-                        <br />
+                        {paymentInfo.name ? <h4 className="success-payment__book-label"><strong>Servicio:</strong> {paymentInfo.name}</h4> : ''}
+                        {paymentInfo.name !== 'Coaching' && paymentInfo.realQty ? <h4 className="success-payment__book-label"><strong>Cantidad:</strong> {paymentInfo.realQty}</h4> : ''}
+                        {paymentInfo.date ? <h4 className="success-payment__book-label"><strong>Cuándo:</strong> {paymentInfo.date}</h4> : ''}
+                        {paymentInfo.realPrice ? <h4 className="success-payment__book-label"><strong>Total: </strong>US ${paymentInfo.realPrice}</h4> : ''}
                         {paymentInfo.name === 'Coaching' ? <h4 className="success-payment__book-label" style={{ color: '#d11919' }}>Recuerda <a href='https://angelita.vercel.app/contacto'>contactarte</a> conmigo para coordinar la fecha de inicio.</h4> : ''}
-                        {message ? <h4 className="payment__message">{message}</h4>
+                        {message ?
+                            <h4 className="success-payment__message-error">{message}</h4>
                             :
-                            <p>
+                            <p className="success-payment__message">
                                 Hemos enviado un correo electrónico con todos los detalles sobre tu reserva y pago.
                                 <br />
                                 Si necesitas aclarar algo o tienes alguna consulta, por favor no dudes en contactarme. Estoy aquí para ayudarte en todo lo que necesites.

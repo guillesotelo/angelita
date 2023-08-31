@@ -16,7 +16,7 @@ export default function Consejeria({ checkout }: Props) {
                     <img src={Image3} alt="Psicoterapia Privada" loading="lazy" className="service-template__image" />
                 </div>
                 <div className="service-template__col2">
-                    <h4 className="service-template__open-hours" style={{ margin: 0 }}>
+                    <h4 className="service-template__open-hours">
                         <br />
                         Lunes a sábado.
                         <br />
@@ -26,13 +26,13 @@ export default function Consejeria({ checkout }: Props) {
                         Asesoría profesional para aclarar y direccionar de la mejor manera una situación problemática.
                     </p>
                     <div className="service-template__row" style={{ transform: 'scale(.85)' }}>
-                        <h4 className="service-template__open-hours" style={{ margin: 0 }}>Sesión de 1 hora</h4>
+                        <h4 className="service-template__prices-detail">Sesión de 1 hora</h4>
                         <div className="service-template__prices">
                             <h4 className="service-template__prices-text"><strong>US $50</strong></h4>
                         </div>
                     </div>
                     <div className="service-template__row" style={{ transform: 'scale(.85)' }}>
-                        <h4 className="service-template__open-hours" style={{ margin: 0 }}>Sesión de 2 horas</h4>
+                        <h4 className="service-template__prices-detail">Sesión de 2 horas</h4>
                         <div className="service-template__prices">
                             <h4 className="service-template__prices-text"><strong>US $70</strong></h4>
                         </div>

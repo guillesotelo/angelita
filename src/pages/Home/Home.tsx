@@ -631,7 +631,7 @@ export default function Home() {
 
                 <div className="home__section-mission scroll-item"></div>
                 {renderMission ?
-                    <div className="home__section" style={{ backgroundColor: '#B0BCEB', padding: 0, filter: service || checkout ? 'blur(10px)' : '' }}>
+                    <div className="home__section" style={{ backgroundColor: '#B0BCEB', padding: 0 }}>
                         <div className="home__section-col" style={{ justifyContent: 'normal' }}>
                             <img src={MissionImage} alt="Mision" className="home__section-mission-image" />
                             <div className="home__section" style={{ justifyContent: 'flex-start', textAlign: 'justify', padding: '5vw' }}>
@@ -683,12 +683,12 @@ export default function Home() {
                 <div className="home__section-services scroll-item"></div>
                 {renderServices ?
                     <div className="home__section" id='servicios' style={{ filter: service || checkout ? 'blur(10px)' : '' }}>
-                        <h2 className="home__section-title scroll-item" style={{ alignSelf: 'center', color: '#B0BCEB', fontSize: '3vw', margin: 0 }}>
+                        <h2 className="home__section-title scroll-item" style={{ alignSelf: 'center', color: '#B0BCEB' }}>
                             SERVICIOS
                         </h2>
                         <div className="home__section-col" style={{ height: 'fit-content' }}>
                             <div className="home__section-col" style={{ width: '100%' }}>
-                                <h2 className="home__section-subtitle scroll-item" style={{ fontSize: '1.4vw', textAlign: 'center' }}>
+                                <h2 className="home__section-subtitle scroll-item" style={{ fontSize: '4vw', textAlign: 'center' }}>
                                     Sesiones grupales o individuales, en tiempo real, asistidas por una psicoterapeuta profesional que desde antes de conocerte
                                     ya te aprecia infinitamente y que te acompañará con su habitual taza de café.
                                 </h2>
@@ -744,7 +744,7 @@ export default function Home() {
                             </div>
                             <div className="home__discount-card">
                                 <img src={priceTag} alt="Evento" className="home__discount-pricetag" />
-                                <p className="home__discount-percentage scroll-item" style={{ fontSize: '1.5rem', width: '50%', fontFamily: 'unset' }}>Casos de Insolvencia</p>
+                                <p className="home__discount-insolvence scroll-item">Casos de Insolvencia</p>
                                 <Button
                                     label='Leer más'
                                     handleClick={() => history.push('/descuentos')}
@@ -763,7 +763,7 @@ export default function Home() {
                         <div className="home__section-row" style={{ alignItems: 'center' }}>
                             <div className="home__section-col1" style={{ textAlign: 'justify', width: '100%' }}>
                                 <h2 className="home__section-title scroll-item" style={{ animationDelay: '.3s', color: '#B0BCEB', fontSize: '2.2vw' }}>Amor. Vocación. Interacción. Comprensión. Expansión</h2>
-                                <p className="home__section-text scroll-item" style={{ animationDelay: '.4s', width: '90%' }}>
+                                <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
                                     Ofrezco asesoría psicológica profesional, afectuosa, pedagógica y práctica, enmarcada dentro del modelo humanista transpersonal, el cual ofrece un escalonamiento en fuerza, poder y dominio mental a medida que se deconstruye el autoconcepto e interpretaciones parciales y distorcionadas acerca de los demás, el mundo y sus elementos.
                                     <br />
                                     <br />
@@ -789,25 +789,25 @@ export default function Home() {
                 <div className="home__section-pres scroll-item"></div>
                 {renderPresentation ?
                     <div className="home__section" style={{ backgroundColor: '#f3f3f3', filter: service || checkout ? 'blur(10px)' : '' }}>
-                        <div className="home__section-row">
-                            <div className="home__section-col2 scroll-item" style={{ width: '30%' }} >
-                                <img src={PresentationImage} alt="Presentacion" className="home__section-pres-image" />
+                        <div className="home__section-col">
+                            <div className="home__section-col scroll-item" >
+                                <img src={PresentationImage} alt="Presentacion" className="home__section-pres-image" style={{ width: '60vw', marginBottom: '2rem' }} />
                             </div>
-                            <div className="home__section-col1" style={{ width: '100%', textAlign: 'justify' }}>
-                                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.1s', color: '#B0BCEB' }}>¿Estás en busca de un <strong>CAMBIO</strong>?</h2>
-                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.3s', fontSize: '1.3vw' }}>
+                            <div className="home__section-col" style={{ width: '100%', textAlign: 'justify' }}>
+                                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.1s', color: '#B0BCEB', marginBottom: '1rem' }}>¿Estás en busca de un <strong>CAMBIO</strong>?</h2>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.3s', fontSize: '4vw' }}>
                                     ¿Quieres superar tus temores, angustias, dependencias, estados depresivos?
                                 </p>
-                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.5s', fontSize: '1.3vw' }}>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.5s', fontSize: '4vw' }}>
                                     ¿Quieres redirigir y hacerte consciente de lo que haces?
                                 </p>
-                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.7s', fontSize: '1.3vw' }}>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.7s', fontSize: '4vw' }}>
                                     ¿Quieres conocerte a ti mismo?
                                 </p>
-                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.9s', fontSize: '1.3vw' }}>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.9s', fontSize: '4vw' }}>
                                     ¿Quieres experimentar Fortaleza Interior?
                                 </p>
-                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '1.3vw' }}>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '4vw' }}>
                                     ¿Quieres relacionarte sanamente?
                                 </p>
                             </div>
@@ -819,8 +819,8 @@ export default function Home() {
                 {renderSymptoms ?
                     <div className="home__section" style={{ backgroundColor: '#fff', filter: service || checkout ? 'blur(10px)' : '' }}>
                         <h2 className="home__section-symptoms-title scroll-item" style={{ color: '#EBCE98', textAlign: 'center', alignSelf: 'center', fontSize: '1.6rem' }}>SÍNTOMAS DE QUE PODRÍAS NECESITAR ASESORÍA PSICOLÓGICA</h2>
-                        <div className="home__section-row" style={{ height: 'fit-content', justifyContent: 'center', marginTop: '4rem' }}>
-                            <div className="home__section-col1" style={{ width: '45%', textAlign: 'justify' }}>
+                        <div className="home__section-col" style={{ height: 'fit-content', justifyContent: 'center', marginTop: '4rem' }}>
+                            <div className="home__section-col" style={{ textAlign: 'center' }}>
                                 <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
                                     Te cuesta dormir
                                     <br />
@@ -837,7 +837,7 @@ export default function Home() {
                                     Piensas negativa o críticamente
                                 </p>
                             </div>
-                            <div className="home__section-col1" style={{ width: '45%', textAlign: 'justify' }}>
+                            <div className="home__section-col" style={{ textAlign: 'center' }}>
                                 <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
                                     Tus personas cercanas están preocupadas por ti
                                     <br />
@@ -862,7 +862,7 @@ export default function Home() {
                 {renderTools ?
                     <div className="home__section" style={{ backgroundColor: '#fff', filter: service || checkout ? 'blur(10px)' : '' }}>
                         <div className="home__section-row" style={{ height: 'fit-content', alignItems: 'flex-start' }}>
-                            <div className="home__section-col1" style={{ width: '35%', alignItems: 'flex-start' }}>
+                            <div className="home__section-col1" style={{ width: '45%', alignItems: 'flex-start' }}>
                                 <h2 className="home__section-tools-title scroll-item" style={{ color: '#B0BCEB', alignSelf: 'flex-start' }}>Herramientas Terapéuticas</h2>
                                 <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
                                     Entrenamiento autógeno en la Calma
@@ -892,7 +892,7 @@ export default function Home() {
                                     Técnicas estóicas
                                 </p>
                             </div>
-                            <div className="home__section-col2 scroll-item" style={{ width: '30%', alignItems: 'flex-start', borderRight: '5vw solid #B0BCEB' }} >
+                            <div className="home__section-col2 scroll-item" style={{ width: '45%', alignItems: 'flex-start' }} >
                                 <h2 className="home__section-tools-title scroll-item" style={{ color: '#B0BCEB', alignSelf: 'flex-start' }}>Enfoque Terapéutico</h2>
                                 <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
                                     Terapia de Aceptación y Compromiso
@@ -909,7 +909,9 @@ export default function Home() {
                                 </p>
                                 <img src={ToolsImage} alt="Ilustracion de síntomas" className="home__section-tools-image" />
                             </div>
-                            <div className="home__section-col1" style={{ width: '20%' }}>
+                        </div>
+                        <div className="home__section-row" style={{ height: 'fit-content', alignItems: 'flex-start', marginTop: '2rem' }}>
+                            <div className="home__section-col" style={{ alignItems: 'flex-start' }}>
                                 <h2 className="home__section-tools-title scroll-item" style={{ color: '#B0BCEB', alignSelf: 'flex-start' }}>Metodología en Sesión</h2>
                                 <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
                                     1. Afecto
@@ -922,7 +924,7 @@ export default function Home() {
                                     <br />
                                     5. Práctica
                                 </p>
-                                <div className='scroll-item'>
+                                <div className='scroll-item' style={{ alignSelf: 'center' }}>
                                     <Button
                                         label='Leer más'
                                         handleClick={() => history.push('/metodologias')}
@@ -939,8 +941,8 @@ export default function Home() {
                 <div className="home__events scroll-item"></div>
                 {renderEvents ?
                     <div className="home__section" id='eventos' style={{ backgroundColor: '#c8cfec', filter: service || checkout ? 'blur(10px)' : '' }}>
-                        <div className="home__section-row">
-                            <div className="home__section-col1" style={{ width: '40%', textAlign: 'justify' }}>
+                        <div className="home__section-col">
+                            <div className="home__section-col">
                                 <h2 className="home__section-title scroll-item" style={{ animationDelay: '.2s', alignSelf: 'flex-start', margin: 0 }}>Eventos</h2>
                                 <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
                                     No te pierdas los próximos eventos donde podrás encontrar reuniones virtuales, talleres y encuentros grupales en distintos lugares.
@@ -950,7 +952,7 @@ export default function Home() {
                                     <Calendar locale='es' onChange={setDate} value={date} />
                                 </div>
                             </div>
-                            <div className="home__section-col2" style={{ width: '55%' }}>
+                            <div className="home__section-col">
                                 <div className="home__event-list scroll-item">
                                     {!filteredEvents.length ?
                                         <div className="home__event-row" >

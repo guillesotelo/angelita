@@ -8,7 +8,7 @@ export default function Metodologies({ }: Props) {
     window.scrollTo({ top: 0, behavior: 'smooth' })
 
     return (
-        <div className="page__container" style={{ width: !isMobile ? '50%' : '' }}>
+        <div className="page__container" style={{ width: !isMobile ? '50%' : '', overflowX: 'auto' }}>
             <h1 className="page__title">Metodología en Sesión</h1>
             <p className="page__text">
                 <strong>Afecto - Formación – Reflexión - Interactividad – Práctica</strong>

@@ -198,7 +198,6 @@
             justify-content: center;
             height: 30vh;
             margin: 2rem 0;
-            // max-width: 2rem 0;
         }
 
         &-card {
@@ -212,35 +211,10 @@
             text-align: center;
             padding: 1.2vw 2.8vw;
             border-radius: 1rem;
-            // border: 2px solid red;
             margin: 0 3.5rem;
             height: 15vh;
-            // box-shadow: 0 1rem 1rem rgba(0, 0, 0, .175);
             transition: .5s;
             position: relative;
-            // clip-path: polygon(0 50px, 50px 0, 100% 0, 100% 100%, 50px 100%, -25% 0);
-
-            // &:before {
-            //     content: "";
-            //     position: absolute;
-            //     inset: 0;
-            //     background: #f3cea1;
-            //     clip-path: polygon(
-            //             0 5px,
-            //             50px 0,
-            //             100% 0,
-            //             100% 100%,
-            //             0 100%,
-            //             0 -1000%,
-            //             5px 77%,
-            //             52px calc(100% - 5px),
-            //             0 calc(100% - 5px),
-            //             calc(100% - 5px) calc(100% - 5px),
-            //             calc(100% - 5px) 5px,
-            //             calc(50px + 2px) 5px, 
-            //             5px calc(50px + 2px)
-            //             );
-            // }
 
             &:hover {
                 box-shadow: 45px 38px 64px -37px rgba(0, 0, 0, 0.54);
@@ -262,6 +236,12 @@
             font-size: 7vw;
             margin: 0;
             width: 30%;
+        }
+
+        &-insolvence {
+            font-size: 1.5rem;
+            margin: 0;
+            width: 50%;
         }
 
         &-text {
@@ -528,7 +508,7 @@
             }
 
             &-title {
-                font-size: 8vw;
+                font-size: 6.5vw !important;
             }
 
             &-text {
@@ -549,6 +529,240 @@
                     margin-bottom: 5vw;
                 }
             }
+
+
+            &-tools {
+                &-title {
+                    margin: 0;
+                    text-align: left;
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                    font-family: 'Belleza', sans-serif;
+                }
+
+                &-image {
+                    height: 25vh;
+                    margin: 5vh 0 0 0;
+                    align-self: flex-end;
+                }
+            }
+
+            &-logo {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 80vh;
+    
+                &-image {
+                    width: 70%;
+                }
+            }
         }
+
+        &__card-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15vw;
+            transition: .3s;
+            margin: 0;
+        }
+
+        &__modal {
+            &-wrapper {
+                height: 100vh;
+                width: 100vw;
+                background-color: transparent;
+                z-index: 5;
+            }
+
+            &-container {
+                border-radius: 3vw;
+                padding: 0 0 5vw 0;
+                width: 100vw;
+                max-height: 75vh;
+                height: fit-content;
+                overflow: auto;
+            }
+
+            &-close {
+                font-size: 6vw;
+                margin: 3vw;
+            }
+
+            &-image {
+                width: 50%;
+                height: 50%;
+                object-fit: cover;
+            }
+        }
+
+        &__discount {
+            &-row {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+                align-items: center;
+                justify-content: center;
+                height: fit-content;
+                margin: 0;
+            }
+
+            &-card {
+                width: 73vw;
+                height: 12vh !important;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                position: relative;
+                text-align: center;
+                padding: 1.2vw 2.8vw;
+                border-radius: .5rem;
+                margin: 2.5rem 3.5rem 0 3.5rem;
+                transition: .5s;
+                position: relative;
+
+                &:hover {
+                    box-shadow: 45px 38px 64px -37px rgba(0, 0, 0, 0.54);
+                    transform: translateY(-2%) rotate(-1deg);
+                }
+
+            }
+
+            &-pricetag {
+                width: 80vw;
+                position: absolute;
+                left: 0%;
+                filter: invert(95%) sepia(13%) saturate(3142%) hue-rotate(302deg) brightness(124%) contrast(91%);
+                z-index: 1;
+            }
+
+            &-percentage {
+                font-family: 'Londrina Outline', cursive;
+                font-size: 12vw;
+                margin: 0 0 0 14vw;
+                width: 30%;
+            }
+
+            &-insolvence {
+                font-size: 1.1rem;
+                margin: 0;
+                width: 50%;
+                margin: 0 0 0 10vw;
+            }
+
+            &-text {
+                font-size: .8rem;
+                margin: 0;
+                width: 70%;
+                margin-left: 3vw;
+                cursor: default;
+            }
+        }
+
+        &__event {
+            &-calendar {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: 1rem 0;
+            }
+    
+            &-list {
+                margin: 1rem 0;
+                display: flex;
+                flex-direction: column;
+                background-color: #fff;
+                border-radius: 2vw;
+                box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
+                max-height: 62vh;
+                overflow: auto;
+            }
+    
+            &-row {
+                width: 85vw;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 2vw;
+                padding: 3vw;
+                border-bottom: 1px solid lightgray;
+                transition: .3s;
+                cursor: pointer;
+    
+                &:hover {
+                    background-color: #e9edff;
+                }
+            }
+    
+            &-schedule {
+                font-size: 3vw;
+                color: gray;
+                text-align: center;
+                width: 15%;
+            }
+    
+            &-image {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 1vw;
+    
+                &-wrapper {
+                    height: 16vw;
+                    width: 25%;
+                    overflow: hidden;
+                    border-radius: 1vw;
+                }
+            }
+    
+            &-details {
+                height: 100%;
+                width: 65%;
+                display: flex;
+                flex-direction: column;
+                gap: 1vw;
+                //    justify-content: space-between;
+            }
+    
+            &-title {
+                font-size: 3.5vw;
+                margin: 0;
+            }
+    
+            &-subtitle {
+                font-size: 3vw;
+                font-weight: normal;
+                margin: 0;
+            }
+    
+            &-venue {
+                font-size: 3vw;
+                font-weight: normal;
+                margin: 0;
+                color: #29376f;
+            }
+    
+            &-seeall {
+                text-align: center;
+                width: 100%;
+                margin: 0;
+            }
+    
+            &-noevents {
+                text-align: center;
+                width: 100%;
+                height: 10vh;
+                line-height: 10vh;
+                margin: 0;
+                font-weight: normal;
+            }
+        }
+    
+
     }
 }

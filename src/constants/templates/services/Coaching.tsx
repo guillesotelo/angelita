@@ -13,7 +13,7 @@ export default function Coaching({ checkout }: Props) {
                     <img src={Image} alt="Psicoterapia Privada" loading="lazy" className="service-template__image" />
                 </div>
                 <div className="service-template__col2">
-                    <h4 className="service-template__open-hours" style={{ margin: 0 }}>
+                    <h4 className="service-template__open-hours">
                         <strong>Personal</strong>
                         <br />
                         20 horas - 20 días - 1 mes.
@@ -31,7 +31,7 @@ export default function Coaching({ checkout }: Props) {
                         Cada semana programaremos los encuentros de la siguiente semana. Trabajaremos 1 hora diaria de manera Intensiva y haremos todo lo que esté al alcance para no faltar a ninguna sesión. Si hay enfermedad o debilidad de algún tipo, será el escenario perfecto para trabajar esa debilidad a nivel mental.
                     </p>
                     <div className="service-template__row">
-                        <h4 className="service-template__open-hours" style={{ margin: 0 }}>4 Semanas - 20 horas</h4>
+                        <h4 className="service-template__prices-detail">4 Semanas - 20 horas</h4>
                         <div className="service-template__prices">
                             <h4 className="service-template__prices-text"><strong>US $800</strong></h4>
                         </div>
