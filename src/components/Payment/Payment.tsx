@@ -76,10 +76,13 @@ function Payment({ checkout, eventId }: Props) {
 
     const getServices = async () => {
         try {
+            setLoading(true)
             const allServices = await getAllServices()
             if (allServices && allServices.length) setDbServices(allServices)
+            setLoading(false)
         } catch (err) {
             console.error(err)
+            setLoading(false)
         }
     }
 
@@ -97,10 +100,13 @@ function Payment({ checkout, eventId }: Props) {
 
     const getBookings = async () => {
         try {
+            setLoading(true)
             const _bookings = await getAllBookings()
             if (_bookings && _bookings.length) setBookings(_bookings)
+            setLoading(false)
         } catch (error) {
             console.error(error)
+            setLoading(false)
         }
     }
 
