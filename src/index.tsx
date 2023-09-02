@@ -6,6 +6,7 @@ import App from './App';
 import 'react-toastify/dist/ReactToastify.css';
 import { Toaster } from 'react-hot-toast';
 import { HelmetProvider } from 'react-helmet-async';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 const isMobile = window.screen.width <= 768
 
 const toastOptions = {
@@ -18,7 +19,9 @@ ReactDOM.render(
   <BrowserRouter>
     <Toaster toastOptions={toastOptions} />
     <HelmetProvider>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </HelmetProvider>
   </BrowserRouter>,
   document.getElementById('root')
