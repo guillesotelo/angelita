@@ -8,6 +8,7 @@ import { createBooking, createCheckoutSession, getAllBookings, getAllServices } 
 import InputField from "../InputField/InputField"
 import { useHistory } from "react-router-dom"
 import { getEventById } from "../../services/event"
+import MoonLoader from "react-spinners/MoonLoader"
 
 type Props = {
     checkout?: string
@@ -30,6 +31,7 @@ function Payment({ checkout, eventId }: Props) {
     const [openCalendars, setOpenCalendars] = useState<dataObj>({})
     const [currentService, setCurrentService] = useState<dataObj>({})
     const [event, setEvent] = useState<dataObj>({})
+    const [loading, setLoading] = useState(false)
     const [dbServices, setDbServices] = useState<dataObj[]>([])
     const history = useHistory()
 
@@ -83,10 +85,13 @@ function Payment({ checkout, eventId }: Props) {
 
     const getEvent = async (id: string) => {
         try {
+            setLoading(true)
             const _event = await getEventById(id)
             if (_event && _event.name) setEvent(_event)
+            setLoading(false)
         } catch (error) {
             console.error(error)
+            setLoading(false)
         }
     }
 
@@ -380,7 +385,10 @@ function Payment({ checkout, eventId }: Props) {
                             <h4 className="booking__data-value">{event.date}</h4>
                         </div>
                         : ''}
-                    <h1 className="payment__total-amount"><span className="payment__total-text">Total</span> ${total}</h1>
+
+                    {loading ? <MoonLoader color='#0057ad' size={30} />
+                        : <h1 className="payment__total-amount"><span className="payment__total-text">Total</span> ${total}</h1>
+                    }
                 </div>
                 {!event.name && currentService.name !== 'Coaching' ?
                     <div className="payment__contact-info-row">

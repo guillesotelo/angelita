@@ -5,12 +5,14 @@ import { AppContext } from '../../AppContext'
 import { getServiceById } from '../../services'
 import Button from '../../components/Button/Button'
 import { useHistory } from 'react-router-dom'
+import MoonLoader from 'react-spinners/MoonLoader'
 
 type Props = {}
 
 export default function Event({ }: Props) {
     const [event, setEvent] = useState<dataObj>({})
     const [service, setService] = useState<dataObj>({})
+    const [loading, setLoading] = useState(false)
     const { lang, isMobile, setRenderAll, setCheckout } = useContext(AppContext)
     window.scrollTo({ top: 0, behavior: 'smooth' })
     const history = useHistory()
@@ -25,14 +27,17 @@ export default function Event({ }: Props) {
 
     const getEvent = async (id: string) => {
         try {
+            setLoading(true)
             const _event = await getEventById(id)
             if (_event && _event.name) {
                 setEvent(_event)
                 const _service = await getServiceById(_event.serviceId)
                 if (_service && _service.name) setService(_service)
             }
+            setLoading(false)
         } catch (err) {
             console.error(err)
+            setLoading(false)
         }
     }
 
@@ -45,7 +50,12 @@ export default function Event({ }: Props) {
         }, 50)
     }
 
-    return (
+    return (loading ?
+        <div className='flex-col' style={{ marginTop: '5rem' }}>
+            <MoonLoader color='#0057ad' size={70} />
+            <p>Cargando evento...</p>
+        </div>
+        :
         <div className="page__container" style={{ width: !isMobile ? '50%' : '' }}>
             <h1 className="page__title">{event.name || 'Evento'}</h1>
             <div className="event__container">
