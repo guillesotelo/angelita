@@ -20,7 +20,7 @@ import RouteTracker from './components/RouteTracker/RouteTracker';
 import ReactGA from 'react-ga';
 import Event from './pages/Event/Event';
 const TRACKING_ID = "G-7BDD4BFJRQ";
-ReactGA.initialize(TRACKING_ID);
+// ReactGA.initialize(TRACKING_ID);
 
 const App: React.FC = () => {
   const preferedLang = localStorage.getItem('preferedLang')
@@ -35,9 +35,9 @@ const App: React.FC = () => {
   const [checkout, setCheckout] = useState('')
   const location = useLocation()
 
-  useEffect(() => {
-    ReactGA.pageview(location.pathname)
-  }, [document.location.search])
+  // useEffect(() => {
+  //   ReactGA.pageview(location.pathname)
+  // }, [document.location.search])
 
   return (
     <AppProvider

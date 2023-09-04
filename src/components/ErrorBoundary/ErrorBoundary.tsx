@@ -1,39 +1,43 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 
 interface ErrorBoundaryProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 function ErrorBoundary({ children }: ErrorBoundaryProps) {
-  const [hasError, setHasError] = useState(false)
-  const [error, setError] = useState<Error | null>(null)
+  const [hasError, setHasError] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    const handleError = (errorEvent: ErrorEvent) => {
-      const errorMessage = errorEvent.message
-      console.error(errorEvent)
-      setHasError(true)
-      setError(new Error(errorMessage))
-    }
+    const handleError = (errorMessage: string, source: string, lineno: number, colno: number, error: Error) => {
+      console.error(error);
+      setHasError(true);
+      setError(error);
+    };
 
-    window.addEventListener('error', handleError)
+    // Cast handleError to OnErrorEventHandler
+    const errorHandler: OnErrorEventHandler = handleError as OnErrorEventHandler;
+
+    // Capture unhandled errors
+    window.onerror = errorHandler;
 
     return () => {
-      window.removeEventListener('error', handleError)
-    }
-  }, [])
+      // Remove the error handler when the component unmounts
+      window.onerror = null;
+    };
+  }, []);
 
   if (hasError) {
     return (
-      <div>
+      <div className="error-boundary__container">
         <h2>Oops! Algo salió mal.</h2>
-        <p>Error: {error?.message}</p>
-        <p>Actualiza la página o intenta nuevamente luego.</p>
+        <p className="error-boundary__error">Error: {error?.message}</p>
+        <p className="error-boundary__message">Actualiza la página o intenta nuevamente luego.</p>
       </div>
-    )
+    );
   }
 
-  return <>{children}</>
+  return <>{children}</>;
 }
 
-export default ErrorBoundary
+export default ErrorBoundary;
