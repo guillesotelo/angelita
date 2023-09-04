@@ -9,6 +9,7 @@ import InputField from "../InputField/InputField"
 import { useHistory } from "react-router-dom"
 import { getEventById } from "../../services/event"
 import MoonLoader from "react-spinners/MoonLoader"
+import { checkLatamAccess } from "../../helpers/discounts"
 
 type Props = {
     checkout?: string
@@ -32,7 +33,9 @@ function Payment({ checkout, eventId }: Props) {
     const [currentService, setCurrentService] = useState<dataObj>({})
     const [event, setEvent] = useState<dataObj>({})
     const [loading, setLoading] = useState(false)
+    const [isFromLatam, setIsFromLatam] = useState(false)
     const [dbServices, setDbServices] = useState<dataObj[]>([])
+    const [discounts, setDiscounts] = useState<string[]>([''])
     const history = useHistory()
 
     useEffect(() => {
@@ -40,6 +43,7 @@ function Payment({ checkout, eventId }: Props) {
         getServices()
         setCurrentService(getService())
         getBookings()
+        checkIfFromLatam()
 
         const eventId = new URLSearchParams(document.location.search).get('eventId')
         if (eventId) getEvent(eventId)
@@ -64,6 +68,11 @@ function Payment({ checkout, eventId }: Props) {
     useEffect(() => {
         setTotal(getPrice())
     }, [currentService, quantity, contribute, checkout])
+
+    const checkIfFromLatam = async () => {
+        const latam = await checkLatamAccess()
+        if (latam) setIsFromLatam(latam)
+    }
 
     const updateInfo = (key: string, e: { [key: string | number]: any }) => {
         const value = e.target.value
@@ -176,18 +185,32 @@ function Payment({ checkout, eventId }: Props) {
     const getPrice = () => {
         const { price, discount } = currentService
         const hours = getQuantity()
+        const latamDiscount = isFromLatam ? 0.8 : 1
+        const offDiscount = hours > 1 ? 0.7 : 1
+        const bulkDiscount = hours > 3 ? 0.9 : 1
+
+        const latamMessage = '20% Off para residentes en Sudamérica'
+        const offMessage = '30% Off en 2 o más sesiones'
+        const bulkMessage = '10% Off en sesiones consecutivass'
+
+        if (latamDiscount !== 1) setDiscounts(discounts.concat(!discounts.includes(latamMessage) ? latamMessage : ''))
+        if (offDiscount !== 1) setDiscounts(discounts.concat(!discounts.includes(offMessage) ? offMessage : ''))
+
+        if (hours == 1) setDiscounts([latamDiscount !== 1 ? latamMessage : ''])
+        
         if (discount) {
             if (discount.includes('30%')) {
                 setDiscount('30% OFF')
-                const hasDiscount = hours > 1
-                return hasDiscount ?
-                    (price * .7 * hours).toFixed(2) :
-                    (price * hours).toFixed(2)
+                return (price * hours * offDiscount * latamDiscount).toFixed(2)
             }
+        } else if (hours > 1) {
+            if (bulkDiscount !== 1) setDiscounts(discounts.concat(!discounts.includes(bulkMessage) ? bulkMessage : ''))
+            return (price * hours * bulkDiscount * latamDiscount).toFixed(2)
         }
+
         return contribute ?
             Number(contribute.split('US $')[1]).toFixed(2) :
-            (price * hours).toFixed(2)
+            (price * hours * latamDiscount).toFixed(2)
     }
 
     const getHours = (session: number) => {
@@ -396,6 +419,12 @@ function Payment({ checkout, eventId }: Props) {
                         : <h1 className="payment__total-amount"><span className="payment__total-text">Total</span> ${total}</h1>
                     }
                 </div>
+                {discounts.length ?
+                    <div className="payment__contact-info-row">
+                        {discounts.map(disc => disc ? <h4 className="payment__discount-message">{disc}</h4> : '')}
+                    </div>
+                    : ''
+                }
                 {!event.name && currentService.name !== 'Coaching' ?
                     <div className="payment__contact-info-row">
                         {openCalendar ?

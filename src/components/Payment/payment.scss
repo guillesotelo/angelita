@@ -106,6 +106,18 @@
         border-radius: .5vw;
         border: 1px solid #dbb1b1;
     }
+
+    &__discount-message {
+        font-size: 1rem;
+        font-weight: normal;
+        text-align: center;
+        margin: 0;
+        background-color: #efffdf;
+        padding: .6rem 0;
+        border-radius: .5rem;
+        border: 1px solid #81d277;
+        width: 100%;
+    }
 }
 
 @media only screen and (max-width: 640px) {

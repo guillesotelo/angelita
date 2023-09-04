@@ -95,7 +95,7 @@ export default function Home() {
     const getEvents = async () => {
         try {
             const allEvents = await getAllEvents()
-            if (allEvents && allEvents.length) {
+            if (allEvents && Array.isArray(allEvents)) {
                 setFilteredEvents(allEvents)
                 setEvents(allEvents)
             }

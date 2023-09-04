@@ -13,7 +13,7 @@ export default function Footer({ }: Props) {
         setTimeout(() => {
             const element = document.getElementById(section)
             if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' })
-            else window.location.href = `/?sectionId=${section}&service=${service || ''}`
+            else window.location.href = `/${section ? '?sectionId=' + section : ''}${section && service ? '&service=' + service : ''}`
         }, 50)
     }
     return (

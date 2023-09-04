@@ -189,7 +189,7 @@
 @media only screen and (max-width: 640px) {
     .header {
         &__container {
-            height: 20vw;
+            height: 9vh;
             text-align: center;
             transition: .4s;
         }
@@ -209,7 +209,8 @@
             margin: 0;
 
             &-image {
-                height: 1rem;
+                height: 1.4rem;
+                animation: fade-in 1s forwards;
                 // width: 30vw;
             }
         }
@@ -218,6 +219,7 @@
             transition: .4s;
             // gap: 2vw;
             justify-content: space-evenly;
+            animation: fade-in 1s forwards;
         }
 
         &__item {
