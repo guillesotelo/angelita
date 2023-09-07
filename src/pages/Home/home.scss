@@ -446,6 +446,12 @@
         }
 
 
+        &__video-header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
         &__bg-video-container {
             position: relative;
             width: 100%;
@@ -554,7 +560,7 @@
                 justify-content: center;
                 align-items: center;
                 height: 80vh;
-    
+
                 &-image {
                     width: 70%;
                 }
@@ -671,7 +677,7 @@
                 align-items: center;
                 margin: 1rem 0;
             }
-    
+
             &-list {
                 margin: 1rem 0;
                 display: flex;
@@ -682,7 +688,7 @@
                 max-height: 62vh;
                 overflow: auto;
             }
-    
+
             &-row {
                 width: 85vw;
                 display: flex;
@@ -693,25 +699,25 @@
                 border-bottom: 1px solid lightgray;
                 transition: .3s;
                 cursor: pointer;
-    
+
                 &:hover {
                     background-color: #e9edff;
                 }
             }
-    
+
             &-schedule {
                 font-size: 3vw;
                 color: gray;
                 text-align: center;
                 width: 15%;
             }
-    
+
             &-image {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
                 border-radius: 1vw;
-    
+
                 &-wrapper {
                     height: 16vw;
                     width: 25%;
@@ -719,7 +725,7 @@
                     border-radius: 1vw;
                 }
             }
-    
+
             &-details {
                 height: 100%;
                 width: 65%;
@@ -728,31 +734,31 @@
                 gap: 1vw;
                 //    justify-content: space-between;
             }
-    
+
             &-title {
                 font-size: 3.5vw;
                 margin: 0;
             }
-    
+
             &-subtitle {
                 font-size: 3vw;
                 font-weight: normal;
                 margin: 0;
             }
-    
+
             &-venue {
                 font-size: 3vw;
                 font-weight: normal;
                 margin: 0;
                 color: #29376f;
             }
-    
+
             &-seeall {
                 text-align: center;
                 width: 100%;
                 margin: 0;
             }
-    
+
             &-noevents {
                 text-align: center;
                 width: 100%;
@@ -762,7 +768,7 @@
                 font-weight: normal;
             }
         }
-    
+
 
     }
 }

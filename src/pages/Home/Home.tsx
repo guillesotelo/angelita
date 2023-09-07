@@ -588,19 +588,21 @@ export default function Home() {
     const renderMobile = () => {
         return (
             <div className="home__container" id='home__container'>
-                <div className="home__bg-video-container" style={{ filter: service || checkout ? 'blur(10px)' : '' }}>
-                    <video className="home__bg-video" autoPlay loop muted>
-                        <source src={BGVideo} type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
-                    <div className="home__bg-video-overlay">
-                        {/* <h1 className="home__bg-video-text-title">Angelita</h1> */}
-                        <img src={AngelitaIsoLogo} alt="Logo" className="home__bg-video-overlay-logo" />
-                        <h2 className="home__bg-video-overlay-subtitle">Psicología con Amor y Café</h2>
+                <div className="home__video-header">
+                    <div className="home__bg-video-container" style={{ filter: service || checkout ? 'blur(10px)' : '' }}>
+                        <video className="home__bg-video" autoPlay loop muted>
+                            <source src={BGVideo} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                        <div className="home__bg-video-overlay">
+                            {/* <h1 className="home__bg-video-text-title">Angelita</h1> */}
+                            <img src={AngelitaIsoLogo} alt="Logo" className="home__bg-video-overlay-logo" />
+                            <h2 className="home__bg-video-overlay-subtitle">Psicología con Amor y Café</h2>
+                        </div>
                     </div>
-                </div>
 
-                <Header style={{ filter: service || checkout ? 'blur(10px)' : '' }} />
+                    <Header style={{ filter: service || checkout ? 'blur(10px)' : '' }} />
+                </div>
 
                 <WhatsAppButton phoneNumber={34650609282} message={whatsappMessage} />
 
