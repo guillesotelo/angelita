@@ -7,6 +7,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Toaster } from 'react-hot-toast';
 import { Helmet } from 'react-helmet';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import ReactGA from 'react-ga4';
+const TRACKING_ID = "G-7BDD4BFJRQ";
+ReactGA.initialize(TRACKING_ID);
 const isMobile = window.screen.width <= 768
 
 const toastOptions = {

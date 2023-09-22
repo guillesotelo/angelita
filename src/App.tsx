@@ -17,7 +17,7 @@ import Discounts from './pages/Discounts/Discounts';
 import CheckoutError from './pages/CheckoutError/CheckoutError';
 import Booking from './pages/Booking/Booking';
 import RouteTracker from './components/RouteTracker/RouteTracker';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import Event from './pages/Event/Event';
 const TRACKING_ID = "G-7BDD4BFJRQ";
 // ReactGA.initialize(TRACKING_ID);
@@ -35,9 +35,12 @@ const App: React.FC = () => {
   const [checkout, setCheckout] = useState('')
   const location = useLocation()
 
-  // useEffect(() => {
-  //   ReactGA.pageview(location.pathname)
-  // }, [document.location.search])
+  useEffect(() => {
+    ReactGA.send({
+      hitType: 'pageview',
+      page: window.location.pathname
+    })
+  }, [location, window.location.pathname])
 
   return (
     <AppProvider
