@@ -8,6 +8,7 @@ import ServiceTemplates from '../../constants/templates/ServiceTemplates'
 import Image1 from '../../assets/images/coffee/image14.png'
 import Image2 from '../../assets/images/coffee/image42.png'
 import Image3 from '../../assets/images/coffee/image9.png'
+import Image4 from '../../assets/images/coffee/image50.png'
 import Payment from '../../components/Payment/Payment'
 import ProfilePicture4 from '../../assets/images/angela4.png'
 import MissionImage from '../../assets/images/mission.png'
@@ -227,6 +228,81 @@ export default function Home() {
                     </div>
                     : ''}
 
+                <div className="home__section-pres scroll-item"></div>
+                {renderPresentation ?
+                    <div className="home__section" style={{ backgroundColor: '#f3f3f3', filter: service || checkout ? 'blur(10px)' : '' }}>
+                        <div className="home__section-row">
+                            <div className="home__section-col2 scroll-item" style={{ width: '30%' }} >
+                                <img src={PresentationImage} alt="Presentacion" className="home__section-pres-image" />
+                            </div>
+                            <div className="home__section-col1" style={{ width: '100%', textAlign: 'justify' }}>
+                                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.1s', color: '#B0BCEB' }}>¿Por qué es importante  un proceso psicológico?</h2>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.3s', fontSize: '1.3vw' }}>
+                                    Quieres conocerte a ti mismo
+                                </p>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.5s', fontSize: '1.3vw' }}>
+                                    Quieres hacerte consciente de lo que piensas y haces
+                                </p>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.7s', fontSize: '1.3vw' }}>
+                                    Quieres redirigir tus decisiones
+                                </p>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.9s', fontSize: '1.3vw' }}>
+                                    Quieres experimentar fortaleza interior/resiliencia
+                                </p>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '1.3vw' }}>
+                                    Quieres dejar de transitar sufrimiento en forma de temor, dolor y dependencia.
+                                </p>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '1.3vw' }}>
+                                    Quieres relacionarte sanamente contigo, los demás y el mundo
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    : ''}
+
+                <div className="home__section-symptoms scroll-item"></div>
+                {renderSymptoms ?
+                    <div className="home__section" style={{ backgroundColor: '#fff', filter: service || checkout ? 'blur(10px)' : '' }}>
+                        <h2 className="home__section-symptoms-title scroll-item" style={{ color: '#EBCE98', textAlign: 'center', alignSelf: 'center', fontSize: '1.6rem' }}>SÍNTOMAS DE QUE PODRÍAS NECESITAR ASESORÍA PSICOLÓGICA</h2>
+                        <div className="home__section-row" style={{ height: 'fit-content', justifyContent: 'center', marginTop: '4rem' }}>
+                            <div className="home__section-col1" style={{ width: '45%', textAlign: 'justify' }}>
+                                <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
+                                    Te cuesta dormir
+                                    <br />
+                                    Sufres por una relación rota o por personas especiales para ti
+                                    <br />
+                                    Sufres porque no tienes trabajo
+                                    <br />
+                                    Abusas de personas, sustancias, juegos, actividades
+                                    <br />
+                                    Lo que haces fracasa una y otra vez
+                                    <br />
+                                    Tienes dificultad para controlar impulsos
+                                    <br />
+                                    Piensas negativa o críticamente
+                                </p>
+                            </div>
+                            <div className="home__section-col1" style={{ width: '45%', textAlign: 'justify' }}>
+                                <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
+                                    Tus personas cercanas están preocupadas por ti
+                                    <br />
+                                    Tienes problemas para solucionar conflictos
+                                    <br />
+                                    Solucionas mediante la ira o el aislamiento
+                                    <br />
+                                    Tienes sensaciones desagradables: agitación, inquietud, sudor frío
+                                    <br />
+                                    Manipulas y coaccionas
+                                    <br />
+                                    No disfrutas el día a día
+                                    <br />
+                                    No te hace sentido la vida
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    : ''}
+
                 <div className="home__section-mission scroll-item"></div>
                 {renderMission ?
                     <div className="home__section" style={{ backgroundColor: '#B0BCEB', padding: 0, filter: service || checkout ? 'blur(10px)' : '' }}>
@@ -294,25 +370,28 @@ export default function Home() {
                                 </h2>
                                 <div className="home__card-wrapper" style={{ transform: 'scale(.9)' }}>
                                     <ItemCard
-                                        image={Image3}
-                                        title='Psicoterapia Privada'
-                                        // price='US $50'
-                                        onClick={() => setService(3)}
+                                        image={Image1}
+                                        title='Encuentros Grupales'
+                                        onClick={() => setService(1)}
                                         style={{ animationDelay: '.5s' }}
                                     />
                                     <ItemCard
-                                        image={Image1}
-                                        title='Encuentros Grupales'
-                                        // price='US $15'
-                                        onClick={() => setService(1)}
+                                        image={Image3}
+                                        title='Psicoterapia Privada'
+                                        onClick={() => setService(3)}
                                         style={{ animationDelay: '1s' }}
                                     />
                                     <ItemCard
                                         image={Image2}
                                         title='Psicoterapia en Grupo'
-                                        // price='US $25'
                                         onClick={() => setService(2)}
-                                        style={{ animationDelay: '1.4s' }}
+                                        style={{ animationDelay: '1.5s' }}
+                                    />
+                                    <ItemCard
+                                        image={Image4}
+                                        title='Coaching'
+                                        onClick={() => setService(4)}
+                                        style={{ animationDelay: '2s' }}
                                     />
                                 </div>
                             </div>
@@ -362,12 +441,13 @@ export default function Home() {
                     <div className="home__section" style={{ filter: service || checkout ? 'blur(10px)' : '' }}>
                         <div className="home__section-row" style={{ alignItems: 'center' }}>
                             <div className="home__section-col1" style={{ textAlign: 'justify', width: '100%' }}>
-                                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.3s', color: '#B0BCEB', fontSize: '2.2vw' }}>Amor. Vocación. Interacción. Comprensión. Expansión</h2>
+                                <h2 className="home__section-title scroll-item" style={{ color: '#000000', fontSize: '2.2vw', alignSelf: 'center', marginBottom: 0 }}>PROFESIÓN Y SERVICIO</h2>
+                                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.3s', color: '#B0BCEB', fontSize: '2vw' }}>Amor. Vocación. Interacción. Comprensión. Expansión</h2>
                                 <p className="home__section-text scroll-item" style={{ animationDelay: '.4s', width: '90%' }}>
-                                    Ofrezco asesoría psicológica profesional, afectuosa, pedagógica y práctica, enmarcada dentro del modelo humanista transpersonal, el cual ofrece un escalonamiento en fuerza, poder y dominio mental a medida que se deconstruye el autoconcepto e interpretaciones parciales y distorcionadas acerca de los demás, el mundo y sus elementos.
+                                    Ofrezco asesoría psicológica profesional, afectuosa, pedagógica y práctica, enmarcada dentro del modelo humanista transpersonal, el cual ofrece un escalonamiento en fuerza, poder y dominio mental a medida que se deconstruye el autoconcepto e interpretaciones parciales y distorsionadas acerca de los demás, el mundo y sus elementos. La persona se extiende a la experiencia de sanidad y libertad una vez que encuentra su núcleo esencial o identidad libre.
                                     <br />
                                     <br />
-                                    Promuevo la resolución eficiente de conflictos y empodero al consultante en la renovación de su sistema de valores de manera que pueda redirigir el curso, plan y propósito de vida. La persona se extiende a la experiencia de sanidad y libertad una vez que encuentra su núcleo esencial o identidad libre.
+                                    Promuevo la resolución eficiente de conflictos y empoderó al consultante en la renovación de su sistema de valores de manera que pueda redirigir el curso, plan y propósito de vida.
                                     <br />
                                     <br />
                                     Para mí es un gusto asesorar y asistir en este proceso de descubrimiento y fortalecimiento psicológico, cuya natural disolución de causas inconscientes, acabarán con el desgaste emocional, físico y relacional innecesario. El resultado humanos adultos, conscientes, maduros y resilientes.
@@ -381,78 +461,6 @@ export default function Home() {
                                         style={{ marginTop: '4vw' }}
                                     />
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    : ''}
-
-                <div className="home__section-pres scroll-item"></div>
-                {renderPresentation ?
-                    <div className="home__section" style={{ backgroundColor: '#f3f3f3', filter: service || checkout ? 'blur(10px)' : '' }}>
-                        <div className="home__section-row">
-                            <div className="home__section-col2 scroll-item" style={{ width: '30%' }} >
-                                <img src={PresentationImage} alt="Presentacion" className="home__section-pres-image" />
-                            </div>
-                            <div className="home__section-col1" style={{ width: '100%', textAlign: 'justify' }}>
-                                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.1s', color: '#B0BCEB' }}>¿Estás en busca de un <strong>CAMBIO</strong>?</h2>
-                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.3s', fontSize: '1.3vw' }}>
-                                    ¿Quieres superar tus temores, angustias, dependencias, estados depresivos?
-                                </p>
-                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.5s', fontSize: '1.3vw' }}>
-                                    ¿Quieres redirigir y hacerte consciente de lo que haces?
-                                </p>
-                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.7s', fontSize: '1.3vw' }}>
-                                    ¿Quieres conocerte a ti mismo?
-                                </p>
-                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.9s', fontSize: '1.3vw' }}>
-                                    ¿Quieres experimentar Fortaleza Interior?
-                                </p>
-                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '1.3vw' }}>
-                                    ¿Quieres relacionarte sanamente?
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    : ''}
-
-                <div className="home__section-symptoms scroll-item"></div>
-                {renderSymptoms ?
-                    <div className="home__section" style={{ backgroundColor: '#fff', filter: service || checkout ? 'blur(10px)' : '' }}>
-                        <h2 className="home__section-symptoms-title scroll-item" style={{ color: '#EBCE98', textAlign: 'center', alignSelf: 'center', fontSize: '1.6rem' }}>SÍNTOMAS DE QUE PODRÍAS NECESITAR ASESORÍA PSICOLÓGICA</h2>
-                        <div className="home__section-row" style={{ height: 'fit-content', justifyContent: 'center', marginTop: '4rem' }}>
-                            <div className="home__section-col1" style={{ width: '45%', textAlign: 'justify' }}>
-                                <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
-                                    Te cuesta dormir
-                                    <br />
-                                    Sufres por una relación rota o por personas especiales para ti
-                                    <br />
-                                    Sufres porque no tienes trabajo
-                                    <br />
-                                    Abusas de personas, sustancias, juegos, actividades
-                                    <br />
-                                    Lo que haces fracasa una y otra vez
-                                    <br />
-                                    Tienes dificultad para controlar impulsos
-                                    <br />
-                                    Piensas negativa o críticamente
-                                </p>
-                            </div>
-                            <div className="home__section-col1" style={{ width: '45%', textAlign: 'justify' }}>
-                                <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
-                                    Tus personas cercanas están preocupadas por ti
-                                    <br />
-                                    Tienes problemas para solucionar conflictos
-                                    <br />
-                                    Solucionas mediante la ira o el aislamiento
-                                    <br />
-                                    Tienes sensaciones desagradables: agitación, inquietud, sudor frío
-                                    <br />
-                                    Manipulas y coaccionas
-                                    <br />
-                                    No disfrutas el día a día
-                                    <br />
-                                    No te hace sentido la vida
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -631,6 +639,82 @@ export default function Home() {
                     </div>
                     : ''}
 
+
+                <div className="home__section-pres scroll-item"></div>
+                {renderPresentation ?
+                    <div className="home__section" style={{ backgroundColor: '#f3f3f3', filter: service || checkout ? 'blur(10px)' : '' }}>
+                        <div className="home__section-col">
+                            <div className="home__section-col scroll-item" >
+                                <img src={PresentationImage} alt="Presentacion" className="home__section-pres-image" style={{ width: '60vw', marginBottom: '2rem' }} />
+                            </div>
+                            <div className="home__section-col1" style={{ width: '100%', textAlign: 'justify' }}>
+                                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.1s', color: '#B0BCEB', marginBottom: '1rem' }}>¿Por qué es importante  un proceso psicológico?</h2>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.3s', fontSize: '1.3vw' }}>
+                                    Quieres conocerte a ti mismo
+                                </p>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.5s', fontSize: '1.3vw' }}>
+                                    Quieres hacerte consciente de lo que piensas y haces
+                                </p>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.7s', fontSize: '1.3vw' }}>
+                                    Quieres redirigir tus decisiones
+                                </p>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.9s', fontSize: '1.3vw' }}>
+                                    Quieres experimentar fortaleza interior/resiliencia
+                                </p>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '1.3vw' }}>
+                                    Quieres dejar de transitar sufrimiento en forma de temor, dolor y dependencia.
+                                </p>
+                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '1.3vw' }}>
+                                    Quieres relacionarte sanamente contigo, los demás y el mundo
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    : ''}
+
+                <div className="home__section-symptoms scroll-item"></div>
+                {renderSymptoms ?
+                    <div className="home__section" style={{ backgroundColor: '#fff', filter: service || checkout ? 'blur(10px)' : '' }}>
+                        <h2 className="home__section-symptoms-title scroll-item" style={{ color: '#EBCE98', textAlign: 'center', alignSelf: 'center', fontSize: '1.6rem' }}>SÍNTOMAS DE QUE PODRÍAS NECESITAR ASESORÍA PSICOLÓGICA</h2>
+                        <div className="home__section-col" style={{ height: 'fit-content', justifyContent: 'center', marginTop: '4rem' }}>
+                            <div className="home__section-col" style={{ textAlign: 'center' }}>
+                                <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
+                                    Te cuesta dormir
+                                    <br />
+                                    Sufres por una relación rota o por personas especiales para ti
+                                    <br />
+                                    Sufres porque no tienes trabajo
+                                    <br />
+                                    Abusas de personas, sustancias, juegos, actividades
+                                    <br />
+                                    Lo que haces fracasa una y otra vez
+                                    <br />
+                                    Tienes dificultad para controlar impulsos
+                                    <br />
+                                    Piensas negativa o críticamente
+                                </p>
+                            </div>
+                            <div className="home__section-col" style={{ textAlign: 'center' }}>
+                                <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
+                                    Tus personas cercanas están preocupadas por ti
+                                    <br />
+                                    Tienes problemas para solucionar conflictos
+                                    <br />
+                                    Solucionas mediante la ira o el aislamiento
+                                    <br />
+                                    Tienes sensaciones desagradables: agitación, inquietud, sudor frío
+                                    <br />
+                                    Manipulas y coaccionas
+                                    <br />
+                                    No disfrutas el día a día
+                                    <br />
+                                    No te hace sentido la vida
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    : ''}
+
                 <div className="home__section-mission scroll-item"></div>
                 {renderMission ?
                     <div className="home__section" style={{ backgroundColor: '#B0BCEB', padding: 0 }}>
@@ -696,25 +780,28 @@ export default function Home() {
                                 </h2>
                                 <div className="home__card-wrapper" style={{ transform: 'scale(.9)' }}>
                                     <ItemCard
-                                        image={Image3}
-                                        title='Psicoterapia Privada'
-                                        // price='US $50'
-                                        onClick={() => setService(3)}
+                                        image={Image1}
+                                        title='Encuentros Grupales'
+                                        onClick={() => setService(1)}
                                         style={{ animationDelay: '.5s' }}
                                     />
                                     <ItemCard
-                                        image={Image1}
-                                        title='Encuentros Grupales'
-                                        // price='US $15'
-                                        onClick={() => setService(1)}
+                                        image={Image3}
+                                        title='Psicoterapia Privada'
+                                        onClick={() => setService(3)}
                                         style={{ animationDelay: '1s' }}
                                     />
                                     <ItemCard
                                         image={Image2}
                                         title='Psicoterapia en Grupo'
-                                        // price='US $25'
                                         onClick={() => setService(2)}
-                                        style={{ animationDelay: '1.4s' }}
+                                        style={{ animationDelay: '1.5s' }}
+                                    />
+                                    <ItemCard
+                                        image={Image4}
+                                        title='Coaching'
+                                        onClick={() => setService(4)}
+                                        style={{ animationDelay: '2s' }}
                                     />
                                 </div>
                             </div>
@@ -766,10 +853,10 @@ export default function Home() {
                             <div className="home__section-col1" style={{ textAlign: 'justify', width: '100%' }}>
                                 <h2 className="home__section-title scroll-item" style={{ animationDelay: '.3s', color: '#B0BCEB', fontSize: '2.2vw' }}>Amor. Vocación. Interacción. Comprensión. Expansión</h2>
                                 <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
-                                    Ofrezco asesoría psicológica profesional, afectuosa, pedagógica y práctica, enmarcada dentro del modelo humanista transpersonal, el cual ofrece un escalonamiento en fuerza, poder y dominio mental a medida que se deconstruye el autoconcepto e interpretaciones parciales y distorcionadas acerca de los demás, el mundo y sus elementos.
+                                    Ofrezco asesoría psicológica profesional, afectuosa, pedagógica y práctica, enmarcada dentro del modelo humanista transpersonal, el cual ofrece un escalonamiento en fuerza, poder y dominio mental a medida que se deconstruye el autoconcepto e interpretaciones parciales y distorsionadas acerca de los demás, el mundo y sus elementos. La persona se extiende a la experiencia de sanidad y libertad una vez que encuentra su núcleo esencial o identidad libre.
                                     <br />
                                     <br />
-                                    Promuevo la resolución eficiente de conflictos y empodero al consultante en la renovación de su sistema de valores de manera que pueda redirigir el curso, plan y propósito de vida. La persona se extiende a la experiencia de sanidad y libertad una vez que encuentra su núcleo esencial o identidad libre.
+                                    Promuevo la resolución eficiente de conflictos y empoderó al consultante en la renovación de su sistema de valores de manera que pueda redirigir el curso, plan y propósito de vida.
                                     <br />
                                     <br />
                                     Para mí es un gusto asesorar y asistir en este proceso de descubrimiento y fortalecimiento psicológico, cuya natural disolución de causas inconscientes, acabarán con el desgaste emocional, físico y relacional innecesario. El resultado humanos adultos, conscientes, maduros y resilientes.
@@ -783,78 +870,6 @@ export default function Home() {
                                         style={{ marginTop: '4vw' }}
                                     />
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    : ''}
-
-                <div className="home__section-pres scroll-item"></div>
-                {renderPresentation ?
-                    <div className="home__section" style={{ backgroundColor: '#f3f3f3', filter: service || checkout ? 'blur(10px)' : '' }}>
-                        <div className="home__section-col">
-                            <div className="home__section-col scroll-item" >
-                                <img src={PresentationImage} alt="Presentacion" className="home__section-pres-image" style={{ width: '60vw', marginBottom: '2rem' }} />
-                            </div>
-                            <div className="home__section-col" style={{ width: '100%', textAlign: 'justify' }}>
-                                <h2 className="home__section-title scroll-item" style={{ animationDelay: '.1s', color: '#B0BCEB', marginBottom: '1rem' }}>¿Estás en busca de un <strong>CAMBIO</strong>?</h2>
-                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.3s', fontSize: '4vw' }}>
-                                    ¿Quieres superar tus temores, angustias, dependencias, estados depresivos?
-                                </p>
-                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.5s', fontSize: '4vw' }}>
-                                    ¿Quieres redirigir y hacerte consciente de lo que haces?
-                                </p>
-                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.7s', fontSize: '4vw' }}>
-                                    ¿Quieres conocerte a ti mismo?
-                                </p>
-                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '.9s', fontSize: '4vw' }}>
-                                    ¿Quieres experimentar Fortaleza Interior?
-                                </p>
-                                <p className="home__section-text scroll-item" style={{ textAlign: 'center', animationDelay: '1.1s', fontSize: '4vw' }}>
-                                    ¿Quieres relacionarte sanamente?
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    : ''}
-
-                <div className="home__section-symptoms scroll-item"></div>
-                {renderSymptoms ?
-                    <div className="home__section" style={{ backgroundColor: '#fff', filter: service || checkout ? 'blur(10px)' : '' }}>
-                        <h2 className="home__section-symptoms-title scroll-item" style={{ color: '#EBCE98', textAlign: 'center', alignSelf: 'center', fontSize: '1.6rem' }}>SÍNTOMAS DE QUE PODRÍAS NECESITAR ASESORÍA PSICOLÓGICA</h2>
-                        <div className="home__section-col" style={{ height: 'fit-content', justifyContent: 'center', marginTop: '4rem' }}>
-                            <div className="home__section-col" style={{ textAlign: 'center' }}>
-                                <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
-                                    Te cuesta dormir
-                                    <br />
-                                    Sufres por una relación rota o por personas especiales para ti
-                                    <br />
-                                    Sufres porque no tienes trabajo
-                                    <br />
-                                    Abusas de personas, sustancias, juegos, actividades
-                                    <br />
-                                    Lo que haces fracasa una y otra vez
-                                    <br />
-                                    Tienes dificultad para controlar impulsos
-                                    <br />
-                                    Piensas negativa o críticamente
-                                </p>
-                            </div>
-                            <div className="home__section-col" style={{ textAlign: 'center' }}>
-                                <p className="home__section-text scroll-item" style={{ animationDelay: '.4s' }}>
-                                    Tus personas cercanas están preocupadas por ti
-                                    <br />
-                                    Tienes problemas para solucionar conflictos
-                                    <br />
-                                    Solucionas mediante la ira o el aislamiento
-                                    <br />
-                                    Tienes sensaciones desagradables: agitación, inquietud, sudor frío
-                                    <br />
-                                    Manipulas y coaccionas
-                                    <br />
-                                    No disfrutas el día a día
-                                    <br />
-                                    No te hace sentido la vida
-                                </p>
                             </div>
                         </div>
                     </div>

@@ -168,11 +168,14 @@ export default function Header({ style }: Props) {
                             <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 1)}>
                                 <h4 className="header__item-dropdown-text">Encuentros Grupales</h4>
                             </div>
+                            <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 3)}>
+                                <h4 className="header__item-dropdown-text">Psicoterapia Privada</h4>
+                            </div>
                             <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 2)}>
                                 <h4 className="header__item-dropdown-text">Psicoterapia en Grupo</h4>
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 3)}>
-                                <h4 className="header__item-dropdown-text">Psicoterapia Privada</h4>
+                            <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 4)}>
+                                <h4 className="header__item-dropdown-text">Coaching</h4>
                             </div>
                         </div>
                     </div>
@@ -215,11 +218,14 @@ export default function Header({ style }: Props) {
                         <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 1)}>
                             <h4 className="header__item-dropdown-text">Encuentros Grupales</h4>
                         </div>
+                        <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 3)}>
+                            <h4 className="header__item-dropdown-text">Psicoterapia Privada</h4>
+                        </div>
                         <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 2)}>
                             <h4 className="header__item-dropdown-text">Psicoterapia en Grupo</h4>
                         </div>
-                        <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 3)}>
-                            <h4 className="header__item-dropdown-text">Psicoterapia Privada</h4>
+                        <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 4)}>
+                            <h4 className="header__item-dropdown-text">Coaching</h4>
                         </div>
                     </div>
                 </div>

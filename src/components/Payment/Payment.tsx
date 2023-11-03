@@ -175,7 +175,7 @@ function Payment({ checkout, eventId }: Props) {
         const qty = getQuantity()
         if (isProcessing || !data.username || !data.email) return true
         if (data.username.split(' ').length < 2 || !data.email.includes('@') || !data.email.includes('.')) return true
-        if (!event.name && currentService.name !== 'Coaching') {
+        if (!event.name && currentService.name !== 'Coaching' && currentService.name !== 'Entrenamiento Diario Personal') {
             if (Number(getPrice()) > 0 && !date && !selectedDates.length) return true
             if (qty > 1 && (!selectedDates.length || selectedDates.length !== qty)) return true
         }
@@ -184,6 +184,7 @@ function Payment({ checkout, eventId }: Props) {
 
     const getPrice = () => {
         const { price, discount } = currentService
+        console.log(currentService)
         const hours = getQuantity()
         const latamDiscount = isFromLatam ? 0.8 : 1
         const offDiscount = hours > 1 ? 0.7 : 1
@@ -193,11 +194,13 @@ function Payment({ checkout, eventId }: Props) {
         const offMessage = '30% Off en 2 o más sesiones'
         const bulkMessage = '10% Off en sesiones consecutivass'
 
-        if (latamDiscount !== 1) setDiscounts(discounts.concat(!discounts.includes(latamMessage) ? latamMessage : ''))
-        if (offDiscount !== 1) setDiscounts(discounts.concat(!discounts.includes(offMessage) ? offMessage : ''))
+        if (discount) {
+            if (latamDiscount !== 1) setDiscounts(discounts.concat(!discounts.includes(latamMessage) ? latamMessage : ''))
+            if (offDiscount !== 1) setDiscounts(discounts.concat(!discounts.includes(offMessage) ? offMessage : ''))
 
-        if (hours == 1) setDiscounts([latamDiscount !== 1 ? latamMessage : ''])
-        
+            if (hours == 1) setDiscounts([latamDiscount !== 1 ? latamMessage : ''])
+        }
+
         if (discount) {
             if (discount.includes('30%')) {
                 setDiscount('30% OFF')
@@ -255,8 +258,10 @@ function Payment({ checkout, eventId }: Props) {
         let count = 0
         let processedDates: any[] = []
 
-        if (currentService._id === '64ca5fd4baf72a66cc29c695'// Psicologia
-            || currentService.serviceId === '64ca5fd4baf72a66cc29c693') {// Consejeria
+        if (currentService._id === '64ca5fd4baf72a66cc29c695' // Psicologia
+            || currentService.serviceId === '64ca5fd4baf72a66cc29c693' // Consejeria
+            || currentService.serviceId === '6544fef7dbbd5e4ec1196698' // Hipnoterapia
+            || currentService.serviceId === '654501e8dbbd5e4ec11966b0') { // Entrenamiento Diario
             allSlots.forEach(d => {
                 if (!processedDates.includes(d) && d.toLocaleDateString() === date.toLocaleDateString()) {
                     processedDates.push(d)
@@ -393,7 +398,7 @@ function Payment({ checkout, eventId }: Props) {
             <div className="payment__form" >
                 {!event.name ? <h4 className="payment__contact-info-title">Información del pago</h4> : ''}
                 <div className="payment__contact-info-row">
-                    {!event.name && currentService.name !== 'Coaching' ?
+                    {!event.name && currentService.name !== 'Coaching' && currentService.name !== 'Entrenamiento Diario Personal' ?
                         <Dropdown
                             label="Seleccioná la cantidad"
                             setSelected={setQuantity}
@@ -402,7 +407,7 @@ function Payment({ checkout, eventId }: Props) {
                             options={getQuantityOptions()}
                             maxHeight='15rem'
                         /> :
-                        currentService.name === 'Coaching' ?
+                        currentService.name === 'Coaching' || currentService.name === 'Entrenamiento Diario Personal' ?
                             <p>Luego de pagar la reserva, puedes contactarte conmigo para coordinar las fechas de los encuentros.
                                 <br />Recibirás toda la información en el correo que has proporcionado.
                             </p>
@@ -425,7 +430,7 @@ function Payment({ checkout, eventId }: Props) {
                     </div>
                     : ''
                 }
-                {!event.name && currentService.name !== 'Coaching' ?
+                {!event.name && currentService.name !== 'Coaching' && currentService.name !== 'Entrenamiento Diario Personal' ?
                     <div className="payment__contact-info-row">
                         {openCalendar ?
                             <Calendar

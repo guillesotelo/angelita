@@ -883,7 +883,7 @@ export default function Booking({ }: Props) {
                         <div className='booking__sidebar-event-row'>
                             <Dropdown
                                 label='Días'
-                                options={['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Lunes a sábado', 'Jueves y sábado', '1er sábado del mes']}
+                                options={['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Lunes a sábado', 'Jueves y sábado', 'Martes a jueves', '1er sábado del mes']}
                                 selected={serviceData.day}
                                 setSelected={value => setServiceData({ ...serviceData, 'day': value })}
                                 value={serviceData.day}

@@ -7,6 +7,8 @@ import Coaching from './services/Coaching'
 import PsicoterapiaPrivada from './services/PsicoterapiaPrivada'
 import FormacionPsicologica from './services/FormacionPsicologica'
 import MenteDivina from './services/MenteDivina'
+import Hipnoterapia from './services/Hipnoterapia'
+import EntrenamientoDiario from './services/EntrenamientoDiario'
 
 type Props = {
     service: number
@@ -28,8 +30,10 @@ export default function ServiceTemplates({ service, subService, setSubService, c
                         : subService === 5 ?
                             <Consejeria checkout={checkout} />
                             : subService === 6 ?
-                                <Coaching checkout={checkout} />
-                                : null
+                                <Hipnoterapia checkout={checkout} />
+                                : subService === 7 ?
+                                    <EntrenamientoDiario checkout={checkout} />
+                                    : null
         : service === 1 ?
             <EncuentrosGrupales checkout={checkout} setSubService={setSubService} />
             : service === 2 ?
@@ -37,5 +41,8 @@ export default function ServiceTemplates({ service, subService, setSubService, c
                 :
                 service === 3 ?
                     <PsicoterapiaPrivada checkout={checkout} setSubService={setSubService} />
-                    : null
+                    :
+                    service === 4 ?
+                        <Coaching checkout={checkout} />
+                        : null
 }
