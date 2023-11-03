@@ -16,7 +16,7 @@ export default function EncuentrosGrupales({ checkout, setSubService }: Props) {
                 <div className="service-template__col1">
                     <img src={Image1} alt="Psicologia Virtual (con continuidad)" loading="lazy" className="service-template__image" />
                 </div>
-                <div className="service-template__col2">
+                <div className="service-template__col2" style={{ justifyContent: 'center' }}>
                     <div className="service-template__subservice" onClick={() => setSubService(1)}>
                         <div className="service-template__subservice-details">
                             <h2 className="service-template__subservice-title">Mente Divina</h2>

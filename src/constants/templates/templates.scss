@@ -152,32 +152,32 @@
         }
 
         &-title {
-            margin: 0 0 .5vw 0;
-            font-weight: normal;
-            font-size: 1.5vw;
+            margin: 0 0 .2vw 0;
+            // font-weight: normal;
+            font-size: 1vw;
         }
 
         &-subtitle {
-            margin: 0 0 .2vw 0;
+            margin: 0;
             font-weight: normal;
-            font-size: 1vw;
+            font-size: .8rem;
         }
 
         &-pacients {
             margin: 0;
             font-weight: normal;
-            font-size: .9vw;
+            font-size: .9rem;
         }
 
         &-open-hours {
-            margin: .5vw 0 0 0;
+            margin: .4vw 0 0 0;
             font-weight: normal;
-            font-size: .9vw;
+            font-size: 1rem;
         }
 
         &-price {
-            width: 6rem;
-            height: 6rem;
+            width: 5rem;
+            height: 5rem;
             background-color: #dfe6ff;
             border-radius: 50%;
             // padding: .3vw .5vw;
@@ -188,7 +188,7 @@
             align-items: center;
 
             &-text {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
                 color: #373737;
                 margin: 1rem;
 
