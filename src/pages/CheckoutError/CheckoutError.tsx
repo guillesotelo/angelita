@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { dataObj } from '../../types'
+import { dataObj, orderType, serviceType } from '../../types'
 import ErrorIcon from '../../assets/icons/error-icon.svg'
 import Button from '../../components/Button/Button'
 import { useHistory } from 'react-router-dom'
@@ -8,10 +8,10 @@ import { getAllServices } from '../../services'
 type Props = {}
 
 export default function CheckoutError({ }: Props) {
-    const [checkout, setCheckout] = useState<number>(-1)
-    const [paymentInfo, setPaymentInfo] = useState<dataObj>({})
-    const [serviceInfo, setServiceInfo] = useState<dataObj>({})
-    const [dbServices, setDbServices] = useState<dataObj[]>([])
+    const [checkout, setCheckout] = useState<string | number>(-1)
+    const [paymentInfo, setPaymentInfo] = useState<orderType>({})
+    const [serviceInfo, setServiceInfo] = useState<serviceType>({})
+    const [dbServices, setDbServices] = useState<serviceType[]>([])
     const history = useHistory()
 
     useEffect(() => {
@@ -26,7 +26,7 @@ export default function CheckoutError({ }: Props) {
         })
 
         const _checkout = localStorage.getItem('checkout') || ''
-        if (_checkout) setCheckout(parseInt(_checkout))
+        if (_checkout) setCheckout(_checkout)
         getServices()
     }, [])
 

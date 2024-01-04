@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import DataTable from '../../components/DataTable/DataTable'
-import { dataObj } from '../../types'
+import { bookingType, calendarType, dataObj, eventType, serviceType } from '../../types'
 import { bookingHeaders, eventHeaders, serviceHeaders } from '../../constants/tableHeaders'
 import { createBooking, createService, deleteBooking, deleteService, getAllBookings, getAllServices, updateBooking, updateService, verifyToken } from '../../services'
 import InputField from '../../components/InputField/InputField'
@@ -45,33 +45,33 @@ const voidService = {
 }
 
 export default function Booking({ }: Props) {
-    const [bookings, setBookings] = useState<dataObj[]>([])
+    const [bookings, setBookings] = useState<bookingType[]>([])
     const [selected, setSelected] = useState<number>(-1)
-    const [data, setData] = useState<dataObj>({})
+    const [data, setData] = useState<bookingType>({})
     const [loading, setLoading] = useState<boolean>(false)
     const [tryToRemove, setTryToRemove] = useState<boolean>(false)
     const [isNewBooking, setIsNewBooking] = useState<boolean>(false)
     const [isPaid, setIsPaid] = useState<string>('')
-    const [bookingSelected, setBookingSelected] = useState<dataObj>({})
+    const [bookingSelected, setBookingSelected] = useState<bookingType>({})
     const [discount, setDiscount] = useState<string>('')
     const [quantity, setQuantity] = useState<string>('1 sesión')
     const [totalPrice, setTotalPrice] = useState<string>('')
     const [openCalendar, setOpenCalendar] = useState(false)
-    const [openCalendars, setOpenCalendars] = useState<dataObj>({})
-    const [eventClicked, setEventClicked] = useState<dataObj>({})
+    const [openCalendars, setOpenCalendars] = useState<calendarType>({})
+    const [eventClicked, setEventClicked] = useState<eventType>({})
     const [date, setDate] = useState<any>(null)
     const [selectedDates, setSelectedDates] = useState<any>([])
     const [view, setView] = useState(localStorage.getItem('bookingView') || 'Calendario')
-    const [dbServices, setDbServices] = useState<dataObj[]>([])
+    const [dbServices, setDbServices] = useState<serviceType[]>([])
     const [dbServiceSelected, setDbServiceSelected] = useState<number>(-1)
     const [isNewService, setIsNewService] = useState(false)
     const [tryToRemoveService, setTryToRemoveService] = useState(false)
-    const [serviceData, setServiceData] = useState<dataObj>(voidService)
-    const [events, setEvents] = useState<dataObj[]>([])
+    const [serviceData, setServiceData] = useState<serviceType>(voidService)
+    const [events, setEvents] = useState<eventType[]>([])
     const [eventSelected, setEventSelected] = useState<number>(-1)
     const [isNewEvent, setIsNewEvent] = useState(false)
     const [tryToRemoveEvent, setTryToRemoveEvent] = useState(false)
-    const [eventData, setEventData] = useState<dataObj>(voidEvent)
+    const [eventData, setEventData] = useState<eventType>(voidEvent)
     const [endTime, setEndTime] = useState<any>(null)
     const [sendEmail, setSendEmail] = useState(true)
     const history = useHistory()
@@ -91,8 +91,8 @@ export default function Booking({ }: Props) {
         if (selected !== -1) {
             setData(bookings[selected])
             setBookingSelected(bookings[selected])
-            setDate(bookings[selected].dateObject ? JSON.parse(bookings[selected].dateObject) : null)
-            setSelectedDates(bookings[selected].dateObjects ? JSON.parse(bookings[selected].dateObjects).map((date: string) => new Date(date)) : [])
+            setDate(bookings[selected].dateObject ? JSON.parse(bookings[selected].dateObject || '') : null)
+            setSelectedDates(bookings[selected].dateObjects ? JSON.parse(bookings[selected].dateObjects || '').map((date: string) => new Date(date)) : [])
             setQuantity(`${bookings[selected].realQty} ${bookings[selected].realQty === 1 ? 'sesión' : 'sesiones'}`)
             setIsPaid(bookings[selected].isPaid ? 'Si' : 'No')
         }
@@ -255,7 +255,7 @@ export default function Booking({ }: Props) {
         setLoading(true)
         try {
             const dates = selectedDates.length ? selectedDates : date ? date : new Date()
-            const bookingData: dataObj = {
+            const bookingData: bookingType = {
                 ...data,
                 serviceId: isNewBooking ? bookingSelected._id : data.serviceId,
                 date: getDateAndTime(dates),
@@ -325,15 +325,15 @@ export default function Booking({ }: Props) {
     }
 
     const getServiceData = (data: string | number) => {
-        return bookingSelected[data]
+        return (bookingSelected as dataObj)[data]
     }
 
     const getStaticServiceData = (data: string | number) => {
-        let service: dataObj = {}
-        dbServices.forEach((svc: dataObj) => {
+        let service: serviceType = {}
+        dbServices.forEach((svc: serviceType) => {
             if (svc.name === bookingSelected.name) service = svc
         })
-        return service[data] || ''
+        return (service as any)[data] || ''
     }
 
     const getPrice = () => {
@@ -416,11 +416,11 @@ export default function Booking({ }: Props) {
         return timeSlots
     }
 
-    const getBookedSlots = (bookingArray: dataObj[], miliseconds = false) => {
+    const getBookedSlots = (bookingArray: bookingType[], miliseconds = false) => {
         let slots: any[] = []
-        bookingArray.forEach((booking: dataObj) => {
-            const dateObj = JSON.parse(booking.dateObject)
-            const dateObjs = JSON.parse(booking.dateObjects)
+        bookingArray.forEach((booking: bookingType) => {
+            const dateObj = JSON.parse(booking.dateObject || '') || new Date()
+            const dateObjs = JSON.parse(booking.dateObjects || '')
             if (dateObjs.length) {
                 dateObjs.forEach((date: any) => {
                     slots.push(miliseconds ? new Date(date).getTime() : new Date(date))
@@ -436,10 +436,10 @@ export default function Booking({ }: Props) {
     }
 
     const getCalendarEvents = () => {
-        let bookingEvents: dataObj[] = []
+        let bookingEvents: bookingType[] & eventType[] = []
         bookings.forEach(booking => {
-            const dateObj = JSON.parse(booking.dateObject)
-            const dateObjs = JSON.parse(booking.dateObjects)
+            const dateObj = JSON.parse(booking.dateObject || '')
+            const dateObjs = JSON.parse(booking.dateObjects || '')
             if (dateObjs.length) {
                 dateObjs.forEach((date: any) => {
                     bookingEvents.push({
@@ -465,13 +465,13 @@ export default function Booking({ }: Props) {
 
     const localizer = momentLocalizer(moment);
 
-    const handleSelectSlot = (event: dataObj) => {
+    const handleSelectSlot = (event: eventType) => {
         const { start, end } = event
         setDate(start)
         setIsNewBooking(true)
     }
 
-    const handleSelectEvent = (event: dataObj) => {
+    const handleSelectEvent = (event: eventType) => {
         const { _id } = event
         setSelected(bookings.findIndex((item) => item._id === _id))
         setEventClicked(event)
@@ -510,7 +510,7 @@ export default function Booking({ }: Props) {
     const saveEventData = async (duplicate: boolean = false) => {
         try {
             setLoading(true)
-            const event: dataObj = {
+            const event: eventType = {
                 ...eventData,
                 dateObject: JSON.stringify(date),
                 endTime: JSON.stringify(endTime),

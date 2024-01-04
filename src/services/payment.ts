@@ -1,15 +1,14 @@
 import axios from 'axios';
-import { dataObj } from '../types';
+import { dataObj, orderType } from '../types';
 
 const API_URL = process.env.NODE_ENV === 'development' ? '' : process.env.REACT_APP_API_URL
+const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {}
 
 const getHeaders = () => {
-    const { token }: dataObj = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {}
-    return { authorization: `Bearer ${token}` }
+    return { authorization: `Bearer ${user.token}` }
 }
 const getConfig = () => {
-    const { token }: dataObj = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {}
-    return { headers: { authorization: `Bearer ${token}` } }
+    return { headers: { authorization: `Bearer ${user.token}` } }
 }
 
 const getPublicKey = async () => {
@@ -19,14 +18,14 @@ const getPublicKey = async () => {
     } catch (error) { console.error(error) }
 }
 
-const createPayment = async (data: dataObj) => {
+const createPayment = async (data: orderType) => {
     try {
         const res = await axios.post(`${API_URL}/api/payment/createPayment`, data)
         return res.data
     } catch (error) { console.error(error) }
 }
 
-const createCheckoutSession = async (data: dataObj) => {
+const createCheckoutSession = async (data: orderType) => {
     axios.post(`${API_URL}/api/payment/create-checkout-session`, data, getConfig())
         .then((response) => {
             const { url } = response.data

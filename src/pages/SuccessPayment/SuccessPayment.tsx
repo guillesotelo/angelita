@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { dataObj } from '../../types'
+import { dataObj, orderType } from '../../types'
 import CheckIcon from '../../assets/icons/check-icon.svg'
 import ErrorIcon from '../../assets/icons/error-icon.svg'
 import Button from '../../components/Button/Button'
@@ -10,7 +10,7 @@ import MoonLoader from "react-spinners/MoonLoader"
 type Props = {}
 
 export default function SuccessPayment({ }: Props) {
-    const [paymentInfo, setPaymentInfo] = useState<dataObj>({})
+    const [paymentInfo, setPaymentInfo] = useState<orderType>({})
     const [message, setMessage] = useState<string | null>('')
     const [loading, setLoading] = useState<boolean>(false)
     const history = useHistory()

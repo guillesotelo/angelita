@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getEventById } from '../../services/event'
-import { dataObj } from '../../types'
+import { eventType, serviceType } from '../../types'
 import { AppContext } from '../../AppContext'
 import { getServiceById } from '../../services'
 import Button from '../../components/Button/Button'
@@ -10,8 +10,8 @@ import MoonLoader from 'react-spinners/MoonLoader'
 type Props = {}
 
 export default function Event({ }: Props) {
-    const [event, setEvent] = useState<dataObj>({})
-    const [service, setService] = useState<dataObj>({})
+    const [event, setEvent] = useState<eventType>({})
+    const [service, setService] = useState<serviceType>({})
     const [loading, setLoading] = useState(false)
     const { lang, isMobile, setRenderAll, setCheckout } = useContext(AppContext)
     window.scrollTo({ top: 0, behavior: 'smooth' })

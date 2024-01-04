@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import Button from "../Button/Button"
-import { dataObj } from "../../types"
+import { bookingType, calendarType, dataObj, eventType, orderType, serviceType } from "../../types"
 import Dropdown from "../Dropdown/Dropdown"
 import { TileDisabledFunc } from "react-calendar/dist/cjs/shared/types"
 import Calendar from "react-calendar"
@@ -18,7 +18,7 @@ type Props = {
 
 function Payment({ checkout, eventId }: Props) {
     const [data, setData] = useState({ username: '', email: '', country: '', phone: '' })
-    const [bookings, setBookings] = useState<dataObj[]>([])
+    const [bookings, setBookings] = useState<bookingType[]>([])
     const [message, setMessage] = useState<string | null>('')
     const [quantity, setQuantity] = useState<string>('1 sesión')
     const [total, setTotal] = useState<string>('0')
@@ -29,12 +29,12 @@ function Payment({ checkout, eventId }: Props) {
     const [openCalendar, setOpenCalendar] = useState(false)
     const [dataOk, setDataOk] = useState(true)
     const [contribute, setContribute] = useState('')
-    const [openCalendars, setOpenCalendars] = useState<dataObj>({})
-    const [currentService, setCurrentService] = useState<dataObj>({})
-    const [event, setEvent] = useState<dataObj>({})
+    const [openCalendars, setOpenCalendars] = useState<calendarType>({})
+    const [currentService, setCurrentService] = useState<serviceType>({})
+    const [event, setEvent] = useState<eventType>({})
     const [loading, setLoading] = useState(false)
     const [isFromLatam, setIsFromLatam] = useState(false)
-    const [dbServices, setDbServices] = useState<dataObj[]>([])
+    const [dbServices, setDbServices] = useState<serviceType[]>([])
     const [discounts, setDiscounts] = useState<string[]>([''])
     const history = useHistory()
 
@@ -124,7 +124,7 @@ function Payment({ checkout, eventId }: Props) {
         localStorage.setItem('checkout', String(checkout))
         const dates = selectedDates.length ? selectedDates : date ? date : new Date()
 
-        const paymentData: dataObj = {
+        const paymentData: orderType = {
             ...data,
             date: getDateAndTime(dates),
             dateObject: JSON.stringify(date),
@@ -143,7 +143,7 @@ function Payment({ checkout, eventId }: Props) {
             description: getDescription(),
         }
         delete paymentData._id // Delete id from service
-        delete paymentData.rawData._id // Delete id from service
+        delete paymentData.rawData?._id // Delete id from service
 
         try {
             await createCheckoutSession({ items: [paymentData], locale: 'es' })
@@ -201,25 +201,27 @@ function Payment({ checkout, eventId }: Props) {
             if (hours == 1) setDiscounts([latamDiscount !== 1 ? latamMessage : ''])
         }
 
-        if (discount) {
+        if (discount && price) {
             if (discount.includes('30%')) {
                 setDiscount('30% OFF')
                 return (price * hours * offDiscount * latamDiscount).toFixed(2)
             }
-        } else if (hours > 1) {
+        } else if (hours > 1 && price) {
             if (bulkDiscount !== 1) setDiscounts(discounts.concat(!discounts.includes(bulkMessage) ? bulkMessage : ''))
             return (price * hours * bulkDiscount * latamDiscount).toFixed(2)
         }
 
         return contribute ?
             Number(contribute.split('US $')[1]).toFixed(2) :
-            (price * hours * latamDiscount).toFixed(2)
+            ((price || 0) * hours * latamDiscount).toFixed(2)
     }
 
     const getHours = (session: number) => {
-        return currentService.duration * session > 1 ?
-            `${currentService.duration * session} horas` :
-            `${session} hora`
+        if (currentService && currentService.duration) {
+            return currentService.duration * session > 1 ?
+                `${currentService.duration * session} horas` :
+                `${session} hora`
+        }
     }
 
     const getQuantityOptions = () => {
@@ -346,11 +348,11 @@ function Payment({ checkout, eventId }: Props) {
         return timeSlots
     }
 
-    const getBookedSlots = (bookingArray: dataObj[], miliseconds = false) => {
+    const getBookedSlots = (bookingArray: bookingType[], miliseconds = false) => {
         let slots: any[] = []
-        bookingArray.forEach((booking: dataObj) => {
-            const dateObj = JSON.parse(booking.dateObject)
-            const dateObjs = JSON.parse(booking.dateObjects)
+        bookingArray.forEach((booking: bookingType) => {
+            const dateObj = JSON.parse(booking.dateObject || '') || new Date()
+            const dateObjs = JSON.parse(booking.dateObjects || '')
             if (dateObjs.length) {
                 dateObjs.forEach((date: any) => {
                     slots.push(miliseconds ? new Date(date).getTime() : new Date(date))

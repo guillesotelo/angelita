@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { dataObj } from '../../types'
+import { useEffect, useState } from 'react'
+import { eventType } from '../../types'
 import { useHistory } from 'react-router-dom'
 
 type Props = {
-    event?: dataObj
+    event?: eventType
 }
 
 export default function EventCard({ event }: Props) {

@@ -21,7 +21,7 @@ import Calendar from 'react-calendar'
 import WhatsAppButton from '../../components/WhatsAppButton/WhatsAppButton'
 import { whatsappMessage } from '../../constants/misc'
 import Button from '../../components/Button/Button'
-import { dataObj } from '../../types'
+import { dataObj, eventType } from '../../types'
 import { getAllEvents } from '../../services/event'
 import EventCard from '../../components/EventCard/EventCard'
 
@@ -37,8 +37,8 @@ export default function Home() {
     const [renderEvents, setRenderEvents] = useState(false)
     const [subService, setSubService] = useState(0)
     const [date, setDate] = useState<any>(new Date())
-    const [events, setEvents] = useState<dataObj[]>([])
-    const [filteredEvents, setFilteredEvents] = useState<dataObj[]>([])
+    const [events, setEvents] = useState<eventType[]>([])
+    const [filteredEvents, setFilteredEvents] = useState<eventType[]>([])
     const [dateChanged, setDateChanged] = useState(false)
     const [eventId, setEventId] = useState('')
     const history = useHistory()
@@ -107,7 +107,8 @@ export default function Home() {
 
     const filterEvents = () => {
         const filtered = events.filter(event =>
-            new Date(JSON.parse(event.dateObject)).toLocaleDateString() === date.toLocaleDateString())
+            event.dateObject && new Date(JSON.parse(event.dateObject || ''))
+                .toLocaleDateString() === date.toLocaleDateString())
         setFilteredEvents(filtered)
     }
 
@@ -566,7 +567,7 @@ export default function Home() {
                                         </div>
                                         : ''
                                     }
-                                    {filteredEvents.map((event: dataObj, i: number) =>
+                                    {filteredEvents.map((event: eventType, i: number) =>
                                         <EventCard
                                             key={i}
                                             event={event}
@@ -977,7 +978,7 @@ export default function Home() {
                                         </div>
                                         : ''
                                     }
-                                    {filteredEvents.map((event: dataObj, i: number) =>
+                                    {filteredEvents.map((event: eventType, i: number) =>
                                         <EventCard
                                             key={i}
                                             event={event}

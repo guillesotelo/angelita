@@ -4,7 +4,7 @@ import { dataObj } from '../../types'
 type Props = {
     label: string
     options: any[]
-    value: string | number
+    value: string | number | undefined
     objKey?: string | number
     selected: any
     setSelected: (value: any) => void

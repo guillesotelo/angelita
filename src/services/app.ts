@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { dataObj } from '../types';
+import { contactType } from '../types';
 
 const API_URL = process.env.NODE_ENV === 'development' ? '' : process.env.REACT_APP_API_URL
 
@@ -12,7 +12,7 @@ const getConfig = () => {
     return { headers: { authorization: `Bearer ${token}` } }
 }
 
-const sendContactEmail = async (data: dataObj) => {
+const sendContactEmail = async (data: contactType) => {
     try {
         const email = await axios.post(`${API_URL}/api/app/sendContactEmail`, data, getConfig())
         return email.data
