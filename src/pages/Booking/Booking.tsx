@@ -74,6 +74,7 @@ export default function Booking({ }: Props) {
     const [eventData, setEventData] = useState<eventType>(voidEvent)
     const [endTime, setEndTime] = useState<any>(null)
     const [sendEmail, setSendEmail] = useState(true)
+    const [selectedDays, setSelectedDays] = useState<string[]>([])
     const history = useHistory()
     const { isMobile, isLoggedIn, setIsLoggedIn } = useContext(AppContext)
 
@@ -101,7 +102,9 @@ export default function Booking({ }: Props) {
 
     useEffect(() => {
         if (dbServiceSelected !== -1) {
-            setServiceData(dbServices[dbServiceSelected])
+            const _serviceData = dbServices[dbServiceSelected]
+            setSelectedDays(_serviceData.day ? _serviceData.day.split(',') : [])
+            setServiceData(_serviceData)
         }
     }, [dbServiceSelected])
 
@@ -364,11 +367,18 @@ export default function Booking({ }: Props) {
         const isTodayOrBefore = date <= today
         const serviceDay = getServiceData('day') || ''
         if (serviceDay) {
-            if (serviceDay === 'Martes') return day !== 2 || isTodayOrBefore
-            if (serviceDay === 'Miércoles') return day !== 3 || isTodayOrBefore
-            if (serviceDay === '1er sábado del mes') return !isFirstSaturdayOfMonth(date) || isTodayOrBefore
-            if (serviceDay === 'Lunes a sábado') return day === 0 || isTodayOrBefore
-            if (serviceDay === 'Jueves y sábado') return day !== 4 && day !== 6 || isTodayOrBefore
+            if (serviceDay.toLowerCase().includes('1er sábado del mes')) return !isFirstSaturdayOfMonth(date) || isTodayOrBefore
+            if (serviceDay.toLowerCase().includes('lunes a sábado')) return day === 0 || isTodayOrBefore
+            if (serviceDay.toLowerCase().includes('jueves y sábado')) return day !== 4 && day !== 6 || isTodayOrBefore
+            else {
+                if (serviceDay.toLowerCase().includes('lunes')) return day !== 1 || isTodayOrBefore
+                if (serviceDay.toLowerCase().includes('martes')) return day !== 2 || isTodayOrBefore
+                if (serviceDay.toLowerCase().includes('miércoles')) return day !== 3 || isTodayOrBefore
+                if (serviceDay.toLowerCase().includes('jueves')) return day !== 4 || isTodayOrBefore
+                if (serviceDay.toLowerCase().includes('viernes')) return day !== 5 || isTodayOrBefore
+                if (serviceDay.toLowerCase().includes('sábado')) return day !== 6 || isTodayOrBefore
+                if (serviceDay.toLowerCase().includes('domingo')) return day !== 7 || isTodayOrBefore
+            }
         }
         return false
     }
@@ -494,7 +504,10 @@ export default function Booking({ }: Props) {
     const saveServiceData = async () => {
         try {
             setLoading(true)
-            const saved = isNewService ? await createService(serviceData) : await updateService(serviceData)
+            const _serviceData = { ...serviceData }
+            if (selectedDays.length) _serviceData.day = selectedDays.join(', ')
+
+            const saved = isNewService ? await createService(_serviceData) : await updateService(_serviceData)
             if (saved && saved._id) {
                 toast.success('Servicio guardado')
                 discardChanges()
@@ -854,6 +867,23 @@ export default function Booking({ }: Props) {
                         </div>
                         <div className='booking__sidebar-event-row'>
                             <InputField
+                                label='Horario'
+                                name="time"
+                                updateData={updateServiceData}
+                                value={serviceData.time || ''}
+                                placeholder='Ej: Miércoles 16 hs UTC/GMT+2 (Berlin)'
+                            />
+                            <Dropdown
+                                label='Días'
+                                options={['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo', '1er sábado del mes']}
+                                selected={selectedDays}
+                                setSelected={setSelectedDays}
+                                value={selectedDays}
+                                multiselect
+                            />
+                        </div>
+                        <div className='booking__sidebar-event-row'>
+                            <InputField
                                 label='Imagen (url)'
                                 name="imageUrl"
                                 updateData={updateServiceData}
@@ -866,69 +896,19 @@ export default function Booking({ }: Props) {
                         </div>
                         <div className='booking__sidebar-event-row'>
                             <InputField
-                                label='Tipo'
-                                name="type"
-                                updateData={updateServiceData}
-                                value={serviceData.type || ''}
-                            />
-                            <InputField
-                                label='Duración'
-                                name="duration"
-                                updateData={updateServiceData}
-                                value={serviceData.duration || ''}
-                                type='number'
-                                style={{ width: '20%' }}
-                            />
-                        </div>
-                        <div className='booking__sidebar-event-row'>
-                            <Dropdown
-                                label='Días'
-                                options={['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Lunes a sábado', 'Jueves y sábado', 'Martes a jueves', '1er sábado del mes']}
-                                selected={serviceData.day}
-                                setSelected={value => setServiceData({ ...serviceData, 'day': value })}
-                                value={serviceData.day}
-                            />
-                            {serviceData.time && serviceData.time === 'Elegir otro...' ?
-                                <div className='booking__sidebar-timeselect'>
-                                    <InputField
-                                        label='Desde'
-                                        name="startTime"
-                                        updateData={updateServiceData}
-                                        value={serviceData.startTime || ''}
-                                        placeholder='Ej: 11'
-                                        type='number'
-                                    />
-                                    <InputField
-                                        label='Hasta'
-                                        name="endTime"
-                                        updateData={updateServiceData}
-                                        value={serviceData.endTime || ''}
-                                        placeholder='Ej: 19'
-                                        type='number'
-                                    />
-                                    <Button
-                                        label='Cerrar'
-                                        handleClick={() => setServiceData({ ...serviceData, 'time': dbServices[dbServiceSelected].time })}
-                                        bgColor='lightgray'
-                                        style={{ alignSelf: 'flex-end' }}
-                                    />
-                                </div>
-                                : <Dropdown
-                                    label='Horario'
-                                    options={['11-19hs (Berlin)', '16hs (Berlin)', 'Elegir otro...']}
-                                    selected={serviceData.time}
-                                    setSelected={value => setServiceData({ ...serviceData, 'time': value })}
-                                    value={serviceData.time}
-                                />}
-                        </div>
-                        <div className='booking__sidebar-event-row'>
-                            <InputField
-                                label='Precio (US $)'
+                                label='Precio'
                                 name="price"
                                 updateData={updateServiceData}
                                 value={serviceData.price || ''}
                                 type='number'
                                 style={{ width: '20%' }}
+                            />
+                            <Dropdown
+                                label='Moneda'
+                                options={['USD $', 'EUR €']}
+                                selected={serviceData.currency}
+                                setSelected={value => setServiceData({ ...serviceData, 'currency': value.toLowerCase().replace('$', '').replace('€', '').trim() })}
+                                value={serviceData.currency || ''}
                             />
                             <Dropdown
                                 label='Descuento'

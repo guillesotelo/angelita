@@ -273,11 +273,18 @@ function Payment({ checkout, eventId }: Props) {
         }
 
         if (serviceDay) {
-            if (serviceDay === 'Martes') return day !== 2 || isTodayOrBefore || count > 1
-            if (serviceDay === 'Miércoles') return day !== 3 || isTodayOrBefore || count > 1
-            if (serviceDay === '1er sábado del mes') return !isFirstSaturdayOfMonth(date) || isTodayOrBefore || count > 1
-            if (serviceDay === 'Lunes a sábado') return day === 0 || isTodayOrBefore || count > 1
-            if (serviceDay === 'Jueves y sábado') return day !== 4 && day !== 6 || isTodayOrBefore || count > 1
+            if (serviceDay.toLowerCase().includes('1er sábado del mes')) return !isFirstSaturdayOfMonth(date) || isTodayOrBefore || count > 1
+            if (serviceDay.toLowerCase().includes('lunes a sábado')) return day === 0 || isTodayOrBefore || count > 1
+            if (serviceDay.toLowerCase().includes('jueves y sábado')) return day !== 4 && day !== 6 || isTodayOrBefore || count > 1
+            else {
+                if (serviceDay.toLowerCase().includes('lunes')) return day !== 1 || isTodayOrBefore || count > 1
+                if (serviceDay.toLowerCase().includes('martes')) return day !== 2 || isTodayOrBefore || count > 1
+                if (serviceDay.toLowerCase().includes('miércoles')) return day !== 3 || isTodayOrBefore || count > 1
+                if (serviceDay.toLowerCase().includes('jueves')) return day !== 4 || isTodayOrBefore || count > 1
+                if (serviceDay.toLowerCase().includes('viernes')) return day !== 5 || isTodayOrBefore || count > 1
+                if (serviceDay.toLowerCase().includes('sábado')) return day !== 6 || isTodayOrBefore || count > 1
+                if (serviceDay.toLowerCase().includes('domingo')) return day !== 7 || isTodayOrBefore || count > 1
+            }
         }
         return false
     }
