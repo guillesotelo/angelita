@@ -34,7 +34,18 @@ export default function Header({ style }: Props) {
     const [openMenu, setOpenMenu] = useState(false)
     const history = useHistory()
     const location = useLocation()
-    const { lang, isMobile, setLang, search, setSearch, setIsLoggedIn, isLoggedIn, setRenderAll, setService } = useContext(AppContext)
+    const {
+        services,
+        lang,
+        isMobile,
+        setLang,
+        search,
+        setSearch,
+        setIsLoggedIn,
+        isLoggedIn,
+        setRenderAll,
+        setService
+    } = useContext(AppContext)
 
     useEffect(() => {
         activateMenuClick()
@@ -138,9 +149,9 @@ export default function Header({ style }: Props) {
         }, 50)
     }
 
-    const scrollToSubSection = (section: string, service?: number) => {
+    const scrollToSubSection = (section: string, service?: string) => {
         if (setRenderAll) setRenderAll(true)
-        if (setService) setService(service || -1)
+        if (setService) setService(service || '')
         setTimeout(() => {
             const element = document.getElementById(section)
             if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' })
@@ -165,18 +176,11 @@ export default function Header({ style }: Props) {
                     <div className="header__item">
                         <div className="header__item-text" onClick={() => scrollToSection('servicios')}>Servicios</div>
                         <div className="header__item-dropdown">
-                            <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 1)}>
-                                <h4 className="header__item-dropdown-text">Encuentros Grupales</h4>
-                            </div>
-                            <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 3)}>
-                                <h4 className="header__item-dropdown-text">Psicoterapia Privada</h4>
-                            </div>
-                            <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 2)}>
-                                <h4 className="header__item-dropdown-text">Psicoterapia en Grupo</h4>
-                            </div>
-                            <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 4)}>
-                                <h4 className="header__item-dropdown-text">Coaching</h4>
-                            </div>
+                            {services.map((service, i) =>
+                                <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', service._id)}>
+                                    <h4 className="header__item-dropdown-text">{service.name}</h4>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div className="header__item">
@@ -215,18 +219,11 @@ export default function Header({ style }: Props) {
                 <div className="header__item">
                     <div className="header__item-text" onClick={() => scrollToSection('servicios')}>Servicios</div>
                     <div className="header__item-dropdown">
-                        <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 1)}>
-                            <h4 className="header__item-dropdown-text">Encuentros Grupales</h4>
-                        </div>
-                        <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 3)}>
-                            <h4 className="header__item-dropdown-text">Psicoterapia Privada</h4>
-                        </div>
-                        <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 2)}>
-                            <h4 className="header__item-dropdown-text">Psicoterapia en Grupo</h4>
-                        </div>
-                        <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', 4)}>
-                            <h4 className="header__item-dropdown-text">Coaching</h4>
-                        </div>
+                        {services.map((service, i) =>
+                            <div className="header__item-dropdown-row" onClick={() => scrollToSubSection('servicios', service._id)}>
+                                <h4 className="header__item-dropdown-text">{service.name}</h4>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="header__item">

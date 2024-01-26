@@ -9,40 +9,66 @@ import FormacionPsicologica from './services/FormacionPsicologica'
 import MenteDivina from './services/MenteDivina'
 import Hipnoterapia from './services/Hipnoterapia'
 import EntrenamientoDiario from './services/EntrenamientoDiario'
+import { serviceType } from '../../types'
 
 type Props = {
-    service: number
-    subService: number
-    setSubService: (value: number) => void
-    checkout: (value: string) => void
+    serviceData: serviceType
+    setCheckout: (value: string) => void
 }
-export default function ServiceTemplates({ service, subService, setSubService, checkout }: Props) {
+export default function ServiceTemplates({ serviceData, setCheckout }: Props) {
 
-    return subService ?
-        subService === 1 ?
-            <MenteDivina checkout={checkout} />
-            : subService === 2 ?
-                <PedacitoDeCielo checkout={checkout} />
-                : subService === 3 ?
-                    <FormacionPsicologica checkout={checkout} />
-                    : subService === 4 ?
-                        <Psicoterapia checkout={checkout} />
-                        : subService === 5 ?
-                            <Consejeria checkout={checkout} />
-                            : subService === 6 ?
-                                <Hipnoterapia checkout={checkout} />
-                                : subService === 7 ?
-                                    <EntrenamientoDiario checkout={checkout} />
-                                    : null
-        : service === 1 ?
-            <EncuentrosGrupales checkout={checkout} setSubService={setSubService} />
-            : service === 2 ?
-                <PsicoterapiaEnGrupo checkout={checkout} setSubService={setSubService} />
-                :
-                service === 3 ?
-                    <PsicoterapiaPrivada checkout={checkout} setSubService={setSubService} />
-                    :
-                    service === 4 ?
-                        <Coaching checkout={checkout} />
-                        : null
+    const {
+        _id,
+        name,
+        price,
+        currency,
+        discount,
+        type,
+        duration,
+        mark,
+        day,
+        time,
+        image,
+        imageUrl,
+        description,
+        serviceId,
+        date,
+        dateObject,
+        dateObjects,
+        fixedTime,
+        startTime,
+        endTime,
+        isEvent,
+        link,
+        linkPassword,
+        otherData,
+    } = serviceData
+
+    const getAmount = () => {
+        if (currency && price) {
+            const sign = currency.includes('usd') ? 'USD $'
+                : currency.includes('eur') ? '€' : '$'
+            return `${sign}${price}`
+        }
+        return '$'
+    }
+
+    return <div className="service-template__container">
+        <h2 className="service-template__title">{name}</h2>
+        <div className="service-template__section">
+            <div className="service-template__col1">
+                <img src={image || imageUrl} alt={name} loading="lazy" className="service-template__image" />
+            </div>
+            <div className="service-template__col2">
+                <h4 className="service-template__open-hours">{day}<br/>{time}</h4>
+                <p className="service-template__body">{description} </p>
+                <div className="service-template__row" style={{ transform: 'scale(.85)' }}>
+                    <div className="service-template__prices">
+                        <h4 className="service-template__prices-text"><strong>{getAmount()}</strong></h4>
+                    </div>
+                </div>
+                <button className="service-template__btn" onClick={() => setCheckout(_id || '')}>Reservar</button>
+            </div>
+        </div>
+    </div>
 }

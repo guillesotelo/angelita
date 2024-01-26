@@ -21,9 +21,10 @@ import Calendar from 'react-calendar'
 import WhatsAppButton from '../../components/WhatsAppButton/WhatsAppButton'
 import { whatsappMessage } from '../../constants/misc'
 import Button from '../../components/Button/Button'
-import { dataObj, eventType } from '../../types'
+import { dataObj, eventType, serviceType } from '../../types'
 import { getAllEvents } from '../../services/event'
 import EventCard from '../../components/EventCard/EventCard'
+import { getAllServices } from '../../services'
 
 export default function Home() {
     const [renderSectionAbout, setRenderSectionAbout] = useState(false)
@@ -42,7 +43,7 @@ export default function Home() {
     const [dateChanged, setDateChanged] = useState(false)
     const [eventId, setEventId] = useState('')
     const history = useHistory()
-    const { lang, isMobile, renderAll, setRenderAll, service, setService, checkout, setCheckout } = useContext(AppContext)
+    const { lang, isMobile, renderAll, setRenderAll, service, setService, services, setServices, checkout, setCheckout } = useContext(AppContext)
 
     useEffect(() => {
         activateRenderEffects()
@@ -53,7 +54,7 @@ export default function Home() {
 
         setEventId(event || '')
 
-        if (_service) setService(parseInt(_service))
+        if (_service) setService((_service))
         if (_checkout) setCheckout(_checkout)
         if (sectionId) {
             setTimeout(() => {
@@ -62,6 +63,7 @@ export default function Home() {
         }
 
         getEvents()
+        getServices()
     }, [])
 
     useEffect(() => {
@@ -103,6 +105,22 @@ export default function Home() {
         } catch (err) {
             console.error(err)
         }
+    }
+
+    const getServices = async () => {
+        try {
+            const allServices = await getAllServices()
+            if (allServices && Array.isArray(allServices)) {
+                setServices(allServices)
+                console.log('services', allServices)
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const getServiceById = (id: string) => {
+        return services.find(service => service._id === id) || {}
     }
 
     const filterEvents = () => {
@@ -335,7 +353,7 @@ export default function Home() {
                     <div className='home__modal-wrapper'>
                         <div className='home__modal-container'>
                             <h4 className="home__modal-close" onClick={() => {
-                                setService(0)
+                                setService('')
                                 setSubService(0)
                                 setCheckout('')
                                 setEventId('')
@@ -345,11 +363,9 @@ export default function Home() {
                             {checkout ?
                                 <Payment checkout={checkout} eventId={eventId} />
                                 :
-                                <ServiceTemplates
-                                    service={service}
-                                    subService={subService}
-                                    setSubService={setSubService}
-                                    checkout={(val) => setCheckout(val)}
+                                < ServiceTemplates
+                                    serviceData={getServiceById(service)}
+                                    setCheckout={setCheckout}
                                 />
                             }
                         </div >
@@ -370,7 +386,16 @@ export default function Home() {
                                     ya te aprecia infinitamente y que te acompañará con su habitual taza de café.
                                 </h2>
                                 <div className="home__card-wrapper" style={{ transform: 'scale(.9)' }}>
-                                    <ItemCard
+                                    {services.map((service, index) =>
+                                        <ItemCard
+                                            key={index}
+                                            image={service.image || service.imageUrl}
+                                            title={service.name}
+                                            onClick={() => setService(service._id || '')}
+                                            style={{ animationDelay: `${index / 2}s` }}
+                                        />)}
+
+                                    {/* <ItemCard
                                         image={Image1}
                                         title='Encuentros Grupales'
                                         onClick={() => setService(1)}
@@ -393,7 +418,7 @@ export default function Home() {
                                         title='Coaching'
                                         onClick={() => setService(4)}
                                         style={{ animationDelay: '2s' }}
-                                    />
+                                    /> */}
                                 </div>
                             </div>
                         </div>
@@ -745,7 +770,7 @@ export default function Home() {
                     <div className='home__modal-wrapper'>
                         <div className='home__modal-container'>
                             <h4 className="home__modal-close" onClick={() => {
-                                setService(0)
+                                setService('')
                                 setSubService(0)
                                 setCheckout('')
                                 setEventId('')
@@ -755,11 +780,9 @@ export default function Home() {
                             {checkout ?
                                 <Payment checkout={checkout} eventId={eventId} />
                                 :
-                                <ServiceTemplates
-                                    service={service}
-                                    subService={subService}
-                                    setSubService={setSubService}
-                                    checkout={(val) => setCheckout(val)}
+                                < ServiceTemplates
+                                    serviceData={getServiceById(service)}
+                                    setCheckout={setCheckout}
                                 />
                             }
                         </div >
@@ -780,7 +803,15 @@ export default function Home() {
                                     ya te aprecia infinitamente y que te acompañará con su habitual taza de café.
                                 </h2>
                                 <div className="home__card-wrapper" style={{ transform: 'scale(.9)' }}>
-                                    <ItemCard
+                                    {services.map((service, index) =>
+                                        <ItemCard
+                                            key={index}
+                                            image={service.image || service.imageUrl}
+                                            title={service.name}
+                                            onClick={() => setService(service._id || '')}
+                                            style={{ animationDelay: `${index / 2}s` }}
+                                        />)}
+                                    {/* <ItemCard
                                         image={Image1}
                                         title='Encuentros Grupales'
                                         onClick={() => setService(1)}
@@ -803,7 +834,7 @@ export default function Home() {
                                         title='Coaching'
                                         onClick={() => setService(4)}
                                         style={{ animationDelay: '2s' }}
-                                    />
+                                    /> */}
                                 </div>
                             </div>
                         </div>

@@ -19,6 +19,7 @@ import Booking from './pages/Booking/Booking';
 import RouteTracker from './components/RouteTracker/RouteTracker';
 import ReactGA from 'react-ga4';
 import Event from './pages/Event/Event';
+import { serviceType } from './types';
 const TRACKING_ID = "G-7BDD4BFJRQ";
 // ReactGA.initialize(TRACKING_ID);
 
@@ -31,8 +32,9 @@ const App: React.FC = () => {
   const [lang, setLang] = useState<string>(localLang)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [renderAll, setRenderAll] = useState(false)
-  const [service, setService] = useState(0)
+  const [service, setService] = useState('')
   const [checkout, setCheckout] = useState('')
+  const [services, setServices] = useState<serviceType[]>([])
   const location = useLocation()
 
   useEffect(() => {
@@ -57,6 +59,8 @@ const App: React.FC = () => {
       setService={setService}
       checkout={checkout}
       setCheckout={setCheckout}
+      services={services}
+      setServices={setServices}
     >
       <RouteTracker />
       <Switch>

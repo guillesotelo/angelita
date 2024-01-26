@@ -1,4 +1,5 @@
 import React, { createContext } from 'react'
+import { serviceType } from './types'
 
 type AppContextType = {
     lang: string
@@ -10,10 +11,12 @@ type AppContextType = {
     setIsLoggedIn: (value: boolean) => void
     renderAll: boolean
     setRenderAll: (value: boolean) => void
-    service: number
-    setService: (value: number) => void
+    service: string
+    setService: (value: string) => void
     checkout: string
     setCheckout: (value: string) => void
+    services: serviceType[]
+    setServices: (value: serviceType[]) => void
 }
 
 export const AppContext = createContext<AppContextType>({} as AppContextType);
@@ -32,6 +35,8 @@ export const AppProvider: React.FC<AppContextType> = ({
     setService,
     checkout,
     setCheckout,
+    services,
+    setServices,
     children
 }) => (
     <AppContext.Provider value={{
@@ -48,5 +53,7 @@ export const AppProvider: React.FC<AppContextType> = ({
         setService,
         checkout,
         setCheckout,
+        services,
+        setServices,
     }}>{children}</AppContext.Provider>
 );

@@ -378,6 +378,7 @@
     &__card-wrapper {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         justify-content: center;
         gap: 4vw;
         transition: .3s;
